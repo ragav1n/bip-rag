@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Zap, Globe, ChevronDown, ChevronUp, FileText, Sparkles, SquarePen, MessageSquare, Trash2 } from 'lucide-react'
+import { Zap, Globe, ChevronDown, ChevronUp, FileText, Sparkles, SquarePen, MessageSquare, Trash2, AlignLeft, BarChart2, GraduationCap } from 'lucide-react'
+import FloatingActionMenu from './components/ui/floating-action-menu'
 import { motion } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -68,6 +69,14 @@ const LANG = {
 } as const
 
 type Lang = keyof typeof LANG
+
+type Tone = 'easy' | 'standard' | 'technical'
+
+const TONES: { value: Tone; label: string; description: string; icon: React.ReactNode }[] = [
+  { value: 'easy',      label: 'Simplified', description: 'Plain language, no jargon',  icon: <AlignLeft className="w-3.5 h-3.5" /> },
+  { value: 'standard',  label: 'Standard',   description: 'Clear and balanced',          icon: <BarChart2 className="w-3.5 h-3.5" /> },
+  { value: 'technical', label: 'Expert',     description: 'Precise legal detail',        icon: <GraduationCap className="w-3.5 h-3.5" /> },
+]
 
 const STORAGE_KEY = 'dew21_conversations'
 
@@ -341,6 +350,7 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
 export default function App() {
   const [messages, setMessages] = useState<Message[]>([])
   const [language, setLanguage] = useState<Lang>('de')
+  const [tone, setTone] = useState<Tone>('standard')
   const [loading, setLoading] = useState(false)
   const [conversations, setConversations] = useState<Conversation[]>(() => {
     try {
@@ -412,7 +422,7 @@ export default function App() {
       const res = await fetch('/api/query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query, language }),
+        body: JSON.stringify({ query, language, tone }),
       })
       const data = await res.json()
       const assistantMsg: Message = { id: (Date.now() + 1).toString(), role: 'assistant', content: data.answer, sources: data.sources, language }
@@ -434,7 +444,7 @@ export default function App() {
     } finally {
       setLoading(false)
     }
-  }, [messages, language, loading, saveMessages, generateTitle])
+  }, [messages, language, tone, loading, saveMessages, generateTitle])
 
   const startNewChat = () => {
     setMessages([])
@@ -506,8 +516,24 @@ export default function App() {
           <div className="px-4 py-4 backdrop-blur-md flex-shrink-0"
             style={{ borderTop: '1px solid rgba(111,116,105,0.15)', background: 'rgba(16,16,16,0.8)' }}>
             <div className="max-w-2xl mx-auto">
-              <AIInputWithLoading placeholder={LANG[language].placeholder} onSubmit={handleSubmit} loadingDuration={0} />
-              <p className="text-center text-[11px] -mt-1" style={{ color: 'rgba(111,116,105,0.4)' }}>
+              <AIInputWithLoading
+                placeholder={LANG[language].placeholder}
+                onSubmit={handleSubmit}
+                loadingDuration={0}
+                toolbar={
+                  <FloatingActionMenu
+                    activeLabel={TONES.find(t => t.value === tone)?.label}
+                    options={TONES.map(t => ({
+                      label: t.label,
+                      sublabel: t.description,
+                      active: tone === t.value,
+                      Icon: t.icon,
+                      onClick: () => setTone(t.value),
+                    }))}
+                  />
+                }
+              />
+              <p className="text-center text-[11px] mt-2" style={{ color: 'rgba(111,116,105,0.4)' }}>
                 {LANG[language].disclaimer}
               </p>
             </div>

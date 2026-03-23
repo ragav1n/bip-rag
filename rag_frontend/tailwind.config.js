@@ -9,9 +9,14 @@ export default {
         display: ['Outfit', 'sans-serif'],
       },
       colors: {
-        brand: {
-          amber: '#f59e0b',
-          cyan: '#06b6d4',
+        dew: {
+          bg:      'var(--bg)',
+          card:    'var(--card)',
+          muted:   'var(--muted)',
+          accent:  'var(--accent)',
+          heading: 'var(--heading)',
+          border:  'var(--border)',
+          'accent-dim': 'var(--accent-dim)',
         },
       },
       keyframes: {

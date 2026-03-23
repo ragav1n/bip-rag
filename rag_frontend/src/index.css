@@ -4,11 +4,13 @@
 
 @layer base {
   :root {
-    --bg: #101010;
-    --card: #202B21;
-    --muted: #6F7469;
-    --accent: #64A859;
-    --heading: #D0CFC9;
+    --bg:         #101010;
+    --card:       #202B21;
+    --muted:      #6F7469;
+    --accent:     #64A859;
+    --heading:    #D0CFC9;
+    --border:     rgba(111, 116, 105, 0.2);
+    --accent-dim: rgba(100, 168, 89, 0.15);
   }
 
   * {
