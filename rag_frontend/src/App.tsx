@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Zap, Globe, ChevronDown, ChevronUp, FileText, Sparkles, SquarePen, MessageSquare, Trash2, AlignLeft, BarChart2, GraduationCap } from 'lucide-react'
+import { Zap, Globe, ChevronDown, ChevronUp, FileText, Sparkles, SquarePen, MessageSquare, Trash2, AlignLeft, BarChart2, GraduationCap, Files, Flame, Shield, CreditCard, Copy, Check } from 'lucide-react'
 import FloatingActionMenu from './components/ui/floating-action-menu'
 import { motion } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
@@ -78,6 +78,16 @@ const TONES: { value: Tone; label: string; description: string; icon: React.Reac
   { value: 'technical', label: 'Expert',     description: 'Precise legal detail',        icon: <GraduationCap className="w-3.5 h-3.5" /> },
 ]
 
+type DocFilter = 'all' | 'strom' | 'erdgas' | 'schufa' | 'creditreform'
+
+const DOCS: { value: DocFilter; label: string; description: string; icon: React.ReactNode }[] = [
+  { value: 'all',          label: 'All Docs',      description: 'Search all documents',    icon: <Files className="w-3.5 h-3.5" /> },
+  { value: 'strom',        label: 'Electricity',   description: 'Strom AGB',               icon: <Zap className="w-3.5 h-3.5" /> },
+  { value: 'erdgas',       label: 'Gas',           description: 'Erdgas AGB',              icon: <Flame className="w-3.5 h-3.5" /> },
+  { value: 'schufa',       label: 'SCHUFA',        description: 'SCHUFA appendix',         icon: <Shield className="w-3.5 h-3.5" /> },
+  { value: 'creditreform', label: 'Creditreform',  description: 'Creditreform appendix',   icon: <CreditCard className="w-3.5 h-3.5" /> },
+]
+
 const STORAGE_KEY = 'dew21_conversations'
 
 // ─── Source Card ──────────────────────────────────────────────────────────────
@@ -107,8 +117,16 @@ function SourceCard({ source, index }: { source: Source; index: number }) {
 
 function ChatMessage({ message }: { message: Message }) {
   const [sourcesOpen, setSourcesOpen] = useState(false)
+  const [copied, setCopied] = useState(false)
   const isUser = message.role === 'user'
   const config = LANG[message.language]
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(message.content).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
 
   return (
     <div className={cn('flex gap-3 animate-slide-up', isUser ? 'justify-end' : 'justify-start')}>
@@ -144,24 +162,43 @@ function ChatMessage({ message }: { message: Message }) {
             </ReactMarkdown>
           )}
         </div>
-        {!isUser && message.sources && message.sources.length > 0 && (
-          <div className="w-full">
+
+        {/* Assistant message actions */}
+        {!isUser && message.content && (
+          <div className="flex items-center gap-3">
+            {/* Copy button */}
             <button
-              onClick={() => setSourcesOpen(o => !o)}
+              onClick={handleCopy}
               className="flex items-center gap-1.5 text-xs py-0.5 transition-colors"
-              style={{ color: '#6F7469' }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#D0CFC9')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#6F7469')}
+              style={{ color: copied ? '#64A859' : '#6F7469' }}
+              onMouseEnter={e => { if (!copied) e.currentTarget.style.color = '#D0CFC9' }}
+              onMouseLeave={e => { if (!copied) e.currentTarget.style.color = '#6F7469' }}
             >
-              <FileText className="w-3 h-3" />
-              {config.sourcesLabel} ({message.sources.length})
-              {sourcesOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+              {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+              {copied ? 'Copied' : 'Copy'}
             </button>
-            {sourcesOpen && (
-              <div className="flex flex-col gap-1.5 mt-2 animate-fade-in">
-                {message.sources.map((s, i) => <SourceCard key={i} source={s} index={i} />)}
-              </div>
+
+            {/* Sources toggle */}
+            {message.sources && message.sources.length > 0 && (
+              <button
+                onClick={() => setSourcesOpen(o => !o)}
+                className="flex items-center gap-1.5 text-xs py-0.5 transition-colors"
+                style={{ color: '#6F7469' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#D0CFC9')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#6F7469')}
+              >
+                <FileText className="w-3 h-3" />
+                {config.sourcesLabel} ({message.sources.length})
+                {sourcesOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+              </button>
             )}
+          </div>
+        )}
+
+        {/* Source cards */}
+        {!isUser && sourcesOpen && message.sources && message.sources.length > 0 && (
+          <div className="flex flex-col gap-1.5 w-full animate-fade-in">
+            {message.sources.map((s, i) => <SourceCard key={i} source={s} index={i} />)}
           </div>
         )}
       </div>
@@ -351,6 +388,7 @@ export default function App() {
   const [messages, setMessages] = useState<Message[]>([])
   const [language, setLanguage] = useState<Lang>('de')
   const [tone, setTone] = useState<Tone>('standard')
+  const [docFilter, setDocFilter] = useState<DocFilter>('all')
   const [loading, setLoading] = useState(false)
   const [conversations, setConversations] = useState<Conversation[]>(() => {
     try {
@@ -365,7 +403,6 @@ export default function App() {
   const bottomRef = useRef<HTMLDivElement>(null)
   const currentIdRef = useRef<string | null>(null)
 
-  // Persist to localStorage on every change
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(conversations))
   }, [conversations])
@@ -407,44 +444,89 @@ export default function App() {
         setConversations(prev => prev.map(c => c.id === convId ? { ...c, title: data.title } : c))
       }
     } catch {
-      // silently fail — title stays as truncated query
+      // silently fail
     }
   }, [])
 
   const handleSubmit = useCallback(async (query: string) => {
     if (!query.trim() || loading) return
+
     const userMsg: Message = { id: Date.now().toString(), role: 'user', content: query.trim(), language }
     const updatedMsgs = [...messages, userMsg]
     setMessages(updatedMsgs)
     setLoading(true)
+
     const isNewConversation = currentIdRef.current === null
+    const history = messages.slice(-6).map(m => ({ role: m.role, content: m.content }))
+    const assistantId = (Date.now() + 1).toString()
+    let fullContent = ''
+    let finalSources: Source[] | undefined
+
     try {
       const res = await fetch('/api/query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query, language, tone }),
+        body: JSON.stringify({ query, language, tone, document: docFilter, history }),
       })
-      const data = await res.json()
-      const assistantMsg: Message = { id: (Date.now() + 1).toString(), role: 'assistant', content: data.answer, sources: data.sources, language }
-      const final = [...updatedMsgs, assistantMsg]
-      setMessages(final)
-      saveMessages(final, language)
-      if (isNewConversation && currentIdRef.current) {
-        generateTitle(query, language, currentIdRef.current)
+
+      if (!res.body) throw new Error('No stream')
+
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ''
+      let assistantAdded = false
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const parts = buffer.split('\n\n')
+        buffer = parts.pop() ?? ''
+
+        for (const part of parts) {
+          if (!part.startsWith('data: ')) continue
+          const event = JSON.parse(part.slice(6))
+
+          if (event.type === 'sources') {
+            finalSources = event.sources
+            setMessages([...updatedMsgs, {
+              id: assistantId, role: 'assistant', content: '', sources: event.sources, language,
+            }])
+            setLoading(false)
+            assistantAdded = true
+          } else if (event.type === 'token') {
+            fullContent += event.token
+            setMessages(prev => prev.map(m =>
+              m.id === assistantId ? { ...m, content: fullContent } : m
+            ))
+          } else if (event.type === 'done') {
+            const finalMsg: Message = {
+              id: assistantId, role: 'assistant', content: fullContent, sources: finalSources, language,
+            }
+            const final = [...updatedMsgs, finalMsg]
+            saveMessages(final, language)
+            if (isNewConversation && currentIdRef.current) {
+              generateTitle(query, language, currentIdRef.current)
+            }
+          }
+        }
       }
+
+      if (!assistantAdded) setLoading(false)
     } catch {
       const errMsg: Message = {
-        id: (Date.now() + 1).toString(), role: 'assistant',
-        content: language === 'de' ? 'Fehler beim Abrufen der Antwort. Ist der Server erreichbar?' : 'Error fetching response. Is the server running?',
+        id: assistantId, role: 'assistant',
+        content: language === 'de'
+          ? 'Fehler beim Abrufen der Antwort. Ist der Server erreichbar?'
+          : 'Error fetching response. Is the server running?',
         language,
       }
-      const final = [...updatedMsgs, errMsg]
-      setMessages(final)
-      saveMessages(final, language)
-    } finally {
+      setMessages([...updatedMsgs, errMsg])
+      saveMessages([...updatedMsgs, errMsg], language)
       setLoading(false)
     }
-  }, [messages, language, tone, loading, saveMessages, generateTitle])
+  }, [messages, language, tone, docFilter, loading, saveMessages, generateTitle])
 
   const startNewChat = () => {
     setMessages([])
@@ -521,16 +603,22 @@ export default function App() {
                 onSubmit={handleSubmit}
                 loadingDuration={0}
                 toolbar={
-                  <FloatingActionMenu
-                    activeLabel={TONES.find(t => t.value === tone)?.label}
-                    options={TONES.map(t => ({
-                      label: t.label,
-                      sublabel: t.description,
-                      active: tone === t.value,
-                      Icon: t.icon,
-                      onClick: () => setTone(t.value),
-                    }))}
-                  />
+                  <div className="flex items-center gap-1.5">
+                    <FloatingActionMenu
+                      activeLabel={TONES.find(t => t.value === tone)?.label}
+                      options={TONES.map(t => ({
+                        label: t.label, sublabel: t.description, active: tone === t.value,
+                        Icon: t.icon, onClick: () => setTone(t.value),
+                      }))}
+                    />
+                    <FloatingActionMenu
+                      activeLabel={DOCS.find(d => d.value === docFilter)?.label}
+                      options={DOCS.map(d => ({
+                        label: d.label, sublabel: d.description, active: docFilter === d.value,
+                        Icon: d.icon, onClick: () => setDocFilter(d.value),
+                      }))}
+                    />
+                  </div>
                 }
               />
               <p className="text-center text-[11px] mt-2" style={{ color: 'rgba(111,116,105,0.4)' }}>

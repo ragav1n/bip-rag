@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 import chromadb
 import requests
+import json
 from sentence_transformers import SentenceTransformer
 
 app = FastAPI()
@@ -22,7 +24,7 @@ DE_CHROMA_PATH = "../rag_german/chroma_db"
 
 COLLECTION_NAME = "dew21_docs"
 OLLAMA_URL = "http://localhost:11434/api/generate"
-LLM_MODEL = "llama3.2:latest"
+LLM_MODEL = "qwen3.5:4b"
 TOP_K = 5
 
 print("Loading English embedding model...")
@@ -40,75 +42,184 @@ de_collection = de_client.get_or_create_collection(COLLECTION_NAME)
 print(f"EN collection: {en_collection.count()} chunks")
 print(f"DE collection: {de_collection.count()} chunks")
 
+# Document source filename mapping (matches metadata stored by ingest.py)
+DOC_SOURCES = {
+    "strom": {
+        "en": ["Allgemeine_Lieferbedingungen_Strom.pdf_en.txt"],
+        "de": ["Allgemeine_Lieferbedingungen_Strom.pdf_de.txt"],
+    },
+    "erdgas": {
+        "en": ["Allgemeine_Lieferbedingungen_Erdgas_Haushaltskunenn.pdf_en.txt"],
+        "de": ["Allgemeine_Lieferbedingungen_Erdgas_Haushaltskunden.pdf_de.txt"],
+    },
+    "schufa": {
+        "en": ["Anhang_Schufa.pdf_en.txt"],
+        "de": ["Anhang_Schufa.pdf_de.txt"],
+    },
+    "creditreform": {
+        "en": ["Anhang Creditreform.pdf_en.txt"],
+        "de": ["Anhang Creditreform.pdf_de.txt"],
+    },
+}
+
+TONE_RULES = {
+    "de": {
+        "easy": """- Schreibe wie ein freundlicher Mitarbeiter am Telefon — einfach, klar, ohne Fachsprache
+- Erkläre Begriffe in Alltagssprache, z.B. statt "Zahlungsverzug" sage "wenn die Zahlung zu spät kommt"
+- Erwähne KEINE Paragrafennummern — sage stattdessen "laut Vertrag" oder "laut den Regeln"
+- Kurze Sätze. Ein Gedanke pro Satz. Kein Juristendeutsch.
+- Fasse die wichtigste Aussage zuerst zusammen, dann erkläre sie kurz
+- Wenn die Antwort nicht im Kontext steht, sage genau: "Diese Information liegt mir leider nicht vor."
+""",
+        "standard": """- Schreibe klar und verständlich für einen informierten Mitarbeiter
+- Nutze **fett** für wichtige Begriffe und Paragrafennummern, z.B. **§ 4**
+- Verwende Aufzählungspunkte für mehrere Punkte
+- Nenne relevante Paragrafennummern fett, wenn vorhanden
+- Beginne NICHT mit einem Titel oder einer Überschrift — starte direkt mit der Antwort
+- Wenn die Antwort nicht im Kontext steht, antworte genau: "Diese Information ist in den vorliegenden Dokumenten nicht enthalten."
+""",
+        "technical": """- Verwende präzise Rechtsbegriffe — keine Vereinfachungen
+- Nenne ALLE relevanten Paragrafennummern und Unterabsätze fett, z.B. **§ 4 Abs. 2**
+- Gib die rechtliche Grundlage zuerst an, dann die Rechtsfolgen
+- Nenne Querverweise zwischen Paragraphen, wenn vorhanden
+- Verwende formale, juristische Sprache
+- Strukturiere mit Aufzählungspunkten für Tatbestandsmerkmale und Rechtsfolgen
+- Beginne NICHT mit einem Titel — starte direkt mit der rechtlichen Grundlage
+- Wenn die Antwort nicht im Kontext steht, antworte genau: "Diese Information ist in den vorliegenden Dokumenten nicht enthalten."
+""",
+    },
+    "en": {
+        "easy": """- Write like a friendly employee explaining over the phone — simple, clear, no jargon
+- Use everyday words. Instead of "payment default" say "when a payment is missed"
+- Do NOT cite clause numbers — say "according to the contract" or "the rules state" instead
+- Short sentences. One idea per sentence. No legal language.
+- Lead with the key point first, then briefly explain
+- If not found, say exactly: "I'm sorry, I don't have that information available."
+""",
+        "standard": """- Write clearly and concisely for a knowledgeable employee
+- Use **bold** for key terms and clause numbers, e.g. **§ 4**
+- Use bullet points for multiple items
+- Reference relevant clause numbers in bold where available
+- Do NOT start with a title or heading — begin directly with the answer
+- If not found, say exactly: "This information is not contained in the provided documents."
+""",
+        "technical": """- Use precise legal terminology throughout — no simplifications
+- Cite ALL relevant clause numbers and sub-clauses in bold, e.g. **§ 4 para. 2**
+- State the legal basis first, then the legal consequences
+- Include cross-references between clauses where applicable
+- Use formal, exact legal language
+- Structure with bullet points for elements and consequences
+- Do NOT start with a title — begin directly with the legal basis
+- If not found, say exactly: "This information is not contained in the provided documents."
+""",
+    },
+}
+
+
+class HistoryMessage(BaseModel):
+    role: str
+    content: str
+
 
 class QueryRequest(BaseModel):
     query: str
     language: str = "de"
+    tone: str = "standard"
+    document: str = "all"
+    history: list[HistoryMessage] = []
 
 
 @app.post("/query")
 def query(req: QueryRequest):
-    if req.language == "de":
+    tone = req.tone if req.tone in ("easy", "standard", "technical") else "standard"
+    lang = req.language if req.language in ("en", "de") else "de"
+
+    if lang == "de":
         embedding = de_model.encode([req.query]).tolist()
         collection = de_collection
-        lang_instruction = "Antworte auf Deutsch und beziehe dich nur auf die Informationen im Kontext."
+        rules = TONE_RULES["de"][tone]
     else:
         embedding = en_model.encode([f"search_query: {req.query}"]).tolist()
         collection = en_collection
-        lang_instruction = "Answer in English using only the information from the context."
+        rules = TONE_RULES["en"][tone]
 
-    results = collection.query(query_embeddings=embedding, n_results=TOP_K)
+    # Document filter
+    query_kwargs: dict = {"query_embeddings": embedding, "n_results": TOP_K}
+    if req.document != "all" and req.document in DOC_SOURCES:
+        filenames = DOC_SOURCES[req.document][lang]
+        query_kwargs["where"] = {"source": {"$in": filenames}}
+
+    results = collection.query(**query_kwargs)
     chunks = results["documents"][0]
+    distances = results["distances"][0]
     metadatas = results["metadatas"][0]
+
+    sources_payload = [
+        {"content": c, "source": m.get("source", "unknown")}
+        for c, m in zip(chunks, metadatas)
+    ]
+
     context = "\n\n".join(chunks)
 
-    if req.language == "de":
+    # Conversation history (last 3 exchanges = up to 6 messages)
+    history_section = ""
+    if req.history:
+        recent = req.history[-6:]
+        if lang == "de":
+            history_section = "\nBisheriger Gesprächsverlauf:\n"
+            for msg in recent:
+                label = "Mitarbeiter" if msg.role == "user" else "Assistent"
+                # Truncate long assistant answers to keep prompt size manageable
+                content = msg.content[:300] + "…" if len(msg.content) > 300 else msg.content
+                history_section += f"{label}: {content}\n"
+            history_section += "\n"
+        else:
+            history_section = "\nConversation so far:\n"
+            for msg in recent:
+                label = "Employee" if msg.role == "user" else "Assistant"
+                content = msg.content[:300] + "…" if len(msg.content) > 300 else msg.content
+                history_section += f"{label}: {content}\n"
+            history_section += "\n"
+
+    if lang == "de":
         prompt = f"""Du bist ein Assistent für DEW21-Mitarbeiter im Kundenkontakt.
 Beantworte die Frage ausschließlich auf Basis des folgenden Kontexts aus den DEW21-Dokumenten.
+Antworte NUR mit Informationen aus dem Kontext.
 
 Regeln:
-- Antworte nur mit Informationen aus dem Kontext
-- Formatiere deine Antwort in Markdown: nutze **fett** für wichtige Begriffe und Paragrafennummern, Aufzählungspunkte für mehrere Punkte, und kurze Absätze
-- Beginne NICHT mit einem Titel oder einer Überschrift — starte direkt mit der Antwort
-- Nenne die relevante Paragrafennummer (§) fett, wenn vorhanden, z.B. **§ 4**
-- Wenn die Antwort nicht im Kontext steht, antworte genau: "Diese Information ist in den vorliegenden Dokumenten nicht enthalten."
-
+{rules}
 Kontext:
 {context}
-
-Frage des Mitarbeiters: {req.query}
+{history_section}Aktuelle Frage: {req.query}
 
 Antwort:"""
     else:
         prompt = f"""You are an assistant for DEW21 customer service employees.
-Answer the question using only the context below from DEW21 documents.
+Answer the question using ONLY the information from the context below.
 
 Rules:
-- Only use information from the context
-- Format your answer in Markdown: use **bold** for key terms and clause numbers, bullet points for multiple items, and short paragraphs
-- Do NOT start with a title or heading — begin directly with the answer
-- Reference clause numbers in bold, e.g. **§ 4**
-- If not found, say exactly: "This information is not contained in the provided documents."
-
+{rules}
 Context:
 {context}
-
-Employee question: {req.query}
+{history_section}Current question: {req.query}
 
 Answer:"""
 
-    response = requests.post(
-        OLLAMA_URL,
-        json={"model": LLM_MODEL, "prompt": prompt, "stream": False},
-    )
+    def generate():
+        yield f"data: {json.dumps({'type': 'sources', 'sources': sources_payload})}\n\n"
+        response = requests.post(
+            OLLAMA_URL,
+            json={"model": LLM_MODEL, "prompt": prompt, "stream": True, "think": False},
+            stream=True,
+        )
+        for line in response.iter_lines():
+            if line:
+                data = json.loads(line)
+                if not data.get("done"):
+                    yield f"data: {json.dumps({'type': 'token', 'token': data['response']})}\n\n"
+        yield f"data: {json.dumps({'type': 'done'})}\n\n"
 
-    answer = response.json()["response"]
-    sources = [
-        {"content": chunk, "source": meta.get("source", "unknown")}
-        for chunk, meta in zip(chunks, metadatas)
-    ]
-
-    return {"answer": answer, "sources": sources}
+    return StreamingResponse(generate(), media_type="text/event-stream")
 
 
 class TitleRequest(BaseModel):
@@ -133,10 +244,9 @@ Title:"""
 
     response = requests.post(
         OLLAMA_URL,
-        json={"model": LLM_MODEL, "prompt": prompt, "stream": False},
+        json={"model": LLM_MODEL, "prompt": prompt, "stream": False, "think": False},
     )
     title = response.json()["response"].strip().strip('"').strip("'")
-    # Trim to 50 chars max as safety net
     if len(title) > 50:
         title = title[:47] + "…"
     return {"title": title}
