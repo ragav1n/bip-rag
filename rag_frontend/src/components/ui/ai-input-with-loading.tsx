@@ -3,7 +3,6 @@
 import { CornerRightUp } from "lucide-react";
 import { useState, useEffect } from "react";
 import React from "react";
-import { ShiningText } from "@/components/ui/shining-text";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useAutoResizeTextarea } from "@/components/hooks/use-auto-resize-textarea";

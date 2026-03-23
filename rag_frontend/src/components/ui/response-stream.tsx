@@ -100,8 +100,10 @@ export function useTextStream({
   const updateSegments = useCallback((text: string) => {
     if (modeRef.current === "fade") {
       try {
-        const segmenter = new Intl.Segmenter(navigator.language, { granularity: "word" })
-        const newSegments = Array.from(segmenter.segment(text)).map((s, i) => ({ text: s.segment, index: i }))
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const segmenter = new (Intl as any).Segmenter(navigator.language, { granularity: "word" })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const newSegments = Array.from<any>(segmenter.segment(text)).map((s: any, i: number) => ({ text: s.segment, index: i }))
         setSegments(newSegments)
       } catch {
         const newSegments = text.split(/(\s+)/).filter(Boolean).map((w, i) => ({ text: w, index: i }))

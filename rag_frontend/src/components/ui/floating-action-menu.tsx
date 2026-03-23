@@ -14,10 +14,11 @@ type FloatingActionMenuProps = {
     Icon?: React.ReactNode;
   }[];
   activeLabel?: string;
+  isActive?: boolean;
   className?: string;
 };
 
-const FloatingActionMenu = ({ options, activeLabel, className }: FloatingActionMenuProps) => {
+const FloatingActionMenu = ({ options, activeLabel, isActive, className }: FloatingActionMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -27,9 +28,9 @@ const FloatingActionMenu = ({ options, activeLabel, className }: FloatingActionM
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1.5 h-10 px-3 rounded-xl transition-all duration-200 border"
         style={{
-          background: isOpen ? 'var(--card)' : 'rgba(32,43,33,0.6)',
-          borderColor: isOpen ? 'rgba(100,168,89,0.4)' : 'rgba(111,116,105,0.25)',
-          color: isOpen ? 'var(--accent)' : 'var(--muted)',
+          background: isOpen ? 'var(--card)' : isActive ? 'rgba(100,168,89,0.12)' : 'rgba(32,43,33,0.6)',
+          borderColor: isOpen ? 'rgba(100,168,89,0.4)' : isActive ? 'rgba(100,168,89,0.4)' : 'rgba(111,116,105,0.25)',
+          color: isOpen ? 'var(--accent)' : isActive ? '#64A859' : 'var(--muted)',
           backdropFilter: 'blur(8px)',
         }}
         onMouseEnter={e => {
@@ -40,8 +41,8 @@ const FloatingActionMenu = ({ options, activeLabel, className }: FloatingActionM
         }}
         onMouseLeave={e => {
           if (!isOpen) {
-            (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(111,116,105,0.25)'
-            ;(e.currentTarget as HTMLButtonElement).style.color = 'var(--muted)'
+            (e.currentTarget as HTMLButtonElement).style.borderColor = isActive ? 'rgba(100,168,89,0.4)' : 'rgba(111,116,105,0.25)'
+            ;(e.currentTarget as HTMLButtonElement).style.color = isActive ? '#64A859' : 'var(--muted)'
           }
         }}
       >
@@ -60,10 +61,10 @@ const FloatingActionMenu = ({ options, activeLabel, className }: FloatingActionM
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 8, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, y: 8, filter: "blur(8px)" }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
             className="absolute bottom-12 left-0 mb-1"
           >
             <div
@@ -79,10 +80,10 @@ const FloatingActionMenu = ({ options, activeLabel, className }: FloatingActionM
               {options.map((option, index) => (
                 <motion.button
                   key={index}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -8 }}
-                  transition={{ duration: 0.15, delay: index * 0.04 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.1, delay: index * 0.03 }}
                   onClick={() => { option.onClick(); setIsOpen(false) }}
                   className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-all duration-150 w-full"
                   style={{

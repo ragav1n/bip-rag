@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { ShiningText } from './components/ui/shining-text'
-import { useTextStream } from './components/ui/response-stream'
 import { cn } from './lib/utils'
 import { Component as EtheralShadow } from './components/ui/etheral-shadow'
 import { AIInputWithLoading } from './components/ui/ai-input-with-loading'
@@ -25,6 +24,7 @@ interface Message {
   sources?: Source[]
   language: 'en' | 'de'
   animated?: boolean
+  query?: string
 }
 
 interface Conversation {
@@ -74,27 +74,57 @@ type Lang = keyof typeof LANG
 
 type Tone = 'easy' | 'standard' | 'technical'
 
-const TONES: { value: Tone; label: string; description: string; icon: React.ReactNode }[] = [
-  { value: 'easy',      label: 'Simplified', description: 'Plain language, no jargon',  icon: <AlignLeft className="w-3.5 h-3.5" /> },
-  { value: 'standard',  label: 'Standard',   description: 'Clear and balanced',          icon: <BarChart2 className="w-3.5 h-3.5" /> },
-  { value: 'technical', label: 'Expert',     description: 'Precise legal detail',        icon: <GraduationCap className="w-3.5 h-3.5" /> },
-]
+const TONES: Record<Lang, { value: Tone; label: string; description: string; icon: React.ReactNode }[]> = {
+  en: [
+    { value: 'easy',      label: 'Simplified', description: 'Plain language, no jargon',  icon: <AlignLeft className="w-3.5 h-3.5" /> },
+    { value: 'standard',  label: 'Standard',   description: 'Clear and balanced',          icon: <BarChart2 className="w-3.5 h-3.5" /> },
+    { value: 'technical', label: 'Expert',     description: 'Precise legal detail',        icon: <GraduationCap className="w-3.5 h-3.5" /> },
+  ],
+  de: [
+    { value: 'easy',      label: 'Einfach',    description: 'Klare Sprache, kein Fachjargon', icon: <AlignLeft className="w-3.5 h-3.5" /> },
+    { value: 'standard',  label: 'Standard',   description: 'Klar und ausgewogen',            icon: <BarChart2 className="w-3.5 h-3.5" /> },
+    { value: 'technical', label: 'Experte',    description: 'Präzise rechtliche Details',     icon: <GraduationCap className="w-3.5 h-3.5" /> },
+  ],
+}
 
 type DocFilter = 'all' | 'strom' | 'erdgas' | 'schufa' | 'creditreform'
 
-const DOCS: { value: DocFilter; label: string; description: string; icon: React.ReactNode }[] = [
-  { value: 'all',          label: 'All Docs',      description: 'Search all documents',    icon: <Files className="w-3.5 h-3.5" /> },
-  { value: 'strom',        label: 'Electricity',   description: 'Strom AGB',               icon: <Zap className="w-3.5 h-3.5" /> },
-  { value: 'erdgas',       label: 'Gas',           description: 'Erdgas AGB',              icon: <Flame className="w-3.5 h-3.5" /> },
-  { value: 'schufa',       label: 'SCHUFA',        description: 'SCHUFA appendix',         icon: <Shield className="w-3.5 h-3.5" /> },
-  { value: 'creditreform', label: 'Creditreform',  description: 'Creditreform appendix',   icon: <CreditCard className="w-3.5 h-3.5" /> },
-]
+const DOCS: Record<Lang, { value: DocFilter; label: string; description: string; icon: React.ReactNode }[]> = {
+  en: [
+    { value: 'all',          label: 'All Docs',      description: 'Search all documents',    icon: <Files className="w-3.5 h-3.5" /> },
+    { value: 'strom',        label: 'Electricity',   description: 'Strom AGB',               icon: <Zap className="w-3.5 h-3.5" /> },
+    { value: 'erdgas',       label: 'Gas',           description: 'Erdgas AGB',              icon: <Flame className="w-3.5 h-3.5" /> },
+    { value: 'schufa',       label: 'SCHUFA',        description: 'SCHUFA appendix',         icon: <Shield className="w-3.5 h-3.5" /> },
+    { value: 'creditreform', label: 'Creditreform',  description: 'Creditreform appendix',   icon: <CreditCard className="w-3.5 h-3.5" /> },
+  ],
+  de: [
+    { value: 'all',          label: 'Alle Docs',     description: 'Alle Dokumente durchsuchen', icon: <Files className="w-3.5 h-3.5" /> },
+    { value: 'strom',        label: 'Strom',         description: 'Strom AGB',                  icon: <Zap className="w-3.5 h-3.5" /> },
+    { value: 'erdgas',       label: 'Erdgas',        description: 'Erdgas AGB',                 icon: <Flame className="w-3.5 h-3.5" /> },
+    { value: 'schufa',       label: 'SCHUFA',        description: 'SCHUFA-Anhang',              icon: <Shield className="w-3.5 h-3.5" /> },
+    { value: 'creditreform', label: 'Creditreform',  description: 'Creditreform-Anhang',        icon: <CreditCard className="w-3.5 h-3.5" /> },
+  ],
+}
 
 const STORAGE_KEY = 'dew21_conversations'
 
 // ─── Source Card ──────────────────────────────────────────────────────────────
 
-function SourceCard({ source, index }: { source: Source; index: number }) {
+function highlightTerms(text: string, query: string): React.ReactNode[] {
+  const stopWords = new Set(['what', 'when', 'where', 'which', 'that', 'this', 'with', 'from', 'have', 'about', 'nach', 'wenn', 'dass', 'oder', 'eine', 'einer', 'wird', 'the', 'and', 'for', 'are', 'ist', 'die', 'der', 'den', 'dem', 'you', 'can', 'how', 'does', 'been'])
+  const terms = query.toLowerCase().split(/\s+/).filter(w => w.length > 3 && !stopWords.has(w))
+  if (terms.length === 0) return [text]
+  const escaped = terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+  const splitPattern = new RegExp(`(${escaped.join('|')})`, 'gi')
+  const matchPattern = new RegExp(`^(${escaped.join('|')})$`, 'i')
+  return text.split(splitPattern).map((part, i) =>
+    matchPattern.test(part)
+      ? <mark key={i} className="rounded px-0.5" style={{ background: 'rgba(100,168,89,0.2)', color: '#D0CFC9', fontWeight: 500 }}>{part}</mark>
+      : part
+  )
+}
+
+function SourceCard({ source, index, query }: { source: Source; index: number; query?: string }) {
   const name = source.source
     .replace('.pdf_en.txt', '')
     .replace('.pdf_de.txt', '')
@@ -108,7 +138,9 @@ function SourceCard({ source, index }: { source: Source; index: number }) {
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-[11px] font-mono mb-1.5 truncate" style={{ color: '#64A859' }}>{name}</p>
-          <p className="text-xs leading-relaxed line-clamp-3" style={{ color: '#6F7469' }}>{source.content}</p>
+          <p className="text-xs leading-relaxed line-clamp-3" style={{ color: '#6F7469' }}>
+            {query ? highlightTerms(source.content, query) : source.content}
+          </p>
         </div>
       </div>
     </div>
@@ -147,7 +179,7 @@ function AnimatedMarkdown({ content }: { content: string }) {
 
 // ─── Chat Message ─────────────────────────────────────────────────────────────
 
-function ChatMessage({ message }: { message: Message }) {
+function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?: boolean }) {
   const [sourcesOpen, setSourcesOpen] = useState(false)
   const [copied, setCopied] = useState(false)
   const isUser = message.role === 'user'
@@ -175,9 +207,10 @@ function ChatMessage({ message }: { message: Message }) {
             : { background: '#202B21', border: '1px solid rgba(111,116,105,0.2)', color: '#D0CFC9', borderTopLeftRadius: '4px' }}
         >
           {isUser ? message.content : (
-            message.animated
-              ? <AnimatedMarkdown content={message.content} />
-              : <ReactMarkdown
+            <>
+              {message.animated
+                ? <AnimatedMarkdown content={message.content} />
+                : <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
                     p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
@@ -194,6 +227,16 @@ function ChatMessage({ message }: { message: Message }) {
                 >
                   {message.content}
                 </ReactMarkdown>
+              }
+              {isStreaming && (
+                <motion.span
+                  animate={{ opacity: [1, 1, 0, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity, ease: 'linear', times: [0, 0.5, 0.5, 1] }}
+                  className="inline-block w-0.5 h-[1em] ml-0.5 align-middle rounded-sm"
+                  style={{ background: '#64A859' }}
+                />
+              )}
+            </>
           )}
         </div>
 
@@ -232,7 +275,7 @@ function ChatMessage({ message }: { message: Message }) {
         {/* Source cards */}
         {!isUser && sourcesOpen && message.sources && message.sources.length > 0 && (
           <div className="flex flex-col gap-1.5 w-full animate-fade-in">
-            {message.sources.map((s, i) => <SourceCard key={i} source={s} index={i} />)}
+            {message.sources.map((s, i) => <SourceCard key={i} source={s} index={i} query={message.query} />)}
           </div>
         )}
       </div>
@@ -421,6 +464,7 @@ export default function App() {
   const [tone, setTone] = useState<Tone>('standard')
   const [docFilter, setDocFilter] = useState<DocFilter>('all')
   const [loading, setLoading] = useState(false)
+  const [streamingId, setStreamingId] = useState<string | null>(null)
   const [conversations, setConversations] = useState<Conversation[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY)
@@ -525,8 +569,9 @@ export default function App() {
             fullContent += event.token
             if (!assistantAdded) {
               setLoading(false)
+              setStreamingId(assistantId)
               setMessages([...updatedMsgs, {
-                id: assistantId, role: 'assistant', content: fullContent, sources: finalSources, language, animated: true,
+                id: assistantId, role: 'assistant', content: fullContent, sources: finalSources, language, animated: true, query: query.trim(),
               }])
               assistantAdded = true
             } else {
@@ -535,8 +580,9 @@ export default function App() {
               ))
             }
           } else if (event.type === 'done') {
+            setStreamingId(null)
             const finalMsg: Message = {
-              id: assistantId, role: 'assistant', content: fullContent, sources: finalSources, language,
+              id: assistantId, role: 'assistant', content: fullContent, sources: finalSources, language, query: query.trim(),
             }
             saveMessages([...updatedMsgs, finalMsg], language)
             if (isNewConversation && currentIdRef.current) {
@@ -586,7 +632,7 @@ export default function App() {
       {/* Background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <EtheralShadow color="rgba(100, 168, 89, 0.35)" animation={{ scale: 60, speed: 70 }} noise={{ opacity: 0.4, scale: 1.2 }} sizing="fill" />
-        <div className="absolute inset-0" style={{ background: 'rgba(16,16,16,0.82)' }} />
+        <div className="absolute inset-0" style={{ background: 'rgba(16,16,16,0.55)' }} />
       </div>
 
       {/* Layout */}
@@ -619,7 +665,7 @@ export default function App() {
                 ? <EmptyState language={language} onSuggestion={s => handleSubmit(s)} />
                 : (
                   <div className="flex flex-col gap-6">
-                    {messages.map(m => <ChatMessage key={m.id} message={m} />)}
+                    {messages.map(m => <ChatMessage key={m.id} message={m} isStreaming={m.id === streamingId} />)}
                     {loading && <TypingIndicator language={language} />}
                     <div ref={bottomRef} />
                   </div>
@@ -638,15 +684,16 @@ export default function App() {
                 toolbar={
                   <div className="flex items-center gap-1.5">
                     <FloatingActionMenu
-                      activeLabel={TONES.find(t => t.value === tone)?.label}
-                      options={TONES.map(t => ({
+                      activeLabel={TONES[language].find(t => t.value === tone)?.label}
+                      options={TONES[language].map(t => ({
                         label: t.label, sublabel: t.description, active: tone === t.value,
                         Icon: t.icon, onClick: () => setTone(t.value),
                       }))}
                     />
                     <FloatingActionMenu
-                      activeLabel={DOCS.find(d => d.value === docFilter)?.label}
-                      options={DOCS.map(d => ({
+                      activeLabel={DOCS[language].find(d => d.value === docFilter)?.label}
+                      isActive={docFilter !== 'all'}
+                      options={DOCS[language].map(d => ({
                         label: d.label, sublabel: d.description, active: docFilter === d.value,
                         Icon: d.icon, onClick: () => setDocFilter(d.value),
                       }))}
