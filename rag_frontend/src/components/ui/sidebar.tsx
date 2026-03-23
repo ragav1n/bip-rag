@@ -152,10 +152,10 @@ export const SidebarLabel = ({
   return (
     <motion.span
       animate={{
-        display: animate ? (open ? "inline-block" : "none") : "inline-block",
         opacity: animate ? (open ? 1 : 0) : 1,
       }}
-      className={cn("text-sm whitespace-pre inline-block !p-0 !m-0 truncate", className)}
+      transition={{ duration: 0.15 }}
+      className={cn("text-sm whitespace-nowrap !p-0 !m-0", className)}
       style={style}
     >
       {children}

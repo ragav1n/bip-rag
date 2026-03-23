@@ -263,7 +263,8 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
           </div>
         </div>
         <motion.span
-          animate={{ display: open ? 'block' : 'none', opacity: open ? 1 : 0 }}
+          animate={{ opacity: open ? 1 : 0 }}
+          transition={{ duration: 0.15 }}
           className="font-display text-sm font-semibold tracking-tight whitespace-nowrap"
           style={{ color: '#D0CFC9' }}
         >
@@ -287,8 +288,10 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
       {/* Conversation list */}
       <div className="flex-1 overflow-y-auto space-y-1 min-h-0">
         {conversations.length === 0 ? (
-          <motion.p animate={{ display: open ? 'block' : 'none', opacity: open ? 1 : 0 }}
-            className="text-xs px-2 py-3 text-center" style={{ color: '#6F7469' }}>
+          <motion.p
+            animate={{ opacity: open ? 1 : 0 }}
+            transition={{ duration: 0.15 }}
+            className="text-xs px-2 py-3 text-center whitespace-nowrap" style={{ color: '#6F7469' }}>
             No conversations yet
           </motion.p>
         ) : (
@@ -304,23 +307,27 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
               onMouseLeave={e => { if (activeId !== conv.id) e.currentTarget.style.background = 'transparent' }}
             >
               <MessageSquare className="w-4 h-4 flex-shrink-0" style={{ color: activeId === conv.id ? '#64A859' : '#6F7469' }} />
-              <motion.div animate={{ display: open ? 'flex' : 'none', opacity: open ? 1 : 0 }} className="flex-1 min-w-0 flex flex-col">
-                <span className="text-xs truncate" style={{ color: activeId === conv.id ? '#D0CFC9' : '#6F7469' }}>{conv.title}</span>
-                <span className="text-[10px]" style={{ color: 'rgba(111,116,105,0.6)' }}>
+              <motion.div
+                animate={{ opacity: open ? 1 : 0 }}
+                transition={{ duration: 0.15 }}
+                className="flex-1 min-w-0 flex flex-col"
+              >
+                <span className="text-xs truncate whitespace-nowrap" style={{ color: activeId === conv.id ? '#D0CFC9' : '#6F7469' }}>{conv.title}</span>
+                <span className="text-[10px] whitespace-nowrap" style={{ color: 'rgba(111,116,105,0.6)' }}>
                   {formatDate(conv.createdAt)} · {conv.language.toUpperCase()}
                 </span>
               </motion.div>
-              {open && (
-                <button
-                  onClick={e => { e.stopPropagation(); onDelete(conv.id) }}
-                  className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 rounded"
-                  style={{ color: '#6F7469' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#ef4444')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#6F7469')}
-                >
-                  <Trash2 className="w-3 h-3" />
-                </button>
-              )}
+              <motion.button
+                animate={{ opacity: open ? 1 : 0 }}
+                transition={{ duration: 0.15 }}
+                onClick={e => { e.stopPropagation(); onDelete(conv.id) }}
+                className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 rounded flex-shrink-0"
+                style={{ color: '#6F7469' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#ef4444')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#6F7469')}
+              >
+                <Trash2 className="w-3 h-3" />
+              </motion.button>
             </div>
           ))
         )}
