@@ -3,6 +3,7 @@
 import { CornerRightUp } from "lucide-react";
 import { useState, useEffect } from "react";
 import React from "react";
+import { ShiningText } from "@/components/ui/shining-text";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useAutoResizeTextarea } from "@/components/hooks/use-auto-resize-textarea";
@@ -139,13 +140,6 @@ export function AIInputWithLoading({
         </div>
       </div>
 
-      {/* Status line */}
-      <p
-        className="mt-1.5 h-4 text-xs text-center"
-        style={{ color: submitted ? '#64A859' : 'transparent' }}
-      >
-        Searching documents…
-      </p>
     </div>
   );
 }

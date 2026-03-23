@@ -4,7 +4,8 @@ import FloatingActionMenu from './components/ui/floating-action-menu'
 import { motion } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { MessageLoading } from './components/ui/message-loading'
+import { ShiningText } from './components/ui/shining-text'
+import { useTextStream } from './components/ui/response-stream'
 import { cn } from './lib/utils'
 import { Component as EtheralShadow } from './components/ui/etheral-shadow'
 import { AIInputWithLoading } from './components/ui/ai-input-with-loading'
@@ -23,6 +24,7 @@ interface Message {
   content: string
   sources?: Source[]
   language: 'en' | 'de'
+  animated?: boolean
 }
 
 interface Conversation {
@@ -113,6 +115,36 @@ function SourceCard({ source, index }: { source: Source; index: number }) {
   )
 }
 
+// ─── Animated Markdown ────────────────────────────────────────────────────────
+
+function AnimatedMarkdown({ content }: { content: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 4 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25, ease: 'easeOut' }}
+    >
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+          strong: ({ children }) => <strong style={{ color: '#64A859', fontWeight: 600 }}>{children}</strong>,
+          ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
+          ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
+          li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+          code: ({ children }) => <code className="px-1.5 py-0.5 rounded text-xs font-mono" style={{ background: 'rgba(100,168,89,0.15)', color: '#64A859' }}>{children}</code>,
+          h1: ({ children }) => <h1 className="text-base font-semibold mb-2" style={{ color: '#D0CFC9' }}>{children}</h1>,
+          h2: ({ children }) => <h2 className="text-sm font-semibold mb-1.5" style={{ color: '#D0CFC9' }}>{children}</h2>,
+          h3: ({ children }) => <h3 className="text-sm font-medium mb-1" style={{ color: '#D0CFC9' }}>{children}</h3>,
+          hr: () => <hr className="my-2" style={{ borderColor: 'rgba(111,116,105,0.2)' }} />,
+        }}
+      >
+        {content}
+      </ReactMarkdown>
+    </motion.div>
+  )
+}
+
 // ─── Chat Message ─────────────────────────────────────────────────────────────
 
 function ChatMessage({ message }: { message: Message }) {
@@ -143,23 +175,25 @@ function ChatMessage({ message }: { message: Message }) {
             : { background: '#202B21', border: '1px solid rgba(111,116,105,0.2)', color: '#D0CFC9', borderTopLeftRadius: '4px' }}
         >
           {isUser ? message.content : (
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              components={{
-                p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                strong: ({ children }) => <strong style={{ color: '#64A859', fontWeight: 600 }}>{children}</strong>,
-                ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
-                ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
-                li: ({ children }) => <li className="leading-relaxed">{children}</li>,
-                code: ({ children }) => <code className="px-1.5 py-0.5 rounded text-xs font-mono" style={{ background: 'rgba(100,168,89,0.15)', color: '#64A859' }}>{children}</code>,
-                h1: ({ children }) => <h1 className="text-base font-semibold mb-2" style={{ color: '#D0CFC9' }}>{children}</h1>,
-                h2: ({ children }) => <h2 className="text-sm font-semibold mb-1.5" style={{ color: '#D0CFC9' }}>{children}</h2>,
-                h3: ({ children }) => <h3 className="text-sm font-medium mb-1" style={{ color: '#D0CFC9' }}>{children}</h3>,
-                hr: () => <hr className="my-2" style={{ borderColor: 'rgba(111,116,105,0.2)' }} />,
-              }}
-            >
-              {message.content}
-            </ReactMarkdown>
+            message.animated
+              ? <AnimatedMarkdown content={message.content} />
+              : <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                    strong: ({ children }) => <strong style={{ color: '#64A859', fontWeight: 600 }}>{children}</strong>,
+                    ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
+                    ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
+                    li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+                    code: ({ children }) => <code className="px-1.5 py-0.5 rounded text-xs font-mono" style={{ background: 'rgba(100,168,89,0.15)', color: '#64A859' }}>{children}</code>,
+                    h1: ({ children }) => <h1 className="text-base font-semibold mb-2" style={{ color: '#D0CFC9' }}>{children}</h1>,
+                    h2: ({ children }) => <h2 className="text-sm font-semibold mb-1.5" style={{ color: '#D0CFC9' }}>{children}</h2>,
+                    h3: ({ children }) => <h3 className="text-sm font-medium mb-1" style={{ color: '#D0CFC9' }}>{children}</h3>,
+                    hr: () => <hr className="my-2" style={{ borderColor: 'rgba(111,116,105,0.2)' }} />,
+                  }}
+                >
+                  {message.content}
+                </ReactMarkdown>
           )}
         </div>
 
@@ -219,10 +253,7 @@ function TypingIndicator({ language }: { language: Lang }) {
       <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(100,168,89,0.15)', border: '1px solid rgba(100,168,89,0.25)', boxShadow: '0 0 12px rgba(100,168,89,0.1)' }}>
         <Zap className="w-4 h-4" style={{ color: '#64A859' }} />
       </div>
-      <div className="rounded-2xl px-4 py-3 flex items-center gap-2" style={{ background: '#202B21', border: '1px solid rgba(111,116,105,0.2)', borderTopLeftRadius: '4px', color: '#64A859' }}>
-        <MessageLoading />
-        <span className="text-xs" style={{ color: '#6F7469' }}>{LANG[language].thinkingLabel}</span>
-      </div>
+      <ShiningText text={LANG[language].thinkingLabel} />
     </div>
   )
 }
@@ -490,22 +521,24 @@ export default function App() {
 
           if (event.type === 'sources') {
             finalSources = event.sources
-            setMessages([...updatedMsgs, {
-              id: assistantId, role: 'assistant', content: '', sources: event.sources, language,
-            }])
-            setLoading(false)
-            assistantAdded = true
           } else if (event.type === 'token') {
             fullContent += event.token
-            setMessages(prev => prev.map(m =>
-              m.id === assistantId ? { ...m, content: fullContent } : m
-            ))
+            if (!assistantAdded) {
+              setLoading(false)
+              setMessages([...updatedMsgs, {
+                id: assistantId, role: 'assistant', content: fullContent, sources: finalSources, language, animated: true,
+              }])
+              assistantAdded = true
+            } else {
+              setMessages(prev => prev.map(m =>
+                m.id === assistantId ? { ...m, content: fullContent } : m
+              ))
+            }
           } else if (event.type === 'done') {
             const finalMsg: Message = {
               id: assistantId, role: 'assistant', content: fullContent, sources: finalSources, language,
             }
-            const final = [...updatedMsgs, finalMsg]
-            saveMessages(final, language)
+            saveMessages([...updatedMsgs, finalMsg], language)
             if (isNewConversation && currentIdRef.current) {
               generateTitle(query, language, currentIdRef.current)
             }

@@ -28,7 +28,7 @@ bip_rag/
 **Stack:**
 - **Embeddings:** `nomic-ai/nomic-embed-text-v1` (EN), `paraphrase-multilingual-mpnet-base-v2` (DE)
 - **Vector DB:** ChromaDB (local, persistent)
-- **LLM:** llama3.2 via Ollama (fully local)
+- **LLM:** `qwen3.5:4b` via Ollama (fully local)
 - **Backend:** FastAPI + Python
 - **Frontend:** React + TypeScript + Vite + Tailwind CSS
 
@@ -47,7 +47,7 @@ bip_rag/
 ### 1. Pull the LLM
 
 ```bash
-ollama pull llama3.2
+ollama pull qwen3.5:4b
 ```
 
 ### 2. Backend
@@ -110,31 +110,58 @@ Open [http://localhost:5173](http://localhost:5173).
 
 ## API
 
-The backend exposes three endpoints:
-
 | Method | Path | Description |
 |--------|------|-------------|
-| `POST` | `/query` | Query the RAG pipeline |
-| `POST` | `/title` | Generate a short title for a query |
+| `POST` | `/query` | Query the RAG pipeline (streaming SSE) |
+| `POST` | `/title` | Generate a short AI title for a query |
 | `GET` | `/health` | Check status and chunk counts |
 
-**Query example:**
+**Query request:**
 ```json
-POST /query
-{ "query": "Was passiert bei Zahlungsverzug?", "language": "de" }
-
-→ { "answer": "...", "sources": [...] }
+{
+  "query": "Was passiert bei Zahlungsverzug?",
+  "language": "de",
+  "tone": "standard",
+  "document": "all",
+  "history": [{ "role": "user", "content": "..." }, ...]
+}
 ```
 
-Supported `language` values: `"de"` (German), `"en"` (English).
+**Query response (SSE stream):**
+```
+data: {"type": "sources", "sources": [...]}
+data: {"type": "token", "token": "..."}
+data: {"type": "done"}
+```
+
+Supported `language`: `"de"` | `"en"`
+Supported `tone`: `"easy"` | `"standard"` | `"technical"`
+Supported `document`: `"all"` | `"strom"` | `"erdgas"` | `"schufa"` | `"creditreform"`
 
 ---
 
 ## Features
 
-- Bilingual — German and English, each with its own optimised embedding model
-- Section-aware chunking — respects legal document structure (§1, §2, …)
-- Chat history — persisted in localStorage, survives page refresh
-- AI-generated chat titles — LLM summarises each conversation into a short title
-- Markdown rendering — structured answers with bold §-references and bullet points
-- Fully local — no API keys, no cloud, no data leaves the machine
+- **Bilingual** — German and English, each with its own optimised embedding model
+- **Three response tones** — Simplified (plain language), Standard (clear + §-refs), Expert (precise legal terminology)
+- **Document filter** — Scope queries to a specific document (Electricity, Gas, SCHUFA, Creditreform)
+- **Streaming responses** — Tokens stream in real-time via Server-Sent Events
+- **Conversation context** — Last 3 exchanges passed to the LLM for follow-up questions
+- **AI-generated chat titles** — LLM summarises each conversation into a short title
+- **Chat history** — Persisted in localStorage, survives page refresh
+- **Source cards** — Expandable panel showing which document chunks were retrieved
+- **Copy answer** — One-click copy of any assistant message
+- **Loading animation** — Shimmering text while retrieving, smooth fade-in when answer arrives
+- **Markdown rendering** — Bold §-references, bullet points, structured answers
+- **Fully local** — No API keys, no cloud, no data leaves the machine
+
+---
+
+## Documents
+
+| Key | Document |
+|-----|----------|
+| `strom` | Allgemeine Lieferbedingungen Strom |
+| `erdgas` | Allgemeine Lieferbedingungen Erdgas Haushaltskunden |
+| `schufa` | Anhang SCHUFA |
+| `creditreform` | Anhang Creditreform |
