@@ -28,21 +28,21 @@ const FloatingActionMenu = ({ options, activeLabel, isActive, className }: Float
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1.5 h-10 px-3 rounded-xl transition-all duration-200 border"
         style={{
-          background: isOpen ? 'var(--card)' : isActive ? 'rgba(100,168,89,0.12)' : 'rgba(32,43,33,0.6)',
-          borderColor: isOpen ? 'rgba(100,168,89,0.4)' : isActive ? 'rgba(100,168,89,0.4)' : 'rgba(111,116,105,0.25)',
-          color: isOpen ? 'var(--accent)' : isActive ? '#64A859' : 'var(--muted)',
+          background: isOpen ? 'var(--card)' : isActive ? 'rgba(245,107,0,0.12)' : 'rgba(12,10,82,0.6)',
+          borderColor: isOpen ? 'rgba(245,107,0,0.4)' : isActive ? 'rgba(245,107,0,0.4)' : 'rgba(125,198,233,0.25)',
+          color: isOpen ? 'var(--accent)' : isActive ? '#F56B00' : 'var(--muted)',
           backdropFilter: 'blur(8px)',
         }}
         onMouseEnter={e => {
           if (!isOpen) {
-            (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(100,168,89,0.3)'
+            (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(245,107,0,0.3)'
             ;(e.currentTarget as HTMLButtonElement).style.color = 'var(--heading)'
           }
         }}
         onMouseLeave={e => {
           if (!isOpen) {
-            (e.currentTarget as HTMLButtonElement).style.borderColor = isActive ? 'rgba(100,168,89,0.4)' : 'rgba(111,116,105,0.25)'
-            ;(e.currentTarget as HTMLButtonElement).style.color = isActive ? '#64A859' : 'var(--muted)'
+            (e.currentTarget as HTMLButtonElement).style.borderColor = isActive ? 'rgba(245,107,0,0.4)' : 'rgba(125,198,233,0.25)'
+            ;(e.currentTarget as HTMLButtonElement).style.color = isActive ? '#F56B00' : 'var(--muted)'
           }
         }}
       >
@@ -71,7 +71,7 @@ const FloatingActionMenu = ({ options, activeLabel, isActive, className }: Float
               className="flex flex-col gap-1 p-1.5 rounded-xl"
               style={{
                 background: 'var(--card)',
-                border: '1px solid rgba(100,168,89,0.2)',
+                border: '1px solid rgba(245,107,0,0.2)',
                 boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
                 backdropFilter: 'blur(12px)',
                 minWidth: '160px',
@@ -87,13 +87,13 @@ const FloatingActionMenu = ({ options, activeLabel, isActive, className }: Float
                   onClick={() => { option.onClick(); setIsOpen(false) }}
                   className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-all duration-150 w-full"
                   style={{
-                    background: option.active ? 'rgba(100,168,89,0.15)' : 'transparent',
+                    background: option.active ? 'rgba(245,107,0,0.15)' : 'transparent',
                     color: option.active ? 'var(--accent)' : 'var(--muted)',
-                    border: `1px solid ${option.active ? 'rgba(100,168,89,0.25)' : 'transparent'}`,
+                    border: `1px solid ${option.active ? 'rgba(245,107,0,0.25)' : 'transparent'}`,
                   }}
                   onMouseEnter={e => {
                     if (!option.active) {
-                      e.currentTarget.style.background = 'rgba(111,116,105,0.1)'
+                      e.currentTarget.style.background = 'rgba(125,198,233,0.1)'
                       e.currentTarget.style.color = 'var(--heading)'
                     }
                   }}

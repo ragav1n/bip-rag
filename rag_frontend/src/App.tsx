@@ -119,7 +119,7 @@ function highlightTerms(text: string, query: string): React.ReactNode[] {
   const matchPattern = new RegExp(`^(${escaped.join('|')})$`, 'i')
   return text.split(splitPattern).map((part, i) =>
     matchPattern.test(part)
-      ? <mark key={i} className="rounded px-0.5" style={{ background: 'rgba(100,168,89,0.2)', color: '#D0CFC9', fontWeight: 500 }}>{part}</mark>
+      ? <mark key={i} className="rounded px-0.5" style={{ background: 'rgba(245,107,0,0.2)', color: '#E8F4FD', fontWeight: 500 }}>{part}</mark>
       : part
   )
 }
@@ -131,14 +131,14 @@ function SourceCard({ source, index, query }: { source: Source; index: number; q
     .replace(/_/g, ' ')
 
   return (
-    <div className="rounded-xl p-3.5" style={{ background: '#202B21', border: '1px solid rgba(100,168,89,0.15)' }}>
+    <div className="rounded-xl p-3.5" style={{ background: '#0c0a52', border: '1px solid rgba(245,107,0,0.15)' }}>
       <div className="flex items-start gap-2.5">
-        <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: 'rgba(100,168,89,0.15)', border: '1px solid rgba(100,168,89,0.25)' }}>
-          <span className="text-[10px] font-mono" style={{ color: '#64A859' }}>{index + 1}</span>
+        <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: 'rgba(245,107,0,0.15)', border: '1px solid rgba(245,107,0,0.25)' }}>
+          <span className="text-[10px] font-mono" style={{ color: '#F56B00' }}>{index + 1}</span>
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-mono mb-1.5 truncate" style={{ color: '#64A859' }}>{name}</p>
-          <p className="text-xs leading-relaxed line-clamp-3" style={{ color: '#6F7469' }}>
+          <p className="text-[11px] font-mono mb-1.5 truncate" style={{ color: '#F56B00' }}>{name}</p>
+          <p className="text-xs leading-relaxed line-clamp-3" style={{ color: '#6b9ab5' }}>
             {query ? highlightTerms(source.content, query) : source.content}
           </p>
         </div>
@@ -160,15 +160,15 @@ function AnimatedMarkdown({ content }: { content: string }) {
         remarkPlugins={[remarkGfm]}
         components={{
           p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-          strong: ({ children }) => <strong style={{ color: '#64A859', fontWeight: 600 }}>{children}</strong>,
+          strong: ({ children }) => <strong style={{ color: '#F56B00', fontWeight: 600 }}>{children}</strong>,
           ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
           ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
           li: ({ children }) => <li className="leading-relaxed">{children}</li>,
-          code: ({ children }) => <code className="px-1.5 py-0.5 rounded text-xs font-mono" style={{ background: 'rgba(100,168,89,0.15)', color: '#64A859' }}>{children}</code>,
-          h1: ({ children }) => <h1 className="text-base font-semibold mb-2" style={{ color: '#D0CFC9' }}>{children}</h1>,
-          h2: ({ children }) => <h2 className="text-sm font-semibold mb-1.5" style={{ color: '#D0CFC9' }}>{children}</h2>,
-          h3: ({ children }) => <h3 className="text-sm font-medium mb-1" style={{ color: '#D0CFC9' }}>{children}</h3>,
-          hr: () => <hr className="my-2" style={{ borderColor: 'rgba(111,116,105,0.2)' }} />,
+          code: ({ children }) => <code className="px-1.5 py-0.5 rounded text-xs font-mono" style={{ background: 'rgba(245,107,0,0.15)', color: '#F56B00' }}>{children}</code>,
+          h1: ({ children }) => <h1 className="text-base font-semibold mb-2" style={{ color: '#E8F4FD' }}>{children}</h1>,
+          h2: ({ children }) => <h2 className="text-sm font-semibold mb-1.5" style={{ color: '#E8F4FD' }}>{children}</h2>,
+          h3: ({ children }) => <h3 className="text-sm font-medium mb-1" style={{ color: '#E8F4FD' }}>{children}</h3>,
+          hr: () => <hr className="my-2" style={{ borderColor: 'rgba(125,198,233,0.2)' }} />,
         }}
       >
         {content}
@@ -195,16 +195,16 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
   return (
     <div className={cn('flex gap-3 animate-slide-up', isUser ? 'justify-end' : 'justify-start')}>
       {!isUser && (
-        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-1" style={{ background: 'rgba(100,168,89,0.15)', border: '1px solid rgba(100,168,89,0.25)', boxShadow: '0 0 12px rgba(100,168,89,0.1)' }}>
-          <Zap className="w-4 h-4" style={{ color: '#64A859' }} />
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-1" style={{ background: 'rgba(245,107,0,0.15)', border: '1px solid rgba(245,107,0,0.25)', boxShadow: '0 0 12px rgba(245,107,0,0.1)' }}>
+          <Zap className="w-4 h-4" style={{ color: '#F56B00' }} />
         </div>
       )}
       <div className={cn('flex flex-col gap-2', isUser ? 'items-end max-w-[72%]' : 'items-start max-w-[80%]')}>
         <div
           className="rounded-2xl px-4 py-3 text-sm leading-relaxed"
           style={isUser
-            ? { background: 'rgba(100,168,89,0.12)', border: '1px solid rgba(100,168,89,0.2)', color: '#D0CFC9', borderTopRightRadius: '4px' }
-            : { background: '#202B21', border: '1px solid rgba(111,116,105,0.2)', color: '#D0CFC9', borderTopLeftRadius: '4px' }}
+            ? { background: 'rgba(245,107,0,0.12)', border: '1px solid rgba(245,107,0,0.2)', color: '#E8F4FD', borderTopRightRadius: '4px' }
+            : { background: '#0c0a52', border: '1px solid rgba(125,198,233,0.2)', color: '#E8F4FD', borderTopLeftRadius: '4px' }}
         >
           {isUser ? message.content : (
             <>
@@ -214,15 +214,15 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
                   remarkPlugins={[remarkGfm]}
                   components={{
                     p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                    strong: ({ children }) => <strong style={{ color: '#64A859', fontWeight: 600 }}>{children}</strong>,
+                    strong: ({ children }) => <strong style={{ color: '#F56B00', fontWeight: 600 }}>{children}</strong>,
                     ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
                     ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
                     li: ({ children }) => <li className="leading-relaxed">{children}</li>,
-                    code: ({ children }) => <code className="px-1.5 py-0.5 rounded text-xs font-mono" style={{ background: 'rgba(100,168,89,0.15)', color: '#64A859' }}>{children}</code>,
-                    h1: ({ children }) => <h1 className="text-base font-semibold mb-2" style={{ color: '#D0CFC9' }}>{children}</h1>,
-                    h2: ({ children }) => <h2 className="text-sm font-semibold mb-1.5" style={{ color: '#D0CFC9' }}>{children}</h2>,
-                    h3: ({ children }) => <h3 className="text-sm font-medium mb-1" style={{ color: '#D0CFC9' }}>{children}</h3>,
-                    hr: () => <hr className="my-2" style={{ borderColor: 'rgba(111,116,105,0.2)' }} />,
+                    code: ({ children }) => <code className="px-1.5 py-0.5 rounded text-xs font-mono" style={{ background: 'rgba(245,107,0,0.15)', color: '#F56B00' }}>{children}</code>,
+                    h1: ({ children }) => <h1 className="text-base font-semibold mb-2" style={{ color: '#E8F4FD' }}>{children}</h1>,
+                    h2: ({ children }) => <h2 className="text-sm font-semibold mb-1.5" style={{ color: '#E8F4FD' }}>{children}</h2>,
+                    h3: ({ children }) => <h3 className="text-sm font-medium mb-1" style={{ color: '#E8F4FD' }}>{children}</h3>,
+                    hr: () => <hr className="my-2" style={{ borderColor: 'rgba(125,198,233,0.2)' }} />,
                   }}
                 >
                   {message.content}
@@ -233,7 +233,7 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
                   animate={{ opacity: [1, 1, 0, 0] }}
                   transition={{ duration: 0.8, repeat: Infinity, ease: 'linear', times: [0, 0.5, 0.5, 1] }}
                   className="inline-block w-0.5 h-[1em] ml-0.5 align-middle rounded-sm"
-                  style={{ background: '#64A859' }}
+                  style={{ background: '#F56B00' }}
                 />
               )}
             </>
@@ -247,9 +247,9 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
             <button
               onClick={handleCopy}
               className="flex items-center gap-1.5 text-xs py-0.5 transition-colors"
-              style={{ color: copied ? '#64A859' : '#6F7469' }}
-              onMouseEnter={e => { if (!copied) e.currentTarget.style.color = '#D0CFC9' }}
-              onMouseLeave={e => { if (!copied) e.currentTarget.style.color = '#6F7469' }}
+              style={{ color: copied ? '#F56B00' : '#6b9ab5' }}
+              onMouseEnter={e => { if (!copied) e.currentTarget.style.color = '#E8F4FD' }}
+              onMouseLeave={e => { if (!copied) e.currentTarget.style.color = '#6b9ab5' }}
             >
               {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
               {copied ? 'Copied' : 'Copy'}
@@ -260,9 +260,9 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
               <button
                 onClick={() => setSourcesOpen(o => !o)}
                 className="flex items-center gap-1.5 text-xs py-0.5 transition-colors"
-                style={{ color: '#6F7469' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#D0CFC9')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#6F7469')}
+                style={{ color: '#6b9ab5' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#E8F4FD')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#6b9ab5')}
               >
                 <FileText className="w-3 h-3" />
                 {config.sourcesLabel} ({message.sources.length})
@@ -280,8 +280,8 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
         )}
       </div>
       {isUser && (
-        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-1" style={{ background: '#202B21', border: '1px solid rgba(111,116,105,0.3)' }}>
-          <span className="text-xs font-semibold" style={{ color: '#6F7469' }}>U</span>
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-1" style={{ background: '#0c0a52', border: '1px solid rgba(125,198,233,0.3)' }}>
+          <span className="text-xs font-semibold" style={{ color: '#6b9ab5' }}>U</span>
         </div>
       )}
     </div>
@@ -293,8 +293,8 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
 function TypingIndicator({ language }: { language: Lang }) {
   return (
     <div className="flex gap-3 animate-slide-up">
-      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(100,168,89,0.15)', border: '1px solid rgba(100,168,89,0.25)', boxShadow: '0 0 12px rgba(100,168,89,0.1)' }}>
-        <Zap className="w-4 h-4" style={{ color: '#64A859' }} />
+      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(245,107,0,0.15)', border: '1px solid rgba(245,107,0,0.25)', boxShadow: '0 0 12px rgba(245,107,0,0.1)' }}>
+        <Zap className="w-4 h-4" style={{ color: '#F56B00' }} />
       </div>
       <ShiningText text={LANG[language].thinkingLabel} />
     </div>
@@ -308,24 +308,24 @@ function EmptyState({ language, onSuggestion }: { language: Lang; onSuggestion: 
   return (
     <div className="flex flex-col items-center justify-center h-full min-h-[55vh] gap-6 text-center animate-fade-in">
       <div className="relative">
-        <div className="absolute inset-0 rounded-2xl blur-xl" style={{ background: 'rgba(100,168,89,0.2)' }} />
-        <div className="relative w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(100,168,89,0.15)', border: '1px solid rgba(100,168,89,0.3)' }}>
-          <Zap className="w-8 h-8" style={{ color: '#64A859' }} />
+        <div className="absolute inset-0 rounded-2xl blur-xl" style={{ background: 'rgba(245,107,0,0.2)' }} />
+        <div className="relative w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(245,107,0,0.15)', border: '1px solid rgba(245,107,0,0.3)' }}>
+          <Zap className="w-8 h-8" style={{ color: '#F56B00' }} />
         </div>
       </div>
       <div className="space-y-1.5">
-        <h2 className="font-display text-2xl font-semibold tracking-tight" style={{ color: '#D0CFC9' }}>{config.heading}</h2>
-        <p className="text-sm max-w-xs" style={{ color: '#6F7469' }}>{config.subheading}</p>
+        <h2 className="font-display text-2xl font-semibold tracking-tight" style={{ color: '#E8F4FD' }}>{config.heading}</h2>
+        <p className="text-sm max-w-xs" style={{ color: '#6b9ab5' }}>{config.subheading}</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-md">
         {config.suggestions.map(s => (
           <button key={s} onClick={() => onSuggestion(s)}
             className="flex items-start gap-2 text-left text-xs rounded-xl px-3.5 py-3 transition-all duration-200"
-            style={{ background: '#202B21', border: '1px solid rgba(111,116,105,0.2)', color: '#6F7469' }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(100,168,89,0.3)'; e.currentTarget.style.color = '#D0CFC9' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(111,116,105,0.2)'; e.currentTarget.style.color = '#6F7469' }}
+            style={{ background: '#0c0a52', border: '1px solid rgba(125,198,233,0.2)', color: '#6b9ab5' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(245,107,0,0.3)'; e.currentTarget.style.color = '#E8F4FD' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(125,198,233,0.2)'; e.currentTarget.style.color = '#6b9ab5' }}
           >
-            <Sparkles className="w-3 h-3 mt-0.5 flex-shrink-0" style={{ color: '#64A859', opacity: 0.6 }} />
+            <Sparkles className="w-3 h-3 mt-0.5 flex-shrink-0" style={{ color: '#F56B00', opacity: 0.6 }} />
             {s}
           </button>
         ))}
@@ -338,14 +338,14 @@ function EmptyState({ language, onSuggestion }: { language: Lang; onSuggestion: 
 
 function LanguageToggle({ language, onChange }: { language: Lang; onChange: (l: Lang) => void }) {
   return (
-    <div className="flex items-center gap-1 rounded-lg p-1" style={{ background: '#202B21', border: '1px solid rgba(111,116,105,0.25)' }}>
-      <Globe className="w-3.5 h-3.5 ml-1.5" style={{ color: '#6F7469' }} />
+    <div className="flex items-center gap-1 rounded-lg p-1" style={{ background: '#0c0a52', border: '1px solid rgba(125,198,233,0.25)' }}>
+      <Globe className="w-3.5 h-3.5 ml-1.5" style={{ color: '#6b9ab5' }} />
       {(['en', 'de'] as Lang[]).map(lang => (
         <button key={lang} onClick={() => onChange(lang)}
           className="px-3 py-1 rounded-md text-xs font-medium transition-all duration-200"
-          style={language === lang ? { background: '#64A859', color: '#101010', fontWeight: 600 } : { color: '#6F7469' }}
-          onMouseEnter={e => { if (language !== lang) e.currentTarget.style.color = '#D0CFC9' }}
-          onMouseLeave={e => { if (language !== lang) e.currentTarget.style.color = '#6F7469' }}
+          style={language === lang ? { background: '#F56B00', color: '#ffffff', fontWeight: 600 } : { color: '#6b9ab5' }}
+          onMouseEnter={e => { if (language !== lang) e.currentTarget.style.color = '#E8F4FD' }}
+          onMouseLeave={e => { if (language !== lang) e.currentTarget.style.color = '#6b9ab5' }}
         >
           {LANG[lang].label}
         </button>
@@ -377,16 +377,16 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
       {/* Logo */}
       <div className="flex items-center gap-2.5 px-1 py-1 flex-shrink-0">
         <div className="relative flex-shrink-0">
-          <div className="absolute inset-0 rounded-lg blur-md" style={{ background: 'rgba(100,168,89,0.25)' }} />
-          <div className="relative w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: '#64A859' }}>
-            <Zap className="w-4 h-4" style={{ color: '#101010' }} />
+          <div className="absolute inset-0 rounded-lg blur-md" style={{ background: 'rgba(245,107,0,0.25)' }} />
+          <div className="relative w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: '#F56B00' }}>
+            <Zap className="w-4 h-4" style={{ color: '#ffffff' }} />
           </div>
         </div>
         <motion.span
           animate={{ opacity: open ? 1 : 0 }}
           transition={{ duration: 0.15 }}
           className="font-display text-sm font-semibold tracking-tight whitespace-nowrap"
-          style={{ color: '#D0CFC9' }}
+          style={{ color: '#E8F4FD' }}
         >
           DEW21
         </motion.span>
@@ -395,15 +395,15 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
       {/* New Chat */}
       <button onClick={onNew}
         className="flex items-center gap-2.5 px-2 py-2 rounded-xl transition-all duration-200 flex-shrink-0"
-        style={{ background: 'rgba(100,168,89,0.1)', border: '1px solid rgba(100,168,89,0.2)' }}
-        onMouseEnter={e => (e.currentTarget.style.background = 'rgba(100,168,89,0.2)')}
-        onMouseLeave={e => (e.currentTarget.style.background = 'rgba(100,168,89,0.1)')}
+        style={{ background: 'rgba(245,107,0,0.1)', border: '1px solid rgba(245,107,0,0.2)' }}
+        onMouseEnter={e => (e.currentTarget.style.background = 'rgba(245,107,0,0.2)')}
+        onMouseLeave={e => (e.currentTarget.style.background = 'rgba(245,107,0,0.1)')}
       >
-        <SquarePen className="w-4 h-4 flex-shrink-0" style={{ color: '#64A859' }} />
-        <SidebarLabel style={{ color: '#64A859' }}>New Chat</SidebarLabel>
+        <SquarePen className="w-4 h-4 flex-shrink-0" style={{ color: '#F56B00' }} />
+        <SidebarLabel style={{ color: '#F56B00' }}>New Chat</SidebarLabel>
       </button>
 
-      <div className="flex-shrink-0" style={{ height: '1px', background: 'rgba(111,116,105,0.15)' }} />
+      <div className="flex-shrink-0" style={{ height: '1px', background: 'rgba(125,198,233,0.15)' }} />
 
       {/* Conversation list */}
       <div className="flex-1 overflow-y-auto space-y-1 min-h-0">
@@ -411,7 +411,7 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
           <motion.p
             animate={{ opacity: open ? 1 : 0 }}
             transition={{ duration: 0.15 }}
-            className="text-xs px-2 py-3 text-center whitespace-nowrap" style={{ color: '#6F7469' }}>
+            className="text-xs px-2 py-3 text-center whitespace-nowrap" style={{ color: '#6b9ab5' }}>
             No conversations yet
           </motion.p>
         ) : (
@@ -419,21 +419,21 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
             <div key={conv.id}
               className="group flex items-center gap-2 px-2 py-2 rounded-xl cursor-pointer transition-all duration-150"
               style={{
-                background: activeId === conv.id ? 'rgba(100,168,89,0.15)' : 'transparent',
-                border: `1px solid ${activeId === conv.id ? 'rgba(100,168,89,0.25)' : 'transparent'}`,
+                background: activeId === conv.id ? 'rgba(245,107,0,0.15)' : 'transparent',
+                border: `1px solid ${activeId === conv.id ? 'rgba(245,107,0,0.25)' : 'transparent'}`,
               }}
               onClick={() => onSelect(conv)}
-              onMouseEnter={e => { if (activeId !== conv.id) e.currentTarget.style.background = 'rgba(111,116,105,0.1)' }}
+              onMouseEnter={e => { if (activeId !== conv.id) e.currentTarget.style.background = 'rgba(125,198,233,0.1)' }}
               onMouseLeave={e => { if (activeId !== conv.id) e.currentTarget.style.background = 'transparent' }}
             >
-              <MessageSquare className="w-4 h-4 flex-shrink-0" style={{ color: activeId === conv.id ? '#64A859' : '#6F7469' }} />
+              <MessageSquare className="w-4 h-4 flex-shrink-0" style={{ color: activeId === conv.id ? '#F56B00' : '#6b9ab5' }} />
               <motion.div
                 animate={{ opacity: open ? 1 : 0 }}
                 transition={{ duration: 0.15 }}
                 className="flex-1 min-w-0 flex flex-col"
               >
-                <span className="text-xs truncate whitespace-nowrap" style={{ color: activeId === conv.id ? '#D0CFC9' : '#6F7469' }}>{conv.title}</span>
-                <span className="text-[10px] whitespace-nowrap" style={{ color: 'rgba(111,116,105,0.6)' }}>
+                <span className="text-xs truncate whitespace-nowrap" style={{ color: activeId === conv.id ? '#E8F4FD' : '#6b9ab5' }}>{conv.title}</span>
+                <span className="text-[10px] whitespace-nowrap" style={{ color: 'rgba(125,198,233,0.6)' }}>
                   {formatDate(conv.createdAt)} · {conv.language.toUpperCase()}
                 </span>
               </motion.div>
@@ -442,9 +442,9 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
                 transition={{ duration: 0.15 }}
                 onClick={e => { e.stopPropagation(); onDelete(conv.id) }}
                 className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 rounded flex-shrink-0"
-                style={{ color: '#6F7469' }}
+                style={{ color: '#6b9ab5' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#ef4444')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#6F7469')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#6b9ab5')}
               >
                 <Trash2 className="w-3 h-3" />
               </motion.button>
@@ -628,11 +628,11 @@ export default function App() {
   }
 
   return (
-    <div className="h-screen flex flex-col font-sans relative overflow-hidden" style={{ background: '#101010' }}>
+    <div className="h-screen flex flex-col font-sans relative overflow-hidden" style={{ background: '#03001a' }}>
       {/* Background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <EtheralShadow color="rgba(100, 168, 89, 0.35)" animation={{ scale: 60, speed: 70 }} noise={{ opacity: 0.4, scale: 1.2 }} sizing="fill" />
-        <div className="absolute inset-0" style={{ background: 'rgba(16,16,16,0.55)' }} />
+        <EtheralShadow color="rgba(245, 107, 0, 0.35)" animation={{ scale: 60, speed: 70 }} noise={{ opacity: 0.4, scale: 1.2 }} sizing="fill" />
+        <div className="absolute inset-0" style={{ background: 'rgba(3,0,40,0.55)' }} />
       </div>
 
       {/* Layout */}
@@ -640,7 +640,7 @@ export default function App() {
 
         {/* Sidebar */}
         <Sidebar open={sidebarOpen} setOpen={setSidebarOpen}>
-          <SidebarBody className="h-full" style={{ background: 'rgba(13,26,14,0.95)', borderRight: '1px solid rgba(100,168,89,0.12)' }}>
+          <SidebarBody className="h-full" style={{ background: 'rgba(3,0,30,0.95)', borderRight: '1px solid rgba(245,107,0,0.12)' }}>
             <SidebarContent conversations={conversations} activeId={activeId} onSelect={loadConversation} onNew={startNewChat} onDelete={deleteConversation} />
           </SidebarBody>
         </Sidebar>
@@ -650,17 +650,17 @@ export default function App() {
 
           {/* Header */}
           <header className="px-6 py-3.5 flex items-center justify-between flex-shrink-0 backdrop-blur-md"
-            style={{ borderBottom: '1px solid rgba(111,116,105,0.15)', background: 'rgba(16,16,16,0.8)' }}>
+            style={{ borderBottom: '1px solid rgba(125,198,233,0.15)', background: 'rgba(3,0,40,0.8)' }}>
             <div className="flex items-center gap-2">
-              <span className="font-display text-sm font-semibold tracking-tight" style={{ color: '#D0CFC9' }}>DEW21</span>
-              <span className="text-sm hidden sm:inline" style={{ color: '#6F7469' }}>Document Assistant</span>
+              <span className="font-display text-sm font-semibold tracking-tight" style={{ color: '#E8F4FD' }}>DEW21</span>
+              <span className="text-sm hidden sm:inline" style={{ color: '#6b9ab5' }}>Document Assistant</span>
             </div>
             <LanguageToggle language={language} onChange={setLanguage} />
           </header>
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto">
-            <div className="max-w-2xl mx-auto px-4 py-8">
+            <div className="max-w-6xl mx-auto px-4 py-8">
               {messages.length === 0
                 ? <EmptyState language={language} onSuggestion={s => handleSubmit(s)} />
                 : (
@@ -675,8 +675,8 @@ export default function App() {
 
           {/* Input */}
           <div className="px-4 py-4 backdrop-blur-md flex-shrink-0"
-            style={{ borderTop: '1px solid rgba(111,116,105,0.15)', background: 'rgba(16,16,16,0.8)' }}>
-            <div className="max-w-2xl mx-auto">
+            style={{ borderTop: '1px solid rgba(125,198,233,0.15)', background: 'rgba(3,0,40,0.8)' }}>
+            <div className="max-w-6xl mx-auto">
               <AIInputWithLoading
                 placeholder={LANG[language].placeholder}
                 onSubmit={handleSubmit}
@@ -701,7 +701,7 @@ export default function App() {
                   </div>
                 }
               />
-              <p className="text-center text-[11px] mt-2" style={{ color: 'rgba(111,116,105,0.4)' }}>
+              <p className="text-center text-[11px] mt-2" style={{ color: 'rgba(125,198,233,0.4)' }}>
                 {LANG[language].disclaimer}
               </p>
             </div>

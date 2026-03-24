@@ -100,7 +100,7 @@ export function AIInputWithLoading({
             exit={{ opacity: 0, y: 8, scale: 0.97 }}
             transition={{ duration: 0.2 }}
             className="mb-2 rounded-2xl overflow-hidden"
-            style={{ background: '#1a2419', border: '1px solid rgba(100,168,89,0.25)' }}
+            style={{ background: '#06042e', border: '1px solid rgba(245,107,0,0.25)' }}
           >
             <AIVoiceInput
               onStart={handleVoiceStart}
@@ -115,9 +115,9 @@ export function AIInputWithLoading({
       {/* Outer box — flex column so nothing overlaps */}
       <div
         className="w-full rounded-2xl flex flex-col transition-all duration-200"
-        style={{ background: '#202B21', border: '1px solid rgba(111,116,105,0.2)' }}
-        onFocus={e => (e.currentTarget.style.borderColor = 'rgba(100,168,89,0.4)')}
-        onBlur={e => (e.currentTarget.style.borderColor = 'rgba(111,116,105,0.2)')}
+        style={{ background: '#0c0a52', border: '1px solid rgba(125,198,233,0.2)' }}
+        onFocus={e => (e.currentTarget.style.borderColor = 'rgba(245,107,0,0.4)')}
+        onBlur={e => (e.currentTarget.style.borderColor = 'rgba(125,198,233,0.2)')}
       >
         {/* Textarea — no padding tricks needed */}
         <Textarea
@@ -131,8 +131,8 @@ export function AIInputWithLoading({
           )}
           style={{
             background: 'transparent',
-            color: '#D0CFC9',
-            caretColor: '#64A859',
+            color: '#E8F4FD',
+            caretColor: '#F56B00',
           }}
           ref={textareaRef}
           value={inputValue}
@@ -159,15 +159,15 @@ export function AIInputWithLoading({
             className="rounded-xl p-1.5 transition-all duration-200 flex-shrink-0"
             style={
               showVoice
-                ? { background: 'rgba(100,168,89,0.2)', boxShadow: '0 0 0 1.5px rgba(100,168,89,0.5)' }
-                : { background: 'rgba(100,168,89,0.08)' }
+                ? { background: 'rgba(245,107,0,0.2)', boxShadow: '0 0 0 1.5px rgba(245,107,0,0.5)' }
+                : { background: 'rgba(245,107,0,0.08)' }
             }
             type="button"
             title="Voice input"
           >
             <Mic
               className="w-4 h-4"
-              style={{ color: '#64A859', opacity: showVoice ? 1 : 0.6 }}
+              style={{ color: '#F56B00', opacity: showVoice ? 1 : 0.6 }}
             />
           </button>
 
@@ -179,8 +179,8 @@ export function AIInputWithLoading({
               submitted
                 ? { background: 'transparent' }
                 : {
-                    background: inputValue.trim() ? '#64A859' : 'rgba(100,168,89,0.15)',
-                    boxShadow: inputValue.trim() ? '0 4px 14px rgba(100,168,89,0.3)' : 'none',
+                    background: inputValue.trim() ? '#F56B00' : 'rgba(245,107,0,0.15)',
+                    boxShadow: inputValue.trim() ? '0 4px 14px rgba(245,107,0,0.3)' : 'none',
                   }
             }
             type="button"
@@ -189,13 +189,13 @@ export function AIInputWithLoading({
             {submitted ? (
               <div
                 className="w-4 h-4 rounded-sm animate-spin"
-                style={{ background: '#64A859', animationDuration: '1.5s' }}
+                style={{ background: '#F56B00', animationDuration: '1.5s' }}
               />
             ) : (
               <CornerRightUp
                 className="w-4 h-4"
                 style={{
-                  color: inputValue.trim() ? '#101010' : '#64A859',
+                  color: inputValue.trim() ? '#ffffff' : '#F56B00',
                   opacity: inputValue.trim() ? 1 : 0.5,
                 }}
               />

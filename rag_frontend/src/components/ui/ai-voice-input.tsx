@@ -229,16 +229,16 @@ export function AIVoiceInput({
           {recording ? (
             <div
               className="w-6 h-6 rounded-sm animate-spin"
-              style={{ background: "#64A859", animationDuration: "3s" }}
+              style={{ background: "#F56B00", animationDuration: "3s" }}
             />
           ) : (
-            <Mic className="w-6 h-6" style={{ color: micDenied ? "#ef4444" : "#64A859", opacity: 0.8 }} />
+            <Mic className="w-6 h-6" style={{ color: micDenied ? "#ef4444" : "#F56B00", opacity: 0.8 }} />
           )}
         </button>
 
         <span
           className="font-mono text-sm transition-opacity duration-300"
-          style={{ color: "#D0CFC9", opacity: recording ? 0.7 : 0.3 }}
+          style={{ color: "#E8F4FD", opacity: recording ? 0.7 : 0.3 }}
         >
           {formatTime(time)}
         </span>
@@ -252,7 +252,7 @@ export function AIVoiceInput({
               className="w-[3px] rounded-full"
               style={{
                 height: "100%",
-                background: "#64A859",
+                background: "#F56B00",
                 opacity: 0.2,
                 transform: "scaleY(0.04)",
                 transformOrigin: "center",
@@ -267,7 +267,7 @@ export function AIVoiceInput({
             Microphone access denied
           </p>
         ) : (
-          <p className="text-xs" style={{ color: "rgba(208,207,201,0.5)" }}>
+          <p className="text-xs" style={{ color: "rgba(232,244,253,0.5)" }}>
             {recording ? "Listening… (click to stop)" : "Click to speak"}
           </p>
         )}

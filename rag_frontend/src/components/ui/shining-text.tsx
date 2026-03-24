@@ -10,7 +10,7 @@ export function ShiningText({ text, className }: ShiningTextProps) {
     <motion.span
       className={className}
       style={{
-        background: "linear-gradient(110deg, #4a5a4a 25%, #64A859 50%, #4a5a4a 75%)",
+        background: "linear-gradient(110deg, #1a3a5c 25%, #F56B00 50%, #1a3a5c 75%)",
         backgroundSize: "200% 100%",
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
