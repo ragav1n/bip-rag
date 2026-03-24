@@ -119,7 +119,7 @@ function highlightTerms(text: string, query: string): React.ReactNode[] {
   const matchPattern = new RegExp(`^(${escaped.join('|')})$`, 'i')
   return text.split(splitPattern).map((part, i) =>
     matchPattern.test(part)
-      ? <mark key={i} className="rounded px-0.5" style={{ background: 'rgba(245,107,0,0.2)', color: '#E8F4FD', fontWeight: 500 }}>{part}</mark>
+      ? <mark key={i} className="rounded px-0.5" style={{ background: 'rgba(245,107,0,0.2)', color: '#f2f2f2', fontWeight: 500 }}>{part}</mark>
       : part
   )
 }
@@ -131,14 +131,14 @@ function SourceCard({ source, index, query }: { source: Source; index: number; q
     .replace(/_/g, ' ')
 
   return (
-    <div className="rounded-xl p-3.5" style={{ background: '#0c0a52', border: '1px solid rgba(245,107,0,0.15)' }}>
+    <div className="rounded-xl p-3.5" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', backdropFilter: 'blur(16px)', boxShadow: '0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08)' }}>
       <div className="flex items-start gap-2.5">
         <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: 'rgba(245,107,0,0.15)', border: '1px solid rgba(245,107,0,0.25)' }}>
           <span className="text-[10px] font-mono" style={{ color: '#F56B00' }}>{index + 1}</span>
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-[11px] font-mono mb-1.5 truncate" style={{ color: '#F56B00' }}>{name}</p>
-          <p className="text-xs leading-relaxed line-clamp-3" style={{ color: '#6b9ab5' }}>
+          <p className="text-xs leading-relaxed line-clamp-3" style={{ color: '#a0a0a0' }}>
             {query ? highlightTerms(source.content, query) : source.content}
           </p>
         </div>
@@ -165,10 +165,10 @@ function AnimatedMarkdown({ content }: { content: string }) {
           ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
           li: ({ children }) => <li className="leading-relaxed">{children}</li>,
           code: ({ children }) => <code className="px-1.5 py-0.5 rounded text-xs font-mono" style={{ background: 'rgba(245,107,0,0.15)', color: '#F56B00' }}>{children}</code>,
-          h1: ({ children }) => <h1 className="text-base font-semibold mb-2" style={{ color: '#E8F4FD' }}>{children}</h1>,
-          h2: ({ children }) => <h2 className="text-sm font-semibold mb-1.5" style={{ color: '#E8F4FD' }}>{children}</h2>,
-          h3: ({ children }) => <h3 className="text-sm font-medium mb-1" style={{ color: '#E8F4FD' }}>{children}</h3>,
-          hr: () => <hr className="my-2" style={{ borderColor: 'rgba(125,198,233,0.2)' }} />,
+          h1: ({ children }) => <h1 className="text-base font-semibold mb-2" style={{ color: '#f2f2f2' }}>{children}</h1>,
+          h2: ({ children }) => <h2 className="text-sm font-semibold mb-1.5" style={{ color: '#f2f2f2' }}>{children}</h2>,
+          h3: ({ children }) => <h3 className="text-sm font-medium mb-1" style={{ color: '#f2f2f2' }}>{children}</h3>,
+          hr: () => <hr className="my-2" style={{ borderColor: 'rgba(255,255,255,0.2)' }} />,
         }}
       >
         {content}
@@ -203,8 +203,8 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
         <div
           className="rounded-2xl px-4 py-3 text-sm leading-relaxed"
           style={isUser
-            ? { background: 'rgba(245,107,0,0.12)', border: '1px solid rgba(245,107,0,0.2)', color: '#E8F4FD', borderTopRightRadius: '4px' }
-            : { background: '#0c0a52', border: '1px solid rgba(125,198,233,0.2)', color: '#E8F4FD', borderTopLeftRadius: '4px' }}
+            ? { background: 'rgba(245,107,0,0.18)', border: '1px solid rgba(245,107,0,0.35)', color: '#f2f2f2', borderTopRightRadius: '4px', backdropFilter: 'blur(16px)', boxShadow: '0 4px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)' }
+            : { background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.14)', color: '#f2f2f2', borderTopLeftRadius: '4px', backdropFilter: 'blur(20px)', boxShadow: '0 4px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)' }}
         >
           {isUser ? message.content : (
             <>
@@ -219,10 +219,10 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
                     ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
                     li: ({ children }) => <li className="leading-relaxed">{children}</li>,
                     code: ({ children }) => <code className="px-1.5 py-0.5 rounded text-xs font-mono" style={{ background: 'rgba(245,107,0,0.15)', color: '#F56B00' }}>{children}</code>,
-                    h1: ({ children }) => <h1 className="text-base font-semibold mb-2" style={{ color: '#E8F4FD' }}>{children}</h1>,
-                    h2: ({ children }) => <h2 className="text-sm font-semibold mb-1.5" style={{ color: '#E8F4FD' }}>{children}</h2>,
-                    h3: ({ children }) => <h3 className="text-sm font-medium mb-1" style={{ color: '#E8F4FD' }}>{children}</h3>,
-                    hr: () => <hr className="my-2" style={{ borderColor: 'rgba(125,198,233,0.2)' }} />,
+                    h1: ({ children }) => <h1 className="text-base font-semibold mb-2" style={{ color: '#f2f2f2' }}>{children}</h1>,
+                    h2: ({ children }) => <h2 className="text-sm font-semibold mb-1.5" style={{ color: '#f2f2f2' }}>{children}</h2>,
+                    h3: ({ children }) => <h3 className="text-sm font-medium mb-1" style={{ color: '#f2f2f2' }}>{children}</h3>,
+                    hr: () => <hr className="my-2" style={{ borderColor: 'rgba(255,255,255,0.2)' }} />,
                   }}
                 >
                   {message.content}
@@ -247,9 +247,9 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
             <button
               onClick={handleCopy}
               className="flex items-center gap-1.5 text-xs py-0.5 transition-colors"
-              style={{ color: copied ? '#F56B00' : '#6b9ab5' }}
-              onMouseEnter={e => { if (!copied) e.currentTarget.style.color = '#E8F4FD' }}
-              onMouseLeave={e => { if (!copied) e.currentTarget.style.color = '#6b9ab5' }}
+              style={{ color: copied ? '#F56B00' : '#a0a0a0' }}
+              onMouseEnter={e => { if (!copied) e.currentTarget.style.color = '#f2f2f2' }}
+              onMouseLeave={e => { if (!copied) e.currentTarget.style.color = '#a0a0a0' }}
             >
               {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
               {copied ? 'Copied' : 'Copy'}
@@ -260,9 +260,9 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
               <button
                 onClick={() => setSourcesOpen(o => !o)}
                 className="flex items-center gap-1.5 text-xs py-0.5 transition-colors"
-                style={{ color: '#6b9ab5' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#E8F4FD')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#6b9ab5')}
+                style={{ color: '#a0a0a0' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#f2f2f2')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#a0a0a0')}
               >
                 <FileText className="w-3 h-3" />
                 {config.sourcesLabel} ({message.sources.length})
@@ -280,8 +280,8 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
         )}
       </div>
       {isUser && (
-        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-1" style={{ background: '#0c0a52', border: '1px solid rgba(125,198,233,0.3)' }}>
-          <span className="text-xs font-semibold" style={{ color: '#6b9ab5' }}>U</span>
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-1" style={{ background: 'rgba(255,255,255,0.09)', border: '1px solid rgba(255,255,255,0.18)', backdropFilter: 'blur(12px)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.15)' }}>
+          <span className="text-xs font-semibold" style={{ color: '#f2f2f2' }}>U</span>
         </div>
       )}
     </div>
@@ -306,27 +306,27 @@ function TypingIndicator({ language }: { language: Lang }) {
 function EmptyState({ language, onSuggestion }: { language: Lang; onSuggestion: (s: string) => void }) {
   const config = LANG[language]
   return (
-    <div className="flex flex-col items-center justify-center h-full min-h-[55vh] gap-6 text-center animate-fade-in">
+    <div className="flex flex-col items-center justify-center h-full min-h-[55vh] gap-8 text-center animate-fade-in">
       <div className="relative">
-        <div className="absolute inset-0 rounded-2xl blur-xl" style={{ background: 'rgba(245,107,0,0.2)' }} />
-        <div className="relative w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(245,107,0,0.15)', border: '1px solid rgba(245,107,0,0.3)' }}>
-          <Zap className="w-8 h-8" style={{ color: '#F56B00' }} />
+        <div className="absolute inset-0 scale-150 rounded-full blur-2xl" style={{ background: 'rgba(245,107,0,0.25)' }} />
+        <div className="relative w-20 h-20 rounded-2xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(245,107,0,0.3) 0%, rgba(245,107,0,0.1) 100%)', border: '1px solid rgba(245,107,0,0.45)', boxShadow: '0 0 40px rgba(245,107,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)' }}>
+          <Zap className="w-10 h-10" style={{ color: '#F56B00', filter: 'drop-shadow(0 0 8px rgba(245,107,0,0.6))' }} />
         </div>
       </div>
-      <div className="space-y-1.5">
-        <h2 className="font-display text-2xl font-semibold tracking-tight" style={{ color: '#E8F4FD' }}>{config.heading}</h2>
-        <p className="text-sm max-w-xs" style={{ color: '#6b9ab5' }}>{config.subheading}</p>
+      <div className="space-y-2">
+        <h2 className="font-display text-3xl font-bold tracking-tight" style={{ color: '#f2f2f2' }}>{config.heading}</h2>
+        <p className="text-sm max-w-xs" style={{ color: '#a0a0a0' }}>{config.subheading}</p>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-md">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-md">
         {config.suggestions.map(s => (
           <button key={s} onClick={() => onSuggestion(s)}
-            className="flex items-start gap-2 text-left text-xs rounded-xl px-3.5 py-3 transition-all duration-200"
-            style={{ background: '#0c0a52', border: '1px solid rgba(125,198,233,0.2)', color: '#6b9ab5' }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(245,107,0,0.3)'; e.currentTarget.style.color = '#E8F4FD' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(125,198,233,0.2)'; e.currentTarget.style.color = '#6b9ab5' }}
+            className="flex items-center gap-3 text-left text-xs rounded-xl px-4 py-3.5 min-h-[54px] transition-all duration-200"
+            style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.14)', color: '#b0b0b0', backdropFilter: 'blur(20px)', boxShadow: '0 4px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.13)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'; e.currentTarget.style.color = '#f2f2f2'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.15)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)'; e.currentTarget.style.color = '#b0b0b0'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)' }}
           >
-            <Sparkles className="w-3 h-3 mt-0.5 flex-shrink-0" style={{ color: '#F56B00', opacity: 0.6 }} />
-            {s}
+            <Sparkles className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#F56B00' }} />
+            <span className="leading-snug">{s}</span>
           </button>
         ))}
       </div>
@@ -338,14 +338,14 @@ function EmptyState({ language, onSuggestion }: { language: Lang; onSuggestion: 
 
 function LanguageToggle({ language, onChange }: { language: Lang; onChange: (l: Lang) => void }) {
   return (
-    <div className="flex items-center gap-1 rounded-lg p-1" style={{ background: '#0c0a52', border: '1px solid rgba(125,198,233,0.25)' }}>
-      <Globe className="w-3.5 h-3.5 ml-1.5" style={{ color: '#6b9ab5' }} />
+    <div className="flex items-center gap-1 rounded-lg p-1" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(16px)', boxShadow: '0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)' }}>
+      <Globe className="w-3.5 h-3.5 ml-1.5" style={{ color: '#a0a0a0' }} />
       {(['en', 'de'] as Lang[]).map(lang => (
         <button key={lang} onClick={() => onChange(lang)}
           className="px-3 py-1 rounded-md text-xs font-medium transition-all duration-200"
-          style={language === lang ? { background: '#F56B00', color: '#ffffff', fontWeight: 600 } : { color: '#6b9ab5' }}
-          onMouseEnter={e => { if (language !== lang) e.currentTarget.style.color = '#E8F4FD' }}
-          onMouseLeave={e => { if (language !== lang) e.currentTarget.style.color = '#6b9ab5' }}
+          style={language === lang ? { background: '#F56B00', color: '#ffffff', fontWeight: 600 } : { color: '#a0a0a0' }}
+          onMouseEnter={e => { if (language !== lang) e.currentTarget.style.color = '#f2f2f2' }}
+          onMouseLeave={e => { if (language !== lang) e.currentTarget.style.color = '#a0a0a0' }}
         >
           {LANG[lang].label}
         </button>
@@ -386,7 +386,7 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
           animate={{ opacity: open ? 1 : 0 }}
           transition={{ duration: 0.15 }}
           className="font-display text-sm font-semibold tracking-tight whitespace-nowrap"
-          style={{ color: '#E8F4FD' }}
+          style={{ color: '#f2f2f2' }}
         >
           DEW21
         </motion.span>
@@ -395,15 +395,15 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
       {/* New Chat */}
       <button onClick={onNew}
         className="flex items-center gap-2.5 px-2 py-2 rounded-xl transition-all duration-200 flex-shrink-0"
-        style={{ background: 'rgba(245,107,0,0.1)', border: '1px solid rgba(245,107,0,0.2)' }}
-        onMouseEnter={e => (e.currentTarget.style.background = 'rgba(245,107,0,0.2)')}
-        onMouseLeave={e => (e.currentTarget.style.background = 'rgba(245,107,0,0.1)')}
+        style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(12px)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12)' }}
+        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.14)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)' }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)' }}
       >
         <SquarePen className="w-4 h-4 flex-shrink-0" style={{ color: '#F56B00' }} />
         <SidebarLabel style={{ color: '#F56B00' }}>New Chat</SidebarLabel>
       </button>
 
-      <div className="flex-shrink-0" style={{ height: '1px', background: 'rgba(125,198,233,0.15)' }} />
+      <div className="flex-shrink-0" style={{ height: '1px', background: 'rgba(255,255,255,0.15)' }} />
 
       {/* Conversation list */}
       <div className="flex-1 overflow-y-auto space-y-1 min-h-0">
@@ -411,7 +411,7 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
           <motion.p
             animate={{ opacity: open ? 1 : 0 }}
             transition={{ duration: 0.15 }}
-            className="text-xs px-2 py-3 text-center whitespace-nowrap" style={{ color: '#6b9ab5' }}>
+            className="text-xs px-2 py-3 text-center whitespace-nowrap" style={{ color: '#a0a0a0' }}>
             No conversations yet
           </motion.p>
         ) : (
@@ -419,21 +419,22 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
             <div key={conv.id}
               className="group flex items-center gap-2 px-2 py-2 rounded-xl cursor-pointer transition-all duration-150"
               style={{
-                background: activeId === conv.id ? 'rgba(245,107,0,0.15)' : 'transparent',
-                border: `1px solid ${activeId === conv.id ? 'rgba(245,107,0,0.25)' : 'transparent'}`,
+                background: activeId === conv.id ? 'rgba(255,255,255,0.12)' : 'transparent',
+                border: `1px solid ${activeId === conv.id ? 'rgba(255,255,255,0.2)' : 'transparent'}`,
+                backdropFilter: activeId === conv.id ? 'blur(12px)' : 'none',
               }}
               onClick={() => onSelect(conv)}
-              onMouseEnter={e => { if (activeId !== conv.id) e.currentTarget.style.background = 'rgba(125,198,233,0.1)' }}
+              onMouseEnter={e => { if (activeId !== conv.id) e.currentTarget.style.background = 'rgba(255,255,255,0.1)' }}
               onMouseLeave={e => { if (activeId !== conv.id) e.currentTarget.style.background = 'transparent' }}
             >
-              <MessageSquare className="w-4 h-4 flex-shrink-0" style={{ color: activeId === conv.id ? '#F56B00' : '#6b9ab5' }} />
+              <MessageSquare className="w-4 h-4 flex-shrink-0" style={{ color: activeId === conv.id ? '#F56B00' : '#a0a0a0' }} />
               <motion.div
                 animate={{ opacity: open ? 1 : 0 }}
                 transition={{ duration: 0.15 }}
                 className="flex-1 min-w-0 flex flex-col"
               >
-                <span className="text-xs truncate whitespace-nowrap" style={{ color: activeId === conv.id ? '#E8F4FD' : '#6b9ab5' }}>{conv.title}</span>
-                <span className="text-[10px] whitespace-nowrap" style={{ color: 'rgba(125,198,233,0.6)' }}>
+                <span className="text-xs truncate whitespace-nowrap" style={{ color: activeId === conv.id ? '#f2f2f2' : '#a0a0a0' }}>{conv.title}</span>
+                <span className="text-[10px] whitespace-nowrap" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   {formatDate(conv.createdAt)} · {conv.language.toUpperCase()}
                 </span>
               </motion.div>
@@ -442,9 +443,9 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
                 transition={{ duration: 0.15 }}
                 onClick={e => { e.stopPropagation(); onDelete(conv.id) }}
                 className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 rounded flex-shrink-0"
-                style={{ color: '#6b9ab5' }}
+                style={{ color: '#a0a0a0' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#ef4444')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#6b9ab5')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#a0a0a0')}
               >
                 <Trash2 className="w-3 h-3" />
               </motion.button>
@@ -628,11 +629,11 @@ export default function App() {
   }
 
   return (
-    <div className="h-screen flex flex-col font-sans relative overflow-hidden" style={{ background: '#03001a' }}>
+    <div className="h-screen flex flex-col font-sans relative overflow-hidden" style={{ background: '#0d0d0d' }}>
       {/* Background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <EtheralShadow color="rgba(245, 107, 0, 0.35)" animation={{ scale: 60, speed: 70 }} noise={{ opacity: 0.4, scale: 1.2 }} sizing="fill" />
-        <div className="absolute inset-0" style={{ background: 'rgba(3,0,40,0.55)' }} />
+        <EtheralShadow color="rgba(245, 107, 0, 0.45)" animation={{ scale: 55, speed: 60 }} noise={{ opacity: 0.3, scale: 1.2 }} sizing="fill" />
+        <div className="absolute inset-0" style={{ background: 'rgba(13,13,13,0.4)' }} />
       </div>
 
       {/* Layout */}
@@ -640,7 +641,7 @@ export default function App() {
 
         {/* Sidebar */}
         <Sidebar open={sidebarOpen} setOpen={setSidebarOpen}>
-          <SidebarBody className="h-full" style={{ background: 'rgba(3,0,30,0.95)', borderRight: '1px solid rgba(245,107,0,0.12)' }}>
+          <SidebarBody className="h-full" style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(24px)', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
             <SidebarContent conversations={conversations} activeId={activeId} onSelect={loadConversation} onNew={startNewChat} onDelete={deleteConversation} />
           </SidebarBody>
         </Sidebar>
@@ -650,10 +651,10 @@ export default function App() {
 
           {/* Header */}
           <header className="px-6 py-3.5 flex items-center justify-between flex-shrink-0 backdrop-blur-md"
-            style={{ borderBottom: '1px solid rgba(125,198,233,0.15)', background: 'rgba(3,0,40,0.8)' }}>
+            style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(24px)' }}>
             <div className="flex items-center gap-2">
-              <span className="font-display text-sm font-semibold tracking-tight" style={{ color: '#E8F4FD' }}>DEW21</span>
-              <span className="text-sm hidden sm:inline" style={{ color: '#6b9ab5' }}>Document Assistant</span>
+              <span className="font-display text-sm font-semibold tracking-tight" style={{ color: '#f2f2f2' }}>DEW21</span>
+              <span className="text-sm hidden sm:inline" style={{ color: '#a0a0a0' }}>Document Assistant</span>
             </div>
             <LanguageToggle language={language} onChange={setLanguage} />
           </header>
@@ -675,7 +676,7 @@ export default function App() {
 
           {/* Input */}
           <div className="px-4 py-4 backdrop-blur-md flex-shrink-0"
-            style={{ borderTop: '1px solid rgba(125,198,233,0.15)', background: 'rgba(3,0,40,0.8)' }}>
+            style={{ borderTop: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(24px)' }}>
             <div className="max-w-6xl mx-auto">
               <AIInputWithLoading
                 placeholder={LANG[language].placeholder}
@@ -701,7 +702,7 @@ export default function App() {
                   </div>
                 }
               />
-              <p className="text-center text-[11px] mt-2" style={{ color: 'rgba(125,198,233,0.4)' }}>
+              <p className="text-center text-[11px] mt-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
                 {LANG[language].disclaimer}
               </p>
             </div>

@@ -4,13 +4,14 @@
 
 @layer base {
   :root {
-    --bg:         #03001a;
-    --card:       #0c0a52;
-    --muted:      #6b9ab5;
+    --bg:         #0d0d0d;
+    --card:       rgba(255,255,255,0.08);
+    --muted:      #a0a0a0;
     --accent:     #F56B00;
-    --heading:    #E8F4FD;
-    --border:     rgba(125, 198, 233, 0.15);
+    --heading:    #f2f2f2;
+    --border:     rgba(255, 255, 255, 0.15);
     --accent-dim: rgba(245, 107, 0, 0.12);
+    --glass-shine: inset 0 1px 0 rgba(255,255,255,0.12);
   }
 
   * {
@@ -36,12 +37,12 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #1a1860;
+    background: #2a2a2a;
     border-radius: 2px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #2a2890;
+    background: #404040;
   }
 }
 
@@ -52,8 +53,8 @@
 
   .grid-bg {
     background-image:
-      linear-gradient(rgba(125, 198, 233, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(125, 198, 233, 0.03) 1px, transparent 1px);
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 }

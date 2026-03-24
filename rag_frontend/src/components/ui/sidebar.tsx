@@ -105,13 +105,13 @@ export const MobileSidebar = ({
     <>
       <div
         className="h-12 px-4 flex md:hidden items-center justify-between w-full"
-        style={{ borderBottom: "1px solid rgba(125,198,233,0.15)", background: "rgba(3,0,30,0.9)" }}
+        style={{ borderBottom: "1px solid rgba(255,255,255,0.15)", background: "rgba(17,17,17,0.9)" }}
         {...props}
       >
         <div className="flex justify-end w-full z-20">
           <Menu
             className="cursor-pointer w-5 h-5"
-            style={{ color: "#6b9ab5" }}
+            style={{ color: "#a0a0a0" }}
             onClick={() => setOpen(!open)}
           />
         </div>
@@ -126,13 +126,13 @@ export const MobileSidebar = ({
                 "fixed h-full w-72 inset-0 p-6 z-[100] flex flex-col",
                 className
               )}
-              style={{ background: "#0d1a0e", borderRight: "1px solid rgba(245,107,0,0.15)" }}
+              style={{ background: "rgba(255,255,255,0.06)", backdropFilter: "blur(28px)", borderRight: "1px solid rgba(255,255,255,0.12)" }}
             >
               <div
                 className="absolute right-4 top-4 cursor-pointer"
                 onClick={() => setOpen(false)}
               >
-                <X className="w-5 h-5" style={{ color: "#6b9ab5" }} />
+                <X className="w-5 h-5" style={{ color: "#a0a0a0" }} />
               </div>
               {children}
             </motion.div>

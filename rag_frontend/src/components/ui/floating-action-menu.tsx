@@ -28,8 +28,9 @@ const FloatingActionMenu = ({ options, activeLabel, isActive, className }: Float
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1.5 h-10 px-3 rounded-xl transition-all duration-200 border"
         style={{
-          background: isOpen ? 'var(--card)' : isActive ? 'rgba(245,107,0,0.12)' : 'rgba(12,10,82,0.6)',
-          borderColor: isOpen ? 'rgba(245,107,0,0.4)' : isActive ? 'rgba(245,107,0,0.4)' : 'rgba(125,198,233,0.25)',
+          background: isOpen ? 'rgba(255,255,255,0.14)' : isActive ? 'rgba(245,107,0,0.15)' : 'rgba(255,255,255,0.08)',
+          borderColor: isOpen ? 'rgba(255,255,255,0.3)' : isActive ? 'rgba(245,107,0,0.5)' : 'rgba(255,255,255,0.15)',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)',
           color: isOpen ? 'var(--accent)' : isActive ? '#F56B00' : 'var(--muted)',
           backdropFilter: 'blur(8px)',
         }}
@@ -41,7 +42,7 @@ const FloatingActionMenu = ({ options, activeLabel, isActive, className }: Float
         }}
         onMouseLeave={e => {
           if (!isOpen) {
-            (e.currentTarget as HTMLButtonElement).style.borderColor = isActive ? 'rgba(245,107,0,0.4)' : 'rgba(125,198,233,0.25)'
+            (e.currentTarget as HTMLButtonElement).style.borderColor = isActive ? 'rgba(245,107,0,0.5)' : 'rgba(245,107,0,0.28)'
             ;(e.currentTarget as HTMLButtonElement).style.color = isActive ? '#F56B00' : 'var(--muted)'
           }
         }}
@@ -70,10 +71,10 @@ const FloatingActionMenu = ({ options, activeLabel, isActive, className }: Float
             <div
               className="flex flex-col gap-1 p-1.5 rounded-xl"
               style={{
-                background: 'var(--card)',
-                border: '1px solid rgba(245,107,0,0.2)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-                backdropFilter: 'blur(12px)',
+                background: 'rgba(18,18,18,0.92)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                boxShadow: '0 16px 48px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08)',
+                backdropFilter: 'blur(20px)',
                 minWidth: '160px',
               }}
             >
@@ -93,7 +94,7 @@ const FloatingActionMenu = ({ options, activeLabel, isActive, className }: Float
                   }}
                   onMouseEnter={e => {
                     if (!option.active) {
-                      e.currentTarget.style.background = 'rgba(125,198,233,0.1)'
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.1)'
                       e.currentTarget.style.color = 'var(--heading)'
                     }
                   }}

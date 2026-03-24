@@ -100,7 +100,7 @@ export function AIInputWithLoading({
             exit={{ opacity: 0, y: 8, scale: 0.97 }}
             transition={{ duration: 0.2 }}
             className="mb-2 rounded-2xl overflow-hidden"
-            style={{ background: '#06042e', border: '1px solid rgba(245,107,0,0.25)' }}
+            style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.14)', backdropFilter: 'blur(20px)' }}
           >
             <AIVoiceInput
               onStart={handleVoiceStart}
@@ -115,9 +115,9 @@ export function AIInputWithLoading({
       {/* Outer box — flex column so nothing overlaps */}
       <div
         className="w-full rounded-2xl flex flex-col transition-all duration-200"
-        style={{ background: '#0c0a52', border: '1px solid rgba(125,198,233,0.2)' }}
-        onFocus={e => (e.currentTarget.style.borderColor = 'rgba(245,107,0,0.4)')}
-        onBlur={e => (e.currentTarget.style.borderColor = 'rgba(125,198,233,0.2)')}
+        style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(24px)', boxShadow: '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15)' }}
+        onFocus={e => { e.currentTarget.style.borderColor = 'rgba(245,107,0,0.5)'; e.currentTarget.style.boxShadow = '0 8px 40px rgba(0,0,0,0.3), 0 0 24px rgba(245,107,0,0.12), inset 0 1px 0 rgba(255,255,255,0.15)' }}
+        onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'; e.currentTarget.style.boxShadow = '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15)' }}
       >
         {/* Textarea — no padding tricks needed */}
         <Textarea
@@ -131,7 +131,7 @@ export function AIInputWithLoading({
           )}
           style={{
             background: 'transparent',
-            color: '#E8F4FD',
+            color: '#f2f2f2',
             caretColor: '#F56B00',
           }}
           ref={textareaRef}
