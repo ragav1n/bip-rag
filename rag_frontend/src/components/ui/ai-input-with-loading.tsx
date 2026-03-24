@@ -1,11 +1,13 @@
 "use client";
 
-import { CornerRightUp } from "lucide-react";
+import { CornerRightUp, Mic } from "lucide-react";
 import { useState, useEffect } from "react";
 import React from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useAutoResizeTextarea } from "@/components/hooks/use-auto-resize-textarea";
+import { AIVoiceInput } from "@/components/ui/ai-voice-input";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface AIInputWithLoadingProps {
   id?: string;
@@ -35,6 +37,9 @@ export function AIInputWithLoading({
   const [inputValue, setInputValue] = useState("");
   const [submitted, setSubmitted] = useState(autoAnimate);
   const [isAnimating] = useState(autoAnimate);
+  const [showVoice, setShowVoice] = useState(false);
+  // Text that was in the box before voice recording started — live transcript appends to it
+  const preVoiceTextRef = React.useRef("");
 
   const { textareaRef, adjustHeight } = useAutoResizeTextarea({
     minHeight,
@@ -64,8 +69,49 @@ export function AIInputWithLoading({
     setTimeout(() => setSubmitted(false), loadingDuration);
   };
 
+  const handleVoiceStart = () => {
+    preVoiceTextRef.current = inputValue.trimEnd();
+  };
+
+  // Called on every interim result — types words live into the textarea
+  const handleLiveTranscript = (liveText: string) => {
+    const base = preVoiceTextRef.current;
+    setInputValue(base ? `${base} ${liveText}` : liveText);
+    adjustHeight();
+  };
+
+  // Called once when recording stops — commit the clean final transcript
+  const handleTranscript = (finalText: string) => {
+    const base = preVoiceTextRef.current;
+    setInputValue(base ? `${base} ${finalText}` : finalText);
+    adjustHeight();
+    setShowVoice(false);
+    setTimeout(() => textareaRef.current?.focus(), 50);
+  };
+
   return (
     <div className={cn("w-full", className)}>
+      {/* Voice input overlay */}
+      <AnimatePresence>
+        {showVoice && (
+          <motion.div
+            initial={{ opacity: 0, y: 8, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.97 }}
+            transition={{ duration: 0.2 }}
+            className="mb-2 rounded-2xl overflow-hidden"
+            style={{ background: '#1a2419', border: '1px solid rgba(100,168,89,0.25)' }}
+          >
+            <AIVoiceInput
+              onStart={handleVoiceStart}
+              onLiveTranscript={handleLiveTranscript}
+              onTranscript={handleTranscript}
+              className="py-3"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Outer box — flex column so nothing overlaps */}
       <div
         className="w-full rounded-2xl flex flex-col transition-all duration-200"
@@ -103,10 +149,29 @@ export function AIInputWithLoading({
           disabled={submitted}
         />
 
-        {/* Bottom bar — toolbar left, submit right */}
+        {/* Bottom bar — toolbar left, mic + submit right */}
         <div className="flex items-center justify-between px-3 pb-3 pt-1 gap-2">
           <div className="flex-1">{toolbar ?? null}</div>
 
+          {/* Mic button */}
+          <button
+            onClick={() => setShowVoice((v) => !v)}
+            className="rounded-xl p-1.5 transition-all duration-200 flex-shrink-0"
+            style={
+              showVoice
+                ? { background: 'rgba(100,168,89,0.2)', boxShadow: '0 0 0 1.5px rgba(100,168,89,0.5)' }
+                : { background: 'rgba(100,168,89,0.08)' }
+            }
+            type="button"
+            title="Voice input"
+          >
+            <Mic
+              className="w-4 h-4"
+              style={{ color: '#64A859', opacity: showVoice ? 1 : 0.6 }}
+            />
+          </button>
+
+          {/* Submit button */}
           <button
             onClick={handleSubmit}
             className="rounded-xl p-1.5 transition-all duration-200 flex-shrink-0"
@@ -138,7 +203,6 @@ export function AIInputWithLoading({
           </button>
         </div>
       </div>
-
     </div>
   );
 }

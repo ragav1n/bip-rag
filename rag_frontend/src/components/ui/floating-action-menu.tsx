@@ -77,13 +77,13 @@ const FloatingActionMenu = ({ options, activeLabel, isActive, className }: Float
                 minWidth: '160px',
               }}
             >
-              {options.map((option, index) => (
+              {options.map((option, i) => (
                 <motion.button
-                  key={index}
+                  key={option.label}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.1, delay: index * 0.03 }}
+                  transition={{ duration: 0.1, delay: i * 0.03 }}
                   onClick={() => { option.onClick(); setIsOpen(false) }}
                   className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-all duration-150 w-full"
                   style={{
