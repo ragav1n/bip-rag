@@ -1,0 +1,136 @@
+question,document,answer,ground_truth,num_contexts,latency_s,semantic_similarity,keyword_f1,faithfulness,answer_relevancy,context_precision,context_recall,answer_correctness
+Wie lange ist die Kündigungsfrist für den Stromvertrag?,strom,"Die ordentliche Kündigungsfrist beträgt ein Monat.
+
+Gemäß **§ 18.1** kann das Vertragsverhältnis von beiden Seiten ordentlich mit einer Frist von einem Monat in Textform gekündigt werden, sofern im Vertrag oder in vereinbarten Besonderen Bedingungen nichts Abweichendes geregelt ist.
+
+Sollte der Vertrag aus wichtigem Grund gekündigt werden, ist keine Frist einzuhalten. Gemäß **§ 18.2** kann der Vertrag aus wichtigem Grund ohne Einhaltung einer Frist in Textform gekündigt und die Lieferung eingestellt werden. Ein wichtiger Grund liegt insbesondere vor, wenn **Ziff. 17.2** wiederholt gegeben ist, der Kunde seine Verpflichtung zur Leistung einer Vorauszahlung nach **Ziff. 8** nicht fristgerecht oder nicht vollständig nachkommt oder die Voraussetzungen nach **Ziff. 7.5** wiederholt vorliegen.",Der Kunde kann den Stromvertrag mit einer Frist von vier Wochen zum Ende eines Kalendermonats kündigen. DEW21 kann den Vertrag mit einer Frist von sechs Wochen zum Ende eines Kalendermonats kündigen.,8,11.2,0.7278,0.1684,,,,,
+"Was passiert, wenn ein Kunde die Stromrechnung nicht bezahlt?",strom,"Wenn der Kunde die Zahlung in Verzug gerät, greifen folgende Mechanismen des Vertrages:
+
+*   Bei einer Zahlung aus dem Vertrag in nicht unwesentlicher Höhe in **Verzug** (oder bei wiederholtem Zahlungsverzug, nicht erfüllten Geldforderungen aus vorherigen Lieferverträgen) ist DEW21 berechtigt, eine **Vorauszahlung** in angemessener Höhe zu verlangen (**§ 8.1**).
+*   Bei einem Zahlungsverzug in Höhe des **Doppelten der rechnerisch auf den laufenden Kalendermonat entfallenden Abschlags- oder Vorauszahlung** oder mit mindestens **€ 100,00** inklusive Mahn- und Inkassokosten ist DEW21 berechtigt, die Lieferung einzustellen und die Anschlussnutzung durch den zuständigen Netzbetreiber unterbrechen zu lassen (**§ 7.5**).
+*   Die Unterbrechung der Lieferung durch DEW21 kann jedoch unterbleiben, wenn die Folgen außer Verhältnis zur Schwere des Zahlungsverzugs stehen oder der Kunde darlegt, dass er seinen Verpflichtungen vollumfänglich nachkommen wird (**§ 19**).
+*   Wenn die Unterbrechung erfolgt, müssen die Kosten der Unterbrechung sowie der Wiederherstellung der Belieferung vom Kunden ersetzt werden (**§ 7.6**). Diese können pauschal nach der **Kostenübersicht** berechnet werden.","Bei Zahlungsverzug kann DEW21 nach vorheriger Mahnung die Stromlieferung unterbrechen. Zusätzlich können Verzugszinsen und Mahnkosten erhoben werden. DEW21 ist berechtigt, eine Sicherheitsleistung zu verlangen.",8,18.6,0.699,0.2,,,,,
+"Kann DEW21 die Strompreise anpassen, und wie wird der Kunde informiert?",strom,"Ja, **DEW21** hat aufgrund seiner **einseitigen Leistungsbestimmung nach billigem Ermessen** das Recht, die Strompreise anzupassen, um Kostenänderungen abzubilden. Dabei muss **DEW21** jedoch Kostensteigerungen nur unter Ansatz gegenläufiger Kostensenkungen berücksichtigen und eine Saldierung vornehmen. Bei Kostensenkungen ist **DEW21** verpflichtet, dieselben Maßstäbe wie bei Kostenerhöhungen anzuwenden, damit Kostensenkungen mindestens in gleichem Umfang preiswirksam werden wie Kostenerhöhungen.
+
+Der Kunde wird über Preisanpassungen wie folgt informiert:
+
+*   Änderungen der Preise werden jeweils zum **Monatsersten** wirksam.
+*   Die Wirksamkeit erfolgt erst nach **Mitteilung in Textform** an den Kunden.
+*   Diese Mitteilung muss mindestens **sechs Wochen** vor der beabsichtigten Änderung erfolgen.
+*   **DEW21** wird die Änderung gleichzeitig auf seiner **Internetseite veröffentlichen**.
+*   Der Kunde erhält in der Mitteilung eine **gesonderte Hinweisung** auf sein Recht, den Vertrag zum Zeitpunkt des Wirksamwerdens der Preisanpassung zu kündigen, ohne eine Kündigungsfrist einhalten zu müssen.
+
+Die Berechnung und die Prüfung der **einseitigen Leistungsbestimmung** finden sich insbesondere in **§ 315 Abs. 3 BGB**.",DEW21 kann die Preise anpassen und muss den Kunden mindestens sechs Wochen vor dem geplanten Inkrafttreten der Änderung in Textform informieren. Der Kunde hat dann ein Sonderkündigungsrecht.,8,13.32,0.6337,0.1791,,,,,
+Wer haftet bei Schäden durch Stromunterbrechungen?,strom,"Gemäß dem vorliegenden Kontext haftet für Schäden durch Unterbrechung oder Unregelmäßigkeiten in der Stromversorgung der **örtliche Netzbetreiber**, solange es sich um Folgen einer Störung des Netzbetriebs einschließlich des Netzanschlusses handelt. Dies umfasst die Geltendmachung von Ansprüchen gegen den **örtlichen Netzbetreiber** (siehe auch § 27 NEV zur Veröffentlichung der Regelungen durch den zuständigen Netzbetreiber).
+
+Im Kontext dieses Vertrages sind die Kosten der Unterbrechung sowie der Wiederherstellung der Belieferung vom Kunden zu ersetzen, wenn diese nicht durch den Netzbetreiber, sondern durch andere Vertragsverletzungen (wie Stromdiebstahl nach § 17.2) verursacht wurden.",DEW21 haftet bei Unterbrechungen der Stromversorgung nur für Vorsatz und grobe Fahrlässigkeit. Bei einfacher Fahrlässigkeit ist die Haftung auf vorhersehbare Schäden begrenzt. Höhere Gewalt schließt die Haftung aus.,8,9.48,0.6758,0.1224,,,,,
+Was ist ein Abschlag und wann wird er fällig?,strom,"Ein **Abschlag** ist eine monatliche Zahlung, die der Kunde von DEW21 nach Abrechnung der tatsächlichen Belieferung leisten muss, wenn ein sofortiger Rechnungszahlungsanspruch nicht vorliegt.
+
+**§ 6.1** DEW21 kann vom Kunden **monatliche Abschlagszahlungen** verlangen. Der **Abschlagsbetrag** ist anteilig für den Zeitraum der Abschlagszahlung entsprechend dem Verbrauch im zuletzt abgerechneten Zeitraum zu berechnen. Ist eine solche Berechnung nicht möglich, so bemisst sich die Abschlagszahlung nach dem durchschnittlichen Verbrauch vergleichbarer Kunden. Macht der Kunde glaubhaft, dass sein Verbrauch erheblich abweicht, so ist dies angemessen zu berücksichtigen.
+
+Die **Fälligkeit** und die Berechnungsgrundlage ergeben sich daraus, dass der Kunde – abweichend von der Regel in § 6.2 – das Recht hat, eine monatliche Abrechnung zu wählen. Diese erfolgt auf Grundlage einer gesonderten Vereinbarung mit DEW21. Bei einer monatlichen Abrechnung entfällt das Recht von DEW21, nach § 6.1 eine andere Abrechnungsmodalität durchzuführen.",Ein Abschlag ist eine monatliche Vorauszahlung auf den geschätzten Jahresverbrauch. Die Höhe richtet sich nach dem Vorjahresverbrauch oder einer Schätzung. Der genaue Fälligkeitstermin ist in der Rechnung angegeben.,8,10.97,0.7878,0.2167,,,,,
+Wie kann ich meinen Erdgasvertrag kündigen?,erdgas,"Du kannst deinen Vertrag aus wichtigem Grund ohne Einhaltung einer Frist in Textform kündigen, was insbesondere dann möglich ist, wenn wiederholt Fälle von Gasdiebstahl (Ziff. **17.2**) vorliegen, wenn die Vorauszahlungspflicht (Ziff. **8**) nicht fristgerecht oder vollständig nachkommt oder wenn die Voraussetzungen aus Ziff. **7.5** wiederholt gegeben sind (Ziff. **18.2**).
+
+Beachte die folgenden Punkte zur Abwicklung:
+
+*   Die Kündigung muss unverzüglich dem zuständigen Netzbetreiber mitgeteilt werden, damit dieser den Kunden abmeldet.
+*   Enden die beiderseitigen Vertragspflichten mit sofortiger Wirkung; es bleiben jedoch die Zahlungsverpflichtungen des Kunden erhalten.
+*   Sollte trotz der Abmeldung noch Erdgas entnommen werden (z. B. wegen Bearbeitungsfristen), schuldet der Kunde das Entgelt nach diesem Vertrag (Ziff. **18.2**).
+*   Wenn eine Kündigung wegen Zahlungsverzugs angekündigt wurde, unterbleibt sie in der Regel, wenn die Folgen außer Verhältnis zur Schwere des Zahlungsverzugs stehen oder der Kunde darlegt, dass er seine Verpflichtungen erfüllen wird (Ziff. **18.2**).
+
+Für alle anderen Kündigungsfälle gilt die allgemeine Regelung nach Ziff. **18.2**, da keine spezifischen Kündigungsrechte im vorliegenden Kontext erwähnt werden.",Der Erdgasvertrag kann schriftlich oder in Textform mit einer Kündigungsfrist von vier Wochen zum Ende eines Kalendermonats gekündigt werden. Eine außerordentliche Kündigung ist bei einer Preisanpassung möglich.,8,13.52,0.7867,0.1316,,,,,
+Wie wird der Gasverbrauch gemessen und abgerechnet?,erdgas,"Der Gasverbrauch wird durch Messeinrichtungen bzw. Messsysteme des zuständigen Messstellenbetreibers ermittelt. Die Ablesung dieser Einrichtungen kann vom Messstellenbetreiber, DEW21 oder vom Kunden (auf Verlangen von DEW21 oder Messstellenbetreiber) kostenlos durchgeführt werden. Wurde keine Fernübermittlung der Verbrauchsdaten vorgenommen, sollte der Kunde rechtzeitig auf eine **Selbstablesung** hingewiesen werden.
+
+Für die Berechnung der maßgeblichen Energiemenge in Kilowattstunden (kWh) wird der in Kubikmetern (m³) angezeigte Verbrauch mit einem vom Netzbetreiber angegebenen **Umrechnungsfaktor** (in kWh/m³) multipliziert. Dieser Faktor leitet sich aus der **Zustandszahl (Z)** und dem für die Lieferstelle maßgeblichen **mittleren Brennwert (Hs)** ab. Wenn sich während des Abrechnungszeitraums Preisbestandteile ändern, zieht DEW21 zur thermischen Aufteilung die **Gradtagszahlen** heran.
+
+Die **Erdgasabrechnung** erfolgt in der Regel alle **12 Monate**, sofern keine vorzeitige Zwischen- oder Endabrechnung erstellt wird (vgl. **§ 7.2**). Werden **Erdgasverbrauch** und **Abrechnung** durch weitere Faktoren beeinflusst, wie z. B. zusätzliche Steuern, Energiesteuer oder **Gasspeicherumlage**, so werden diese je nach Art und Zeitpunkt entweder direkt in den Preis eingerechnet (vgl. **§ 9.11**) oder separat als Umlage berechnet (vgl. den Bereich der Gasspeicherumlage). Die Weitergabe von Mehraufkommen ist an die gesetzlichen Rahmenbedingungen gebunden und wird dem Kunden spätestens mit der **Rechnungsstellung** bekannt gegeben.",Der Gasverbrauch wird über einen Zähler gemessen. Die Abrechnung erfolgt in der Regel einmal jährlich auf Basis des tatsächlichen Verbrauchs. Zwischenzeitlich werden monatliche Abschläge erhoben.,8,16.76,0.7918,0.1227,,,,,
+Was passiert bei einem Gasausfall oder einer Versorgungsunterbrechung?,erdgas,"Bei einem Gasausfall oder einer Versorgungsunterbrechung hängt die rechtliche Grundlage und die Folgen davon ab, ob es sich um eine Unterbrechung durch DEW21 (z. B. wegen Zahlungsverzugs oder Verdacht auf „Gasdiebstahl"" gemäß **§ 17.2**) oder um eine Störung des Netzbetriebs handelt.
+
+Sowohl DEW21 als auch der Netzbetreiber sind von ihrer **Leistungspflicht** in entsprechenden Fällen befreit, wenn:
+*   Die Unterbrechung auf eigene Initiative des Netzbetreibers oder des Messstellenbetreibers erfolgt.
+*   DEW21 aufgrund von **höherer Gewalt** oder sonstigen Umständen gehindert ist, die sie beseitigen oder wirtschaftlich nicht zugemuten kann.
+
+Es gelten folgende wichtige Aspekte:
+*   Schadensersatzansprüche des Kunden gegen DEW21 bleiben unberührt, wenn DEW21 ein **Verschulden** bei der Unterbrebung trifft.
+*   Ansprüche wegen Schäden durch Unterbrechung oder Unregelmäßigkeiten, die Folge einer **Störung des Netzbetriebs** sind, müssen gegen den **örtlichen Netzbetreiber** geltend gemacht werden (vgl. **§ 13.1**).
+*   Wird die Unterbrechung aufgrund von Zahlungsverzugs angezeigt, darf sie erst vorgenommen werden, wenn keine hinreichende Aussicht besteht, dass der Kunde seine Verpflichtungen nachkommen wird. Eine solche Unterbrechung wird dem Kunden **spätestens vier Wochen vorher** angekündigt.
+*   DEW21 beauftragt den Netzbetreiber mit der Unterbrechung, der diesem nach den Vorgaben des Lieferantenrahmenvertrags Gas (Anlage 3 zur KoV 11) **sechs weitere Werktage Zeit** gewährt wird.
+*   Die Unterbrechung unterbleibt, wenn die Folgen außer Verhältnis zur Schwere des Verzugs stehen oder der Kunde eine Aussicht auf Nachzahlung darlegt.
+
+Diese Information ist in den vorliegenden Dokumenten nicht enthalten.
+*(Hinweis: Es steht im Dokument, dass DEW21 die Anschlussnutzung unterbrechen darf, falls der Kunde Gas unter Umgehung oder Manipulation verwendet, was als „Gasdiebstahl"" gilt – siehe **§ 17.2**. In einem wiederholten Fall ist DEW21 ohne Einhaltung einer Frist berechtigt.)*",Bei Versorgungsunterbrechungen informiert DEW21 die Kunden so früh wie möglich. Geplante Unterbrechungen werden rechtzeitig angekündigt. Bei ungeplanten Ausfällen bemüht sich DEW21 um schnelle Behebung. Eine Haftung bei höherer Gewalt ist ausgeschlossen.,8,19.86,0.6404,0.0976,,,,,
+Welche Pflichten hat der Kunde bezüglich des Gaszählers?,erdgas,"Auf Basis des vorliegenden Dokuments gibt es **keine expliziten Pflichten des Kunden bezüglich der Unterhaltung, Bedienung oder der fachlichen Verantwortung für den Gaszähler**. Das Dokument regelt ausschließlich die Beziehungen zwischen DEW21, den Netzbetreibern und den Kunden im Rahmen der Lieferung und des Netzanbindens.
+
+Folgende relevante Informationen aus dem Kontext stehen im direkten Zusammenhang mit den technischen Einrichtungen (Messstellen) oder den Pflichten der beteiligten Parteien:
+
+*   **Fristen für Unterbrechungen:** Wenn DEW21 eine Unterbrechung der Lieferung vornehmen will, muss dem Kunden spätestens **vier Wochen vorher** eine Sperrankündigung übermittelt werden. Der Auftrag an den Netzbetreiber wird noch acht Werktage vorher bekannt gegeben (**§ 19 Abs.**).
+*   **Einschaltung durch DEW21:** DEW21 ist berechtigt, die Lieferung sofort einzustellen und die Anschlussnutzung zu unterbrechen, wenn vom Kunden **Gasdiebstahl** festgestellt wird und eine Verhinderung der unberechtigten Energieentnahme erforderlich ist.
+*   **Schadensersatzansprüche:** Auch wenn DEW21 aus höheren Gewalt gehindert ist oder die Lieferung unterbricht, bleiben Schadensersatzansprüche des Kunden unberührt, sofern DEW21 ein Verschulden trifft.
+*   **Netzbetreiber:** Die Pflichten bezüglich Wartungsdiensten und -entgelten liegen beim **Zuständigen Netzbetreiber**, nicht beim Kunden oder DEW21; DEW21 wird den Kunden mit der Vertragsbestätigung über den zuständigen Netzbetreiber informieren (**Ziff.**).","Der Kunde ist verpflichtet, den Zähler zugänglich zu halten und DEW21 Zutritt zur Ablesung zu gewähren. Beschädigungen am Zähler sind unverzüglich zu melden. Der Kunde darf keine Eingriffe am Zähler vornehmen.",8,14.34,0.6162,0.0805,,,,,
+Wozu nutzt DEW21 die SCHUFA-Auskunft?,schufa,"DEW21 nutzt die SCHUFA-Auskunft und ermittelten Scorewerte primär, um berechtigten Empfängern Informationen zur **Beurteilung der Kreditwürdigkeit** von natürlichen und juristischen Personen zu geben. Die Kreditwürdigkeitsprüfung dient der **Bewahrung der Empfänger vor Verlusten im Kreditgeschäft** und bietet gleichzeitig die Möglichkeit, Kreditnehmer durch Beratung vor einer übermäßigen Verschuldung zu bewahren.
+
+Neben der Kreditwürdigkeitsprüfung wird die Datenverarbeitung folgender Zwecke dienen (**§ 4**, **2.1**):
+*   **Betrugsprävention**
+*   **Seriositätsprüfung**
+*   **Geldwäscheprävention**
+*   **Identitäts- und Altersprüfung**
+*   **Anschriftenermittlung**
+*   **Kundenbetreuung**
+*   **Risikosteuerung**
+*   **Tarifierung oder Konditionierung**
+
+Der Scorewert wird anhand gesammelter Informationen und vergangener Erfahrungen erstellt, um eine **Prognose über zukünftige Ereignisse** (Risikowahrscheinlichkeiten) zu treffen. Die berechneten Scorewerte fließen in das **Risikomanagement** der Geschäftspartner ein, gehen jedoch allein nicht als hinreichender Grund für einen Vertragsabschluss oder eine Ablehnung aus. Die konkrete Kreditwürdigkeitsprüfung und die Entscheidung über den Geschäftsauftrag bleibt dem jeweiligen direkten Geschäftspartner vorbehalten.","DEW21 nutzt die SCHUFA-Auskunft zur Prüfung der Bonität des Kunden vor Vertragsabschluss. Anhand der Informationen wird bewertet, ob der Kunde voraussichtlich seinen Zahlungsverpflichtungen nachkommen kann.",8,15.03,0.804,0.16,,,,,
+Welche Daten werden an die SCHUFA weitergegeben?,schufa,"Die SCHUFA erhält ihre Daten von ihren **Vertragspartnern**. Dies sind im europäischen Wirtschaftsraum, in der Schweiz sowie ggf. weiteren Drittländern (sofern ein Angemessenheitsbeschluss der Europäischen Kommission existiert) ansässige Institute, Finanzunternehmen und Zahlungsdienstleister, die ein finanzielles Ausfallrisiko tragen (z.B. Banken, Sparkassen, Genossenschaftsbanken, Kreditkarten-, Factoring- und Leasingunternehmen).
+
+Darüber hinaus stammen Daten von weiteren Vertragspartnern, die Produkte der SCHUFA nutzen, insbesondere aus den Bereichen (Versand)-Handel, eCommerce, Dienstleistungen, Vermietung, Energieversorgung, Telekommunikation, Versicherung oder Inkasso. Zudem verarbeitet die SCHUFA Informationen aus **allgemein zugänglichen Quellen** wie öffentlichen Verzeichnissen und amtlichen Bekanntmachungen (z.B. Schuldnerverzeichnisse, Insolvenzbekanntmachungen).
+
+Bezüglich der konkreten Datenarten, die für die **Scoreberechnung** verwendet werden, zählen die SCHUFA folgende ein, wobei nicht jede Datenart in jede einzelne Scoreberechnung mitfließt:
+- **Allgemeine Daten** (z.B. Geburtsdatum, Geschlecht, Anzahl im Geschäftsverkehr verwendeter Anschriften)
+- **Bisherige Zahlungsstörungen**
+- **Kreditaktivität** des letzten Jahres
+- **Kreditnutzung**
+- **Länge der Kredithistorie**
+- **Anschriftendaten** (nur, wenn wenige personenbezogene kreditrelevante Informationen vorliegen)
+
+Bestimmte Daten werden weder gespeichert noch bei der Scoreberechnung berücksichtigt, darunter Angaben zur Staatsangehörigkeit sowie besondere Kategorien personenbezogener Daten (wie ethnische Herkunft oder politische/religiöse Einstellungen nach **§ 9 DSGVO**). Auch die Geltendmachung von Rechten nach der DSGVO (wie das Widerspruchsrecht nach **Art. 21 DSGVO** oder das Auskunftsrecht nach **Art. 15 DSGVO**) beeinflusst die Scoreberechnung nicht.","An die SCHUFA werden personenbezogene Daten wie Name, Anschrift, Geburtsdatum sowie Informationen über die Begründung, Durchführung und Beendigung des Vertragsverhältnisses übermittelt. Negative Zahlungserfahrungen können ebenfalls gemeldet werden.",8,18.68,0.6264,0.113,,,,,
+Kann ich der Weitergabe meiner Daten an die SCHUFA widersprechen?,schufa,"Ja, Sie können der Weitergabe Ihrer personenbezogenen Daten an die SCHUFA widersprechen, sofern sich der Widerspruch auf **Gründe ergibt, die sich aus der besonderen Situation Ihrer Person ergeben**, was nach **Art. 21 Abs. 1 DS-GVO** möglich ist. Der Widerspruch ist formlos zu richten an die **SCHUFA Holding AG, Privatkunden ServiceCenter, Postfach 10 34 41, 50474 Köln**.
+
+Zusätzlich bestehen für Sie folgende Betroffenenrechte, die den Widerspruch ergänzen oder konkretisieren:
+*   **Auskunftsrecht** nach **Art. 15 DS-GVO**: Sie haben das Recht auf Auskunft über die verarbeiteten Daten.
+*   **Berichtigungsrecht** nach **Art. 16 DS-GVO**: Sie können verfasste oder unrichtige Daten berichtigen lassen.
+*   **Löschungsrecht** nach **Art. 17 DS-GVO**: Unter bestimmten Umständen (z.B. wenn keine berechtigten Interessen mehr bestehen) können Sie auf Löschung der Daten zugreifen.
+*   **Einschränkungsrecht** nach **Art. 18 DS-GVO**: Sie können die Einschränkung der Verarbeitung Ihrer personenbezogenen Daten verlangen.
+
+Hinweis: Der Widerspruch gilt nicht für Verarbeitungsvorgänge, die ausschließlich auf dem **berechtigten Interesse des Verantwortlichen** (z.B. Betrugsprävention, Seriositätsprüfung, Risikosteuerung nach **§ 2.1**) oder **Art. 6 Abs. 1 Buchstabe f DS-GVO** beruhen, sofern die Interessenwägung positiv ausfällt.","Die Datenübermittlung an die SCHUFA erfolgt auf Basis eines berechtigten Interesses. Ein allgemeines Widerspruchsrecht besteht nicht, jedoch können Betroffene in bestimmten Fällen Widerspruch einlegen, wenn besondere Umstände vorliegen.",8,16.64,0.8016,0.1277,,,,,
+Was ist Creditreform und warum nutzt DEW21 diese?,creditreform,"Basierend auf den vorliegenden Dokumenten ist folgendes über Creditreform und deren Nutzung durch DEW21 ersichtlich:
+
+**Creditreform** ist im Rahmen der EU-Datenschutz-Grundverordnung (EU-DSGVO) verantwortlich für die Speicherung und Verarbeitung von Daten, insbesondere Angaben über **Namen**, **Firmierung**, **Anschrift**, **Familienstand**, **berufliche Tätigkeit**, **Vermögensverhältnisse**, **Verbindlichkeiten** sowie Hinweise zum **Zahlungsverhalten** (siehe Kontext: Anhang: Creditreform). Die Rechtsgrundlage für die Verarbeitung ist **Art. 6 Abs. 1 f) EU-DSGVO** (siehe Kontext: Anhang: Creditreform).
+
+Der primäre Zweck der von DEW21 genutzten Daten ist die Erteilung von **Auskünften über die Kreditwürdigkeit** einer Person oder Firma (siehe Kontext: Anhang: Creditreform). Konkrete berechtigte Interessen für diese Verarbeitung sind unter anderem:
+*   Kreditentscheidung
+*   Geschäftsanbahnung
+*   Beteiligungsverhältnisse
+*   Forderung / überfällige Forderung
+*   Vollstreckungsauskunft
+*   Versicherungsvertrag / Bonitätsprüfung (siehe Kontext: Anhang: Creditreform).
+
+DEW21 nutzt die Daten, um Kundeninformationen zu erhalten, die für die Beurteilung der Kreditwürdigkeit und den Kreditschutz zwingend erforderlich sind (siehe Kontext: Anhang: Creditreform). Die Daten werden jedoch nur solange gespeichert, wie dies zur Erfüllung des Zwecks notwendig ist (in der Regel vier Jahre, siehe Kontext: Anhang: Creditreform).
+
+Der Zugriff auf diese Daten ist weder gesetzlich noch vertraglich vorgeschrieben; das Überlassen der Daten ist nicht für einen Vertragsschluss erforderlich, kann aber die Beurteilung der Kreditwürdigkeit durch den Kreditgeber oder Lieferanten erschweren (siehe Kontext: Anhang: Creditreform).","Creditreform ist eine Wirtschaftsauskunftei, die Bonitätsinformationen über Unternehmen und Privatpersonen bereitstellt. DEW21 nutzt Creditreform zur Bonitätsprüfung, um das Zahlungsausfallrisiko bei Vertragsabschluss zu minimieren.",2,16.91,0.7718,0.1497,,,,,
+Wann schaltet DEW21 Creditreform ein?,creditreform,"Das vorliegende Dokument enthält keine Informationen darüber, wann DEW21 Crediterein einstellt. Es liefert nur Daten und Kontaktdaten der Creditreform Dortmund/Witten Scharf KG, wie die Adresse in Dortmund, das Telefon 02 31 / 54 94 - 5 und die E-Mail-Adresse info@dortmund.creditreform.de.
+
+Ferner sind im Kontext folgende relevante Punkte zum Datenschutz und zur Datenverarbeitung enthalten:
+
+*   **Verantwortlich** ist die Creditreform Dortmund/Witten Scharf KG in Dortmund.
+*   Die **Zweckbestimmung** ist die Erteilung von Auskünften über die Kreditwürdigkeit einer Person/Firma (§ 4 EU-DSGVO).
+*   Die **Rechtsgrundlage** ist **Art. 6 Abs. 1f) EU-DSGVO**.
+*   Auskünfte dürfen nur erteilt werden, wenn ein Kunde ein **berechtigtes Interesse** glaubhaft darlegt.
+*   **Berechtigte Interessen** sind z. B.: Kreditentscheidung, Geschäftsanbahnung, Forderung, Bonitätsprüfung oder Überfälligkeit.
+*   Das **Widerspruchsrecht** ist beschränkt auf Fälle mit vorliegender besonderer Situation, die nachgewiesen werden muss. Bei sonstigem Widerspruch bleibt die Verarbeitung aus zwingenden schutzwürdigen Gründen des Gläubiger- und Kreditschutzes bestehen.
+*   Die **Speicherdauer** ist in der Regel für vier Jahre notwendig. Nach Ablauf wird geprüft, ob eine Speicherung weiterhin erforderlich ist.
+*   Im **Schuldnerverzeichnis** werden gemäß **§ 882e ZPO** nach Ablauf von drei Jahren seit dem Tag der Eintragungsanordnung taggenau gelöscht.
+*   Im Falle der Erledigung eines Sachverhalts werden die Daten drei Jahre nach Erledigung taggenau gelöscht.
+*   Einwandrechte bestehen für Betroffene bezüglich **Auskunft**, **Berichtigung**, **Löschung**, **Sperrung** und **Vervollständigung** unvollständiger Daten.
+*   Die **Einwilligung** zur Verarbeitung kann jederzeit widerrufen werden, die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung ist jedoch nicht berührt.
+*   Die Datenübermittlung ist weder gesetzlich noch vertraglich vorgeschrieben.
+*   Für Beschwerden ist der **Landesbeauftragte für Datenschutz** im zuständigen Bundesland zuständig.","DEW21 kann Creditreform zur Bonitätsprüfung vor oder bei Vertragsabschluss einschalten, wenn Anhaltspunkte für ein erhöhtes Zahlungsausfallrisiko bestehen. Dies dient der Absicherung des Unternehmens.",2,19.04,0.4966,0.1262,,,,,

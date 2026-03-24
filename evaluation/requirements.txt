@@ -1,0 +1,8 @@
+# Core (already in venv via rag_english/requirements.txt)
+requests
+numpy
+
+# RAGAS + Ollama integration (optional — enables LLM-judge metrics)
+ragas
+langchain-community
+datasets
