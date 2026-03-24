@@ -24,8 +24,8 @@ DE_CHROMA_PATH = "../rag_german/chroma_db"
 
 COLLECTION_NAME = "dew21_docs"
 OLLAMA_URL = "http://localhost:11434/api/generate"
-LLM_MODEL = "qwen3.5:4b"
-TOP_K = 5
+LLM_MODEL = "qwen3.5:9b"
+TOP_K = 8
 
 print("Loading English embedding model...")
 en_model = SentenceTransformer(EN_MODEL_NAME, trust_remote_code=True)
@@ -49,7 +49,7 @@ DOC_SOURCES = {
         "de": ["Allgemeine_Lieferbedingungen_Strom.pdf_de.txt"],
     },
     "erdgas": {
-        "en": ["Allgemeine_Lieferbedingungen_Erdgas_Haushaltskunden.pdf_en.txt"],
+        "en": ["Allgemeine_Lieferbedingungen_Erdgas_Haushaltskunenn.pdf_en.txt"],
         "de": ["Allgemeine_Lieferbedingungen_Erdgas_Haushaltskunden.pdf_de.txt"],
     },
     "schufa": {
@@ -72,6 +72,7 @@ TONE_RULES = {
 - Wenn die Antwort nicht im Kontext steht, sage genau: "Diese Information liegt mir leider nicht vor."
 """,
         "standard": """- Schreibe klar und verständlich für einen informierten Mitarbeiter
+- Nenne ALLE relevanten Fakten aus dem Kontext — lass keine Details der Kürze wegen weg
 - Nutze **fett** für wichtige Begriffe und Paragrafennummern, z.B. **§ 4**
 - Verwende Aufzählungspunkte für mehrere Punkte
 - Nenne relevante Paragrafennummern fett, wenn vorhanden
@@ -96,7 +97,8 @@ TONE_RULES = {
 - Lead with the key point first, then briefly explain
 - If not found, say exactly: "I'm sorry, I don't have that information available."
 """,
-        "standard": """- Write clearly and concisely for a knowledgeable employee
+        "standard": """- Write clearly for a knowledgeable employee
+- Include ALL relevant facts from the context — do not omit details for brevity
 - Use **bold** for key terms and clause numbers, e.g. **§ 4**
 - Use bullet points for multiple items
 - Reference relevant clause numbers in bold where available
@@ -143,11 +145,16 @@ def query(req: QueryRequest):
         collection = en_collection
         rules = TONE_RULES["en"][tone]
 
-    # Document filter
-    query_kwargs: dict = {"query_embeddings": embedding, "n_results": TOP_K}
+    # Document filter — cap n_results to avoid requesting more than the collection holds
+    n_results = min(TOP_K, collection.count())
+    query_kwargs: dict = {"query_embeddings": embedding, "n_results": n_results}
     if req.document != "all" and req.document in DOC_SOURCES:
         filenames = DOC_SOURCES[req.document][lang]
         query_kwargs["where"] = {"source": {"$in": filenames}}
+        # Count how many chunks exist for this specific document filter
+        doc_chunks = collection.get(where={"source": {"$in": filenames}})
+        doc_count = len(doc_chunks["ids"])
+        query_kwargs["n_results"] = min(TOP_K, doc_count) if doc_count > 0 else 1
 
     results = collection.query(**query_kwargs)
     chunks = results["documents"][0]
@@ -185,6 +192,7 @@ def query(req: QueryRequest):
         prompt = f"""Du bist ein Assistent für DEW21-Mitarbeiter im Kundenkontakt.
 Beantworte die Frage ausschließlich auf Basis des folgenden Kontexts aus den DEW21-Dokumenten.
 Antworte NUR mit Informationen aus dem Kontext.
+WICHTIG: Erfinde, dupliziere oder ergänze niemals Informationen, um eine gewünschte Anzahl oder ein Format zu erfüllen. Wenn das Dokument nur einen Eintrag enthält (z.B. eine Telefonnummer), gib an, dass nur einer vorhanden ist — liste ihn nicht zweimal unter verschiedenen Bezeichnungen auf.
 
 Regeln:
 {rules}
@@ -196,6 +204,7 @@ Antwort:"""
     else:
         prompt = f"""You are an assistant for DEW21 customer service employees.
 Answer the question using ONLY the information from the context below.
+IMPORTANT: Never duplicate, invent, or pad information to satisfy a requested count or format. If the document contains only one item (e.g. one phone number), state that only one exists — do not list it twice under different labels.
 
 Rules:
 {rules}
@@ -209,7 +218,7 @@ Answer:"""
         yield f"data: {json.dumps({'type': 'sources', 'sources': sources_payload})}\n\n"
         response = requests.post(
             OLLAMA_URL,
-            json={"model": LLM_MODEL, "prompt": prompt, "stream": True, "think": False},
+            json={"model": LLM_MODEL, "prompt": prompt, "stream": True, "think": False, "options": {"temperature": 0}},
             stream=True,
         )
         for line in response.iter_lines():
@@ -244,7 +253,7 @@ Title:"""
 
     response = requests.post(
         OLLAMA_URL,
-        json={"model": LLM_MODEL, "prompt": prompt, "stream": False, "think": False},
+        json={"model": LLM_MODEL, "prompt": prompt, "stream": False, "think": False, "options": {"temperature": 0}},
     )
     title = response.json()["response"].strip().strip('"').strip("'")
     if len(title) > 50:
