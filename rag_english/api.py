@@ -5,7 +5,7 @@ from pydantic import BaseModel
 import chromadb
 import requests
 import json
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer, CrossEncoder
 
 app = FastAPI()
 
@@ -25,13 +25,18 @@ DE_CHROMA_PATH = "../rag_german/chroma_db"
 COLLECTION_NAME = "dew21_docs"
 OLLAMA_URL = "http://localhost:11434/api/generate"
 LLM_MODEL = "qwen3.5:9b"
-TOP_K = 8
+TOP_K = 8           # final chunks sent to LLM
+TOP_K_RETRIEVE = 20 # candidates retrieved before reranking
 
 print("Loading English embedding model...")
 en_model = SentenceTransformer(EN_MODEL_NAME, trust_remote_code=True)
 
 print("Loading German embedding model...")
 de_model = SentenceTransformer(DE_MODEL_NAME)
+
+# Multilingual cross-encoder reranker (handles both DE and EN)
+print("Loading reranker model...")
+reranker = CrossEncoder("cross-encoder/mmarco-mMiniLMv2-L12-H384-v1")
 
 en_client = chromadb.PersistentClient(path=EN_CHROMA_PATH)
 en_collection = en_client.get_or_create_collection(COLLECTION_NAME)
@@ -64,54 +69,50 @@ DOC_SOURCES = {
 
 TONE_RULES = {
     "de": {
-        "easy": """- Schreibe wie ein freundlicher Mitarbeiter am Telefon — einfach, klar, ohne Fachsprache
-- Erkläre Begriffe in Alltagssprache, z.B. statt "Zahlungsverzug" sage "wenn die Zahlung zu spät kommt"
-- Erwähne KEINE Paragrafennummern — sage stattdessen "laut Vertrag" oder "laut den Regeln"
-- Kurze Sätze. Ein Gedanke pro Satz. Kein Juristendeutsch.
-- Fasse die wichtigste Aussage zuerst zusammen, dann erkläre sie kurz
+        "easy": """- Beantworte die Frage direkt in 1–3 Sätzen — keine Einleitungen, keine Überschriften
+- Nenne zuerst die konkrete Antwort (Frist, Betrag, Bedingung), dann nur das Nötigste zur Erklärung
+- Alltagssprache: statt "Zahlungsverzug" → "wenn die Zahlung zu spät kommt"
+- Erwähne KEINE Paragrafennummern
+- Keine Aufzählungen, außer es gibt wirklich mehrere gleichwertige Punkte (max. 3)
 - Wenn die Antwort nicht im Kontext steht, sage genau: "Diese Information liegt mir leider nicht vor."
 """,
-        "standard": """- Schreibe klar und verständlich für einen informierten Mitarbeiter
-- Nenne ALLE relevanten Fakten aus dem Kontext — lass keine Details der Kürze wegen weg
-- Nutze **fett** für wichtige Begriffe und Paragrafennummern, z.B. **§ 4**
-- Verwende Aufzählungspunkte für mehrere Punkte
-- Nenne relevante Paragrafennummern fett, wenn vorhanden
-- Beginne NICHT mit einem Titel oder einer Überschrift — starte direkt mit der Antwort
+        "standard": """- Beantworte die Frage direkt — starte sofort mit der konkreten Antwort, ohne Einleitung
+- Nenne zuerst die wichtigste Aussage (z.B. die Frist, den Betrag, die Regelung), dann ggf. eine kurze Ergänzung
+- Nutze **fett** für Schlüsselbegriffe und Paragrafennummern, z.B. **§ 4**
+- Maximal 4 Aufzählungspunkte — nur wenn wirklich mehrere gleichwertige Punkte nötig sind
+- Keine Aufzählung aller theoretischen Randfälle — nur was zur Frage gehört
+- Beginne NICHT mit einem Titel oder einer Überschrift
 - Wenn die Antwort nicht im Kontext steht, antworte genau: "Diese Information ist in den vorliegenden Dokumenten nicht enthalten."
 """,
-        "technical": """- Verwende präzise Rechtsbegriffe — keine Vereinfachungen
-- Nenne ALLE relevanten Paragrafennummern und Unterabsätze fett, z.B. **§ 4 Abs. 2**
-- Gib die rechtliche Grundlage zuerst an, dann die Rechtsfolgen
-- Nenne Querverweise zwischen Paragraphen, wenn vorhanden
-- Verwende formale, juristische Sprache
-- Strukturiere mit Aufzählungspunkten für Tatbestandsmerkmale und Rechtsfolgen
-- Beginne NICHT mit einem Titel — starte direkt mit der rechtlichen Grundlage
+        "technical": """- Starte direkt mit der rechtlichen Grundlage (**§ X Abs. Y**), dann die Rechtsfolge — keine Einleitung
+- Nenne alle relevanten Paragrafennummern und Unterabsätze fett, z.B. **§ 4 Abs. 2**
+- Präzise Rechtsbegriffe, keine Vereinfachungen
+- Querverweise nur wenn direkt relevant
+- Maximal 5 Aufzählungspunkte — fokussiert auf das Wesentliche, keine Randtatbestände
 - Wenn die Antwort nicht im Kontext steht, antworte genau: "Diese Information ist in den vorliegenden Dokumenten nicht enthalten."
 """,
     },
     "en": {
-        "easy": """- Write like a friendly employee explaining over the phone — simple, clear, no jargon
-- Use everyday words. Instead of "payment default" say "when a payment is missed"
-- Do NOT cite clause numbers — say "according to the contract" or "the rules state" instead
-- Short sentences. One idea per sentence. No legal language.
-- Lead with the key point first, then briefly explain
+        "easy": """- Answer in 1–3 sentences — no preamble, no headings
+- Lead with the concrete answer (deadline, amount, condition), then only what's needed to understand it
+- Plain language: instead of "payment default" say "missed payment"
+- Do NOT cite clause numbers
+- No bullet lists unless there are truly multiple equal points (max 3)
 - If not found, say exactly: "I'm sorry, I don't have that information available."
 """,
-        "standard": """- Write clearly for a knowledgeable employee
-- Include ALL relevant facts from the context — do not omit details for brevity
+        "standard": """- Answer directly — open with the concrete answer immediately, no introduction
+- State the key fact first (the deadline, the amount, the rule), then a brief clarification if needed
 - Use **bold** for key terms and clause numbers, e.g. **§ 4**
-- Use bullet points for multiple items
-- Reference relevant clause numbers in bold where available
-- Do NOT start with a title or heading — begin directly with the answer
+- At most 4 bullet points — only when multiple genuinely distinct points are needed
+- Do not list every theoretical edge case — only what is relevant to the question
+- Do NOT start with a title or heading
 - If not found, say exactly: "This information is not contained in the provided documents."
 """,
-        "technical": """- Use precise legal terminology throughout — no simplifications
-- Cite ALL relevant clause numbers and sub-clauses in bold, e.g. **§ 4 para. 2**
-- State the legal basis first, then the legal consequences
-- Include cross-references between clauses where applicable
-- Use formal, exact legal language
-- Structure with bullet points for elements and consequences
-- Do NOT start with a title — begin directly with the legal basis
+        "technical": """- Open directly with the legal basis (**§ X para. Y**) and the legal consequence — no introduction
+- Cite all relevant clause numbers and sub-clauses in bold, e.g. **§ 4 para. 2**
+- Precise legal terminology, no simplifications
+- Cross-references only when directly relevant
+- At most 5 bullet points — focused on what is essential, not peripheral cases
 - If not found, say exactly: "This information is not contained in the provided documents."
 """,
     },
@@ -145,28 +146,32 @@ def query(req: QueryRequest):
         collection = en_collection
         rules = TONE_RULES["en"][tone]
 
-    # Document filter — cap n_results to avoid requesting more than the collection holds
-    n_results = min(TOP_K, collection.count())
-    query_kwargs: dict = {"query_embeddings": embedding, "n_results": n_results}
+    # Document filter — retrieve TOP_K_RETRIEVE candidates, then rerank down to TOP_K
+    n_retrieve = min(TOP_K_RETRIEVE, collection.count())
+    query_kwargs: dict = {"query_embeddings": embedding, "n_results": n_retrieve}
     if req.document != "all" and req.document in DOC_SOURCES:
         filenames = DOC_SOURCES[req.document][lang]
         query_kwargs["where"] = {"source": {"$in": filenames}}
-        # Count how many chunks exist for this specific document filter
         doc_chunks = collection.get(where={"source": {"$in": filenames}})
         doc_count = len(doc_chunks["ids"])
-        query_kwargs["n_results"] = min(TOP_K, doc_count) if doc_count > 0 else 1
+        query_kwargs["n_results"] = min(TOP_K_RETRIEVE, doc_count) if doc_count > 0 else 1
 
     results = collection.query(**query_kwargs)
     chunks = results["documents"][0]
-    distances = results["distances"][0]
     metadatas = results["metadatas"][0]
+
+    # Rerank: cross-encoder scores each chunk against the query
+    pairs = [[req.query, chunk] for chunk in chunks]
+    scores = reranker.predict(pairs)
+    ranked = sorted(zip(scores, chunks, metadatas), key=lambda x: x[0], reverse=True)
+    top_chunks = ranked[:TOP_K]
 
     sources_payload = [
         {"content": c, "source": m.get("source", "unknown")}
-        for c, m in zip(chunks, metadatas)
+        for _, c, m in top_chunks
     ]
 
-    context = "\n\n".join(chunks)
+    context = "\n\n".join(c for _, c, _ in top_chunks)
 
     # Conversation history (last 3 exchanges = up to 6 messages)
     history_section = ""
@@ -191,26 +196,29 @@ def query(req: QueryRequest):
     if lang == "de":
         prompt = f"""Du bist ein Assistent für DEW21-Mitarbeiter im Kundenkontakt.
 Beantworte die Frage ausschließlich auf Basis des folgenden Kontexts aus den DEW21-Dokumenten.
-Antworte NUR mit Informationen aus dem Kontext.
-WICHTIG: Erfinde, dupliziere oder ergänze niemals Informationen, um eine gewünschte Anzahl oder ein Format zu erfüllen. Wenn das Dokument nur einen Eintrag enthält (z.B. eine Telefonnummer), gib an, dass nur einer vorhanden ist — liste ihn nicht zweimal unter verschiedenen Bezeichnungen auf.
+Antworte NUR mit Informationen aus dem Kontext. Sei präzise und kurz — der Nutzer will die Antwort sofort sehen, keinen langen Text lesen.
+Gib die direkte Antwort auf die gestellte Frage. Erweitere NICHT auf Randthemen oder Sonderfälle, die nicht gefragt wurden.
+Erfinde niemals Informationen.
 
 Regeln:
 {rules}
 Kontext:
 {context}
-{history_section}Aktuelle Frage: {req.query}
+{history_section}Frage: {req.query}
 
 Antwort:"""
     else:
         prompt = f"""You are an assistant for DEW21 customer service employees.
 Answer the question using ONLY the information from the context below.
-IMPORTANT: Never duplicate, invent, or pad information to satisfy a requested count or format. If the document contains only one item (e.g. one phone number), state that only one exists — do not list it twice under different labels.
+Be precise and concise — the user wants the answer immediately, not a long text to read.
+Give the direct answer to what was asked. Do NOT expand into edge cases or related topics that were not asked about.
+Never invent information.
 
 Rules:
 {rules}
 Context:
 {context}
-{history_section}Current question: {req.query}
+{history_section}Question: {req.query}
 
 Answer:"""
 
