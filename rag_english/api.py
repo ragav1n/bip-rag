@@ -244,6 +244,7 @@ STRENGE REGELN — halte dich immer daran:
 5. Wenn der Kontext nur einen einzigen Wert enthält (z.B. eine Telefonnummer), nenne ihn nur EINMAL. Erfinde keine zweite Version.
 6. Sei präzise und kurz — der Nutzer will die Antwort sofort, keinen langen Text.
 7. Gib nur die direkte Antwort auf die gestellte Frage. Keine Randthemen, keine Sonderfälle, die nicht gefragt wurden.
+8. Wenn der Nutzer einen Vergleich zwischen zwei Dingen fragt (z.B. Strom- vs. Gasvertrag, SCHUFA vs. Creditreform), fasse die relevanten Fakten aus den Passagen zusammen und stelle sie als strukturierten Vergleich dar — auch wenn das Dokument keinen expliziten Vergleich enthält. Dies überschreibt Regel 2: Sage NICHT "nicht in den Dokumenten enthalten", nur weil kein expliziter Vergleich vorhanden ist. Baue den Vergleich aus den verfügbaren Informationen auf.
 
 Formatregeln:
 {rules}
@@ -263,6 +264,7 @@ STRICT RULES — always follow these:
 5. If the context contains only one value (e.g. one phone number), state it exactly ONCE. Do not invent a second version.
 6. Be precise and concise — the user wants the answer immediately, not a long text to read.
 7. Answer only what was asked. No tangents, no edge cases that were not asked about.
+8. If the user asks for a comparison between two things (e.g. electricity vs gas contract, SCHUFA vs Creditreform), synthesize the relevant facts from the passages and present them as a structured comparison — even if the document does not explicitly compare them. This overrides rule 2: do NOT say "not in the documents" just because no explicit comparison exists. Build the comparison from what is available.
 
 Formatting rules:
 {rules}

@@ -78,6 +78,11 @@ FAQS_DE = [
 
     # ── SCHUFA ────────────────────────────────────────────────────────────────
     {
+        "question": "Werden meine Identitätsdaten unter einer anderen Kategorie verarbeitet als meine Finanzdaten?",
+        "answer": "Sowohl Identitätsdaten (Name, Adresse, Geburtsdatum) als auch Finanzdaten (Zahlungsverhalten, Kredithistorie, Zahlungsausfälle) werden auf derselben Rechtsgrundlage verarbeitet: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse). Sie fallen nicht in separate rechtliche Kategorien. Besondere Kategorien nach Art. 9 DSGVO — wie ethnische Herkunft, politische Überzeugungen oder Gesundheitsdaten — werden von der SCHUFA ausdrücklich nicht gespeichert oder verarbeitet.",
+        "document": "schufa",
+    },
+    {
         "question": "Warum prüft DEW21 meine Bonität bei der SCHUFA?",
         "answer": "DEW21 nutzt SCHUFA-Informationen, um vor Vertragsabschluss zu prüfen, ob ein Kunde seinen Zahlungsverpflichtungen voraussichtlich nachkommen kann. Rechtsgrundlage ist das berechtigte Interesse (Art. 6 Abs. 1 lit. f DSGVO). SCHUFA-Scorewerte fließen in das Risikomanagement ein, sind aber nicht alleinige Entscheidungsgrundlage.",
         "document": "schufa",

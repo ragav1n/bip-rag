@@ -77,6 +77,11 @@ FAQS_EN = [
 
     # ── SCHUFA ────────────────────────────────────────────────────────────────
     {
+        "question": "Is my identity information processed under a different category than my financial data?",
+        "answer": "Both identity data (name, address, date of birth) and financial data (payment behavior, credit history, defaults) are processed under the same legal basis: Art. 6(1)(f) GDPR (legitimate interest). They are not in separate legal categories. However, special categories under Art. 9 GDPR — such as ethnic origin, political beliefs, and health data — are explicitly not stored or processed by SCHUFA.",
+        "document": "schufa",
+    },
+    {
         "question": "Why is DEW21 checking my credit with SCHUFA?",
         "answer": "DEW21 uses SCHUFA credit information to assess whether a customer is likely to meet their payment obligations before entering into a contract. The legal basis is legitimate interest (Art. 6(1)(f) GDPR). SCHUFA score values support DEW21's risk management but are not the sole basis for decisions.",
         "document": "schufa",
