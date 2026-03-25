@@ -89,6 +89,15 @@ def ingest():
             all_ids.append(f"{doc['filename']}_chunk_{i}")
             all_metadatas.append({"source": doc["filename"]})
 
+    # FAQ entries — embedded as "Q: ... A: ..." for direct question matching
+    from faqs_en import FAQS_EN
+    print(f"\nLoading {len(FAQS_EN)} FAQ entries...")
+    for i, faq in enumerate(FAQS_EN):
+        text = f"Q: {faq['question']}\nA: {faq['answer']}"
+        all_chunks.append(text)
+        all_ids.append(f"faq_en_{i}")
+        all_metadatas.append({"source": "faq_en", "document": faq.get("document", "general")})
+
     print(f"\nEmbedding {len(all_chunks)} chunks...")
     prefixed_chunks = [f"search_document: {chunk}" for chunk in all_chunks]
     embeddings = model.encode(prefixed_chunks, show_progress_bar=True).tolist()

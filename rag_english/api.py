@@ -25,6 +25,7 @@ DE_CHROMA_PATH = "../rag_german/chroma_db"
 COLLECTION_NAME = "dew21_docs"
 OLLAMA_URL = "http://localhost:11434/api/generate"
 LLM_MODEL = "qwen3.5:9b"
+REWRITE_MODEL = "qwen3.5:4b"  # fast model just for query rewriting
 TOP_K = 8           # final chunks sent to LLM
 TOP_K_RETRIEVE = 20 # candidates retrieved before reranking
 
@@ -37,6 +38,30 @@ de_model = SentenceTransformer(DE_MODEL_NAME)
 # Multilingual cross-encoder reranker (handles both DE and EN)
 print("Loading reranker model...")
 reranker = CrossEncoder("cross-encoder/mmarco-mMiniLMv2-L12-H384-v1")
+
+
+def rewrite_query(query: str, lang: str) -> str:
+    """Rewrite natural language query into technical terms matching the document vocabulary."""
+    if lang == "de":
+        prompt = f"""Formuliere diese Kundenfrage in technische Begriffe um, die in einem Energieversorgungsvertrag oder AGB vorkommen würden (z.B. Paragrafennummern, Fachbegriffe, Vertragsklauseln). Gib NUR die umformulierte Suchanfrage aus, keine Erklärung.
+
+Frage: {query}
+Suchanfrage:"""
+    else:
+        prompt = f"""Rephrase this customer question into technical terms that would appear in an energy supply contract or terms and conditions (e.g. clause names, legal terms, contract concepts). Output ONLY the rephrased search query, no explanation.
+
+Question: {query}
+Search query:"""
+    try:
+        resp = requests.post(
+            OLLAMA_URL,
+            json={"model": REWRITE_MODEL, "prompt": prompt, "stream": False, "think": False, "options": {"temperature": 0}},
+            timeout=15,
+        )
+        rewritten = resp.json()["response"].strip()
+        return rewritten if rewritten else query
+    except Exception:
+        return query
 
 en_client = chromadb.PersistentClient(path=EN_CHROMA_PATH)
 en_collection = en_client.get_or_create_collection(COLLECTION_NAME)
@@ -54,7 +79,7 @@ DOC_SOURCES = {
         "de": ["Allgemeine_Lieferbedingungen_Strom.pdf_de.txt"],
     },
     "erdgas": {
-        "en": ["Allgemeine_Lieferbedingungen_Erdgas_Haushaltskunden.pdf_en.txt"],
+        "en": ["Allgemeine_Lieferbedingungen_Erdgas_Haushaltskunenn.pdf_en.txt"],
         "de": ["Allgemeine_Lieferbedingungen_Erdgas_Haushaltskunden.pdf_de.txt"],
     },
     "schufa": {
@@ -137,30 +162,43 @@ def query(req: QueryRequest):
     tone = req.tone if req.tone in ("easy", "standard", "technical") else "standard"
     lang = req.language if req.language in ("en", "de") else "de"
 
+    # Rewrite query into document vocabulary before embedding
+    search_query = rewrite_query(req.query, lang)
+
     if lang == "de":
-        embedding = de_model.encode([req.query]).tolist()
+        orig_embedding = de_model.encode([req.query]).tolist()
+        rewritten_embedding = de_model.encode([search_query]).tolist()
         collection = de_collection
         rules = TONE_RULES["de"][tone]
     else:
-        embedding = en_model.encode([f"search_query: {req.query}"]).tolist()
+        orig_embedding = en_model.encode([f"search_query: {req.query}"]).tolist()
+        rewritten_embedding = en_model.encode([f"search_query: {search_query}"]).tolist()
         collection = en_collection
         rules = TONE_RULES["en"][tone]
 
-    # Document filter — retrieve TOP_K_RETRIEVE candidates, then rerank down to TOP_K
+    # Retrieve candidates with both original and rewritten query, then merge
     n_retrieve = min(TOP_K_RETRIEVE, collection.count())
-    query_kwargs: dict = {"query_embeddings": embedding, "n_results": n_retrieve}
+    doc_filter: dict = {}
     if req.document != "all" and req.document in DOC_SOURCES:
         filenames = DOC_SOURCES[req.document][lang]
-        query_kwargs["where"] = {"source": {"$in": filenames}}
-        doc_chunks = collection.get(where={"source": {"$in": filenames}})
-        doc_count = len(doc_chunks["ids"])
-        query_kwargs["n_results"] = min(TOP_K_RETRIEVE, doc_count) if doc_count > 0 else 1
+        faq_source = f"faq_{lang}"
+        doc_filter = {"where": {"source": {"$in": filenames + [faq_source]}}}
+        doc_count = len(collection.get(where={"source": {"$in": filenames}})["ids"])
+        n_retrieve = min(TOP_K_RETRIEVE, doc_count + 5) if doc_count > 0 else 1
 
-    results = collection.query(**query_kwargs)
-    chunks = results["documents"][0]
-    metadatas = results["metadatas"][0]
+    r1 = collection.query(query_embeddings=orig_embedding, n_results=n_retrieve, **doc_filter)
+    r2 = collection.query(query_embeddings=rewritten_embedding, n_results=n_retrieve, **doc_filter)
 
-    # Rerank: cross-encoder scores each chunk against the query
+    # Merge and deduplicate by chunk text
+    seen = {}
+    for doc, meta in zip(r1["documents"][0] + r2["documents"][0],
+                         r1["metadatas"][0] + r2["metadatas"][0]):
+        if doc not in seen:
+            seen[doc] = meta
+    chunks = list(seen.keys())
+    metadatas = list(seen.values())
+
+    # Rerank: cross-encoder scores each chunk against the original query
     pairs = [[req.query, chunk] for chunk in chunks]
     scores = reranker.predict(pairs)
     ranked = sorted(zip(scores, chunks, metadatas), key=lambda x: x[0], reverse=True)
@@ -232,8 +270,12 @@ Answer:"""
         for line in response.iter_lines():
             if line:
                 data = json.loads(line)
+                if data.get("error"):
+                    err = data["error"]
+                    yield f"data: {json.dumps({'type': 'token', 'token': f'[Model error: {err}]'})}\n\n"
+                    break
                 if not data.get("done"):
-                    yield f"data: {json.dumps({'type': 'token', 'token': data['response']})}\n\n"
+                    yield f"data: {json.dumps({'type': 'token', 'token': data.get('response', '')})}\n\n"
         yield f"data: {json.dumps({'type': 'done'})}\n\n"
 
     return StreamingResponse(generate(), media_type="text/event-stream")
