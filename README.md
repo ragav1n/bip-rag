@@ -28,7 +28,7 @@ bip_rag/
 **Stack:**
 - **Embeddings:** `nomic-ai/nomic-embed-text-v1` (EN), `paraphrase-multilingual-mpnet-base-v2` (DE)
 - **Vector DB:** ChromaDB (local, persistent)
-- **LLM:** `qwen3.5:4b` via Ollama (fully local)
+- **LLM:** `qwen3.5:9b` via Ollama (fully local)
 - **Backend:** FastAPI + Python
 - **Frontend:** React + TypeScript + Vite + Tailwind CSS
 
@@ -47,7 +47,7 @@ bip_rag/
 ### 1. Pull the LLM
 
 ```bash
-ollama pull qwen3.5:4b
+ollama pull qwen3.5:9b
 ```
 
 ### 2. Backend
@@ -146,10 +146,12 @@ Supported `document`: `"all"` | `"strom"` | `"erdgas"` | `"schufa"` | `"creditre
 - **Three response tones** — Simplified (plain language), Standard (clear + §-refs), Expert (precise legal terminology)
 - **Document filter** — Scope queries to a specific document (Electricity, Gas, SCHUFA, Creditreform)
 - **Streaming responses** — Tokens stream in real-time via Server-Sent Events
-- **Conversation context** — Last 3 exchanges passed to the LLM for follow-up questions
+- **Conversation context** — Last 6 messages passed to the LLM for follow-up questions
 - **AI-generated chat titles** — LLM summarises each conversation into a short title
 - **Chat history** — Persisted in localStorage, survives page refresh
 - **Source cards** — Expandable panel showing which document chunks were retrieved
+- **Voice output** — Read-aloud button on every assistant message; auto-selects the best local OS voice per language (Samantha/Anna etc.), strips markdown before speaking, animated ripple pulse while active
+- **Voice input** — Microphone button in the input bar for speech-to-text queries
 - **Copy answer** — One-click copy of any assistant message
 - **Loading animation** — Shimmering text while retrieving, smooth fade-in when answer arrives
 - **Markdown rendering** — Bold §-references, bullet points, structured answers

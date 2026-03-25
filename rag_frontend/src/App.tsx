@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Zap, Globe, ChevronDown, ChevronUp, FileText, Sparkles, SquarePen, MessageSquare, Trash2, AlignLeft, BarChart2, GraduationCap, Files, Flame, Shield, CreditCard, Copy, Check, Volume2, Pause, Play, Square } from 'lucide-react'
 import FloatingActionMenu from './components/ui/floating-action-menu'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { ShiningText } from './components/ui/shining-text'
@@ -217,25 +217,58 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
   const [copied, setCopied] = useState(false)
   const [speaking, setSpeaking] = useState(false)
   const [paused, setPaused] = useState(false)
-  const [charIndex, setCharIndex] = useState(0)
   const isUser = message.role === 'user'
   const config = LANG[message.language]
+
+  // Motion value drives the bar at 60fps — no React re-renders
+  const progressMotion = useMotionValue(0)
+  const barWidth = useTransform(progressMotion, v => `${v * 100}%`)
 
   const speakingRef = useRef(false)
   const fullTextRef = useRef('')
   const voiceRef = useRef<SpeechSynthesisVoice | null>(null)
   const langCodeRef = useRef('')
+  // RAF state for smooth interpolation
+  const rafRef = useRef(0)
+  const rafStartTimeRef = useRef(0)
+  const rafFromCharRef = useRef(0)
+  const rafEstMsRef = useRef(0)   // estimated ms remaining from rafFromChar
+  const pausedAtRef = useRef(0)
+
+  // chars/sec at rate=1.0; DE words are longer so slightly slower
+  const cpsRef = useRef(13)
 
   useEffect(() => { speakingRef.current = speaking }, [speaking])
 
   useEffect(() => {
     return () => {
+      cancelAnimationFrame(rafRef.current)
       if (speakingRef.current) {
         window.speechSynthesis.cancel()
         activeSpeakingReset = null
       }
     }
   }, [])
+
+  const startRaf = (fromChar: number) => {
+    cancelAnimationFrame(rafRef.current)
+    rafFromCharRef.current = fromChar
+    rafStartTimeRef.current = performance.now()
+    rafEstMsRef.current = Math.max(((fullTextRef.current.length - fromChar) / cpsRef.current) * 1000, 100)
+
+    const tick = () => {
+      const elapsed = performance.now() - rafStartTimeRef.current
+      const ratio = Math.min(elapsed / rafEstMsRef.current, 1)
+      const estimatedChar = rafFromCharRef.current + ratio * (fullTextRef.current.length - rafFromCharRef.current)
+      const newProgress = estimatedChar / Math.max(fullTextRef.current.length, 1)
+      // Never go backward — only advance
+      if (newProgress > progressMotion.get()) progressMotion.set(newProgress)
+      if (ratio < 1) rafRef.current = requestAnimationFrame(tick)
+    }
+    rafRef.current = requestAnimationFrame(tick)
+  }
+
+  const stopRaf = () => cancelAnimationFrame(rafRef.current)
 
   const startFrom = (fromChar: number) => {
     const text = fullTextRef.current.slice(fromChar)
@@ -246,11 +279,23 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
     utterance.rate = 1.0
     utterance.pitch = 1.0
     utterance.onboundary = (e) => {
-      if (e.name === 'word') setCharIndex(fromChar + e.charIndex)
+      if (e.name !== 'word') return
+      const actualChar = fromChar + e.charIndex
+      const totalLen = fullTextRef.current.length
+      const remaining = totalLen - actualChar
+      if (remaining <= 0) return
+      // Anchor RAF at the CURRENT VISUAL position (no snap), but recalculate
+      // the remaining duration based on actual speech position — bar smoothly
+      // accelerates or decelerates to stay in sync without any position jump
+      const visualChar = progressMotion.get() * totalLen
+      rafFromCharRef.current = visualChar
+      rafStartTimeRef.current = performance.now()
+      rafEstMsRef.current = Math.max((remaining / cpsRef.current) * 1000, 100)
     }
-    utterance.onend = () => setSpeaking(false)
-    utterance.onerror = () => setSpeaking(false)
+    utterance.onend = () => { stopRaf(); setSpeaking(false); progressMotion.set(1) }
+    utterance.onerror = () => { stopRaf(); setSpeaking(false) }
     window.speechSynthesis.speak(utterance)
+    startRaf(fromChar)
   }
 
   const handleCopy = () => {
@@ -262,14 +307,16 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
 
   const handleSpeak = () => {
     activeSpeakingReset?.()
+    stopRaf()
     window.speechSynthesis.cancel()
 
     const text = stripMarkdown(message.content)
     fullTextRef.current = text
     langCodeRef.current = message.language === 'de' ? 'de-DE' : 'en-US'
     voiceRef.current = getBestVoice(message.language)
+    cpsRef.current = message.language === 'de' ? 11 : 13
 
-    setCharIndex(0)
+    progressMotion.set(0)
     setSpeaking(true)
     setPaused(false)
     activeSpeakingReset = () => setSpeaking(false)
@@ -277,19 +324,25 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
   }
 
   const handleStop = () => {
+    stopRaf()
     window.speechSynthesis.cancel()
+    progressMotion.set(0)
     setSpeaking(false)
     setPaused(false)
-    setCharIndex(0)
     activeSpeakingReset = null
   }
 
   const handlePause = () => {
     if (paused) {
       window.speechSynthesis.resume()
+      // Resume RAF from current visual position — startRaf resets all refs cleanly
+      const visualChar = progressMotion.get() * fullTextRef.current.length
+      startRaf(visualChar)
       setPaused(false)
     } else {
       window.speechSynthesis.pause()
+      pausedAtRef.current = performance.now()
+      stopRaf()
       setPaused(true)
     }
   }
@@ -300,13 +353,13 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
     const targetChar = Math.floor(ratio * fullTextRef.current.length)
     const spaceIdx = fullTextRef.current.lastIndexOf(' ', targetChar)
     const fromChar = spaceIdx > 0 ? spaceIdx + 1 : 0
+    stopRaf()
     window.speechSynthesis.cancel()
-    setCharIndex(fromChar)
+    // Don't pre-set progressMotion here — startRaf sets it on first tick (elapsed≈0)
+    // so there's a single source of truth and no conflicting writes
     setPaused(false)
     startFrom(fromChar)
   }
-
-  const progress = fullTextRef.current.length > 0 ? charIndex / fullTextRef.current.length : 0
 
   return (
     <div className={cn('flex gap-3 animate-slide-up', isUser ? 'justify-end' : 'justify-start')}>
@@ -431,23 +484,19 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
 
                 {/* Progress bar / seek */}
                 <div
-                  className="flex-1 h-1.5 rounded-full cursor-pointer relative overflow-hidden"
+                  className="flex-1 h-1.5 rounded-full cursor-pointer relative"
                   style={{ background: 'rgba(255,255,255,0.12)' }}
                   onClick={handleSeek}
                   title="Click to seek"
                 >
                   <motion.div
                     className="absolute inset-y-0 left-0 rounded-full"
-                    style={{ background: 'linear-gradient(90deg, #F56B00, #ff9147)' }}
-                    animate={{ width: `${progress * 100}%` }}
-                    transition={{ duration: 0.15, ease: 'linear' }}
+                    style={{ background: 'linear-gradient(90deg, #F56B00, #ff9147)', width: barWidth }}
                   />
                   {/* Playhead thumb */}
                   <motion.div
                     className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full -ml-1.5"
-                    style={{ background: '#ffffff', boxShadow: '0 0 4px rgba(245,107,0,0.6)', left: `${progress * 100}%` }}
-                    animate={{ left: `${progress * 100}%` }}
-                    transition={{ duration: 0.15, ease: 'linear' }}
+                    style={{ background: '#ffffff', boxShadow: '0 0 4px rgba(245,107,0,0.6)', left: barWidth }}
                   />
                 </div>
 

@@ -49,7 +49,7 @@ DOC_SOURCES = {
         "de": ["Allgemeine_Lieferbedingungen_Strom.pdf_de.txt"],
     },
     "erdgas": {
-        "en": ["Allgemeine_Lieferbedingungen_Erdgas_Haushaltskunenn.pdf_en.txt"],
+        "en": ["Allgemeine_Lieferbedingungen_Erdgas_Haushaltskunden.pdf_en.txt"],
         "de": ["Allgemeine_Lieferbedingungen_Erdgas_Haushaltskunden.pdf_de.txt"],
     },
     "schufa": {
