@@ -91,4 +91,41 @@ FAQS_EN = [
         "answer": "The transmission is based on legitimate interest and there is no general right of objection. However, under Art. 21(1) GDPR you may object if you can demonstrate specific reasons arising from your particular situation. The objection must be addressed to SCHUFA Holding AG in writing.",
         "document": "schufa",
     },
+
+    # ── Creditreform ──────────────────────────────────────────────────────────
+    {
+        "question": "How long does Creditreform store my data?",
+        "answer": "Creditreform stores data for as long as necessary to fulfill the purpose of storage. As a rule, the initial storage period is four years. After this period, it is checked whether further storage is still necessary; if not, the data is deleted on the exact date. If a matter is resolved, the data is deleted three years after resolution. Entries in the debtor registry are deleted three years after the date of the entry order in accordance with § 882e ZPO.",
+        "document": "creditreform",
+    },
+    {
+        "question": "What is the data retention period for Creditreform?",
+        "answer": "Creditreform retains data for an initial period of four years as a general rule. After four years, it is reviewed whether continued storage is necessary; otherwise data is deleted on the exact date. Resolved matters are deleted three years after resolution. Debtor registry entries are deleted after three years per § 882e ZPO.",
+        "document": "creditreform",
+    },
+    {
+        "question": "How do SCHUFA and Creditreform data retention periods compare?",
+        "answer": "SCHUFA: general data is stored three years from completion; trouble-free contract data is deleted immediately upon termination notification; debtor register data three years (or earlier by court order); insolvency/debt relief data exactly three years after the end of proceedings; advance notices three years plus a further three-year assessment period. Creditreform: data is stored for an initial four-year period as a general rule; after four years it is reviewed whether further storage is needed; resolved matters are deleted three years after resolution; debtor registry entries deleted after three years per § 882e ZPO.",
+        "document": "creditreform",
+    },
+    {
+        "question": "Why does DEW21 share my data with Creditreform?",
+        "answer": "DEW21 transmits customer data to Creditreform Dortmund/Witten Scharf KG to assess creditworthiness before entering into a contract. The legal basis is legitimate interest under Art. 6(1)(f) GDPR. Creditreform stores information on name, address, marital status, professional activity, financial circumstances, liabilities, and payment behavior.",
+        "document": "creditreform",
+    },
+    {
+        "question": "What data does Creditreform store about me?",
+        "answer": "Creditreform stores information including name, company name, address, marital status, professional activity, financial circumstances, existing liabilities, and payment behavior. This data comes partly from publicly accessible sources (registers, internet, press) and partly from transmitted data on outstanding claims.",
+        "document": "creditreform",
+    },
+    {
+        "question": "Can I object to Creditreform processing my data?",
+        "answer": "You can only object to Creditreform processing your data if you can demonstrate specific reasons arising from your particular situation. If such reasons are proven, the data will no longer be processed. The processing is carried out for compelling legitimate reasons relating to creditor protection and creditworthiness, which regularly outweigh individual interests.",
+        "document": "creditreform",
+    },
+    {
+        "question": "What are my rights regarding data stored at Creditreform?",
+        "answer": "You have the right to receive information about data stored about you. If data is incorrect, you can request correction or deletion. If correctness cannot be immediately determined, you can request blocking until clarified. If data is incomplete, you have the right to have it completed. You may also withdraw consent at any time, though this does not affect the lawfulness of prior processing.",
+        "document": "creditreform",
+    },
 ]

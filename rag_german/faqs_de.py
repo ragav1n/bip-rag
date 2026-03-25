@@ -92,4 +92,41 @@ FAQS_DE = [
         "answer": "Ein allgemeines Widerspruchsrecht besteht nicht, da die Übermittlung auf berechtigtem Interesse basiert. Nach Art. 21 Abs. 1 DSGVO können Sie jedoch Widerspruch einlegen, wenn Sie besondere Gründe aus Ihrer persönlichen Situation nachweisen können. Der Widerspruch ist schriftlich an die SCHUFA Holding AG zu richten.",
         "document": "schufa",
     },
+
+    # ── Creditreform ──────────────────────────────────────────────────────────
+    {
+        "question": "Wie lange speichert Creditreform meine Daten?",
+        "answer": "Creditreform speichert Daten solange, wie ihre Kenntnis für die Erfüllung des Zwecks notwendig ist. In der Regel beträgt die Speicherdauer zunächst vier Jahre. Nach Ablauf wird geprüft, ob eine weitere Speicherung notwendig ist; andernfalls werden die Daten taggenau gelöscht. Im Falle der Erledigung eines Sachverhalts werden die Daten drei Jahre nach Erledigung taggenau gelöscht. Eintragungen im Schuldnerverzeichnis werden gemäß § 882e ZPO nach drei Jahren seit der Eintragungsanordnung taggenau gelöscht.",
+        "document": "creditreform",
+    },
+    {
+        "question": "Was ist die Speicherfrist bei Creditreform?",
+        "answer": "Die reguläre Speicherdauer bei Creditreform beträgt zunächst vier Jahre. Nach Ablauf dieser Frist wird geprüft, ob eine weitere Speicherung erforderlich ist. Erledigte Sachverhalte werden drei Jahre nach Erledigung gelöscht. Einträge im Schuldnerverzeichnis werden nach drei Jahren gemäß § 882e ZPO gelöscht.",
+        "document": "creditreform",
+    },
+    {
+        "question": "Wie unterscheiden sich die Speicherfristen von SCHUFA und Creditreform?",
+        "answer": "SCHUFA: allgemeine Daten drei Jahre nach Erledigung; störungsfreie Vertragsdaten werden bei Beendigungsmeldung sofort gelöscht; Schuldnerregisterdaten drei Jahre (oder früher auf Gerichtsbeschluss); Insolvenz-/Restschulddaten genau drei Jahre nach Verfahrensende; Vorankündigungen drei Jahre plus weitere drei Jahre Prüfungsfrist. Creditreform: reguläre Speicherdauer zunächst vier Jahre; nach vier Jahren Prüfung ob weitere Speicherung nötig; erledigte Sachverhalte drei Jahre nach Erledigung gelöscht; Schuldnerregistereinträge nach drei Jahren gemäß § 882e ZPO.",
+        "document": "creditreform",
+    },
+    {
+        "question": "Warum gibt DEW21 meine Daten an Creditreform weiter?",
+        "answer": "DEW21 übermittelt Kundendaten an die Creditreform Dortmund/Witten Scharf KG zur Bonitätsprüfung vor Vertragsabschluss. Rechtsgrundlage ist das berechtigte Interesse gemäß Art. 6 Abs. 1 lit. f DSGVO. Creditreform speichert Angaben zu Name, Anschrift, Familienstand, Beruf, wirtschaftlichen Verhältnissen, Verbindlichkeiten und Zahlungsverhalten.",
+        "document": "creditreform",
+    },
+    {
+        "question": "Welche Daten speichert Creditreform über mich?",
+        "answer": "Creditreform speichert insbesondere Name, Firmierung, Anschrift, Familienstand, Berufstätigkeit, wirtschaftliche Verhältnisse, bestehende Verbindlichkeiten sowie Informationen zum Zahlungsverhalten. Diese Daten stammen teils aus öffentlich zugänglichen Quellen (Register, Internet, Presse) und teils aus übermittelten Daten zu offenen Forderungen.",
+        "document": "creditreform",
+    },
+    {
+        "question": "Kann ich der Verarbeitung meiner Daten durch Creditreform widersprechen?",
+        "answer": "Ein Widerspruch gegen die Datenverarbeitung durch Creditreform ist nur möglich, wenn besondere Gründe aus der eigenen Situation nachgewiesen werden können. Werden solche Gründe nachgewiesen, werden die Daten nicht mehr verarbeitet. Die Verarbeitung erfolgt aus zwingenden schutzwürdigen Gründen des Gläubiger- und Kreditschutzes, die regelmäßig überwiegen.",
+        "document": "creditreform",
+    },
+    {
+        "question": "Welche Rechte habe ich gegenüber Creditreform?",
+        "answer": "Sie haben das Recht auf Auskunft über die gespeicherten Daten. Bei falschen Daten haben Sie Anspruch auf Berichtigung oder Löschung. Kann die Richtigkeit nicht sofort festgestellt werden, haben Sie ein Recht auf Sperrung. Bei unvollständigen Daten haben Sie das Recht auf Ergänzung. Eine erteilte Einwilligung zur Datenverarbeitung kann jederzeit widerrufen werden.",
+        "document": "creditreform",
+    },
 ]
