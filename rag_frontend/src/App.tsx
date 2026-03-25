@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Zap, Globe, ChevronDown, ChevronUp, FileText, Sparkles, SquarePen, MessageSquare, Trash2, AlignLeft, BarChart2, GraduationCap, Files, Flame, Shield, CreditCard, Copy, Check } from 'lucide-react'
+import { Zap, Globe, ChevronDown, ChevronUp, FileText, Sparkles, SquarePen, MessageSquare, Trash2, AlignLeft, BarChart2, GraduationCap, Files, Flame, Shield, CreditCard, Copy, Check, Volume2, Pause, Play, Square } from 'lucide-react'
 import FloatingActionMenu from './components/ui/floating-action-menu'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { ShiningText } from './components/ui/shining-text'
@@ -179,11 +179,79 @@ function AnimatedMarkdown({ content }: { content: string }) {
 
 // ─── Chat Message ─────────────────────────────────────────────────────────────
 
+// Module-level tracker so only one message can speak at a time
+let activeSpeakingReset: (() => void) | null = null
+
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/#{1,6}\s+/g, '')
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .replace(/\*(.*?)\*/g, '$1')
+    .replace(/`{1,3}[^`\n]*`{1,3}/g, '')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/^[-*+]\s+/gm, '')
+    .replace(/^\d+\.\s+/gm, '')
+    .replace(/^---+$/gm, '')
+    .replace(/\n{2,}/g, '. ')
+    .replace(/\n/g, ' ')
+    .trim()
+}
+
+function getBestVoice(lang: 'en' | 'de'): SpeechSynthesisVoice | null {
+  const voices = window.speechSynthesis.getVoices()
+  const langCode = lang === 'de' ? 'de' : 'en'
+  const preferred = lang === 'en'
+    ? ['Samantha', 'Zoe', 'Karen', 'Moira', 'Fiona']
+    : ['Anna', 'Markus', 'Petra', 'Yannick']
+  for (const name of preferred) {
+    const v = voices.find(v => v.name.includes(name) && v.lang.startsWith(langCode))
+    if (v) return v
+  }
+  return voices.find(v => v.lang.startsWith(langCode) && v.localService)
+    ?? voices.find(v => v.lang.startsWith(langCode))
+    ?? null
+}
+
 function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?: boolean }) {
   const [sourcesOpen, setSourcesOpen] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [speaking, setSpeaking] = useState(false)
+  const [paused, setPaused] = useState(false)
+  const [charIndex, setCharIndex] = useState(0)
   const isUser = message.role === 'user'
   const config = LANG[message.language]
+
+  const speakingRef = useRef(false)
+  const fullTextRef = useRef('')
+  const voiceRef = useRef<SpeechSynthesisVoice | null>(null)
+  const langCodeRef = useRef('')
+
+  useEffect(() => { speakingRef.current = speaking }, [speaking])
+
+  useEffect(() => {
+    return () => {
+      if (speakingRef.current) {
+        window.speechSynthesis.cancel()
+        activeSpeakingReset = null
+      }
+    }
+  }, [])
+
+  const startFrom = (fromChar: number) => {
+    const text = fullTextRef.current.slice(fromChar)
+    if (!text.trim()) return
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = langCodeRef.current
+    if (voiceRef.current) utterance.voice = voiceRef.current
+    utterance.rate = 1.0
+    utterance.pitch = 1.0
+    utterance.onboundary = (e) => {
+      if (e.name === 'word') setCharIndex(fromChar + e.charIndex)
+    }
+    utterance.onend = () => setSpeaking(false)
+    utterance.onerror = () => setSpeaking(false)
+    window.speechSynthesis.speak(utterance)
+  }
 
   const handleCopy = () => {
     navigator.clipboard.writeText(message.content).then(() => {
@@ -191,6 +259,54 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
       setTimeout(() => setCopied(false), 2000)
     })
   }
+
+  const handleSpeak = () => {
+    activeSpeakingReset?.()
+    window.speechSynthesis.cancel()
+
+    const text = stripMarkdown(message.content)
+    fullTextRef.current = text
+    langCodeRef.current = message.language === 'de' ? 'de-DE' : 'en-US'
+    voiceRef.current = getBestVoice(message.language)
+
+    setCharIndex(0)
+    setSpeaking(true)
+    setPaused(false)
+    activeSpeakingReset = () => setSpeaking(false)
+    startFrom(0)
+  }
+
+  const handleStop = () => {
+    window.speechSynthesis.cancel()
+    setSpeaking(false)
+    setPaused(false)
+    setCharIndex(0)
+    activeSpeakingReset = null
+  }
+
+  const handlePause = () => {
+    if (paused) {
+      window.speechSynthesis.resume()
+      setPaused(false)
+    } else {
+      window.speechSynthesis.pause()
+      setPaused(true)
+    }
+  }
+
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
+    const targetChar = Math.floor(ratio * fullTextRef.current.length)
+    const spaceIdx = fullTextRef.current.lastIndexOf(' ', targetChar)
+    const fromChar = spaceIdx > 0 ? spaceIdx + 1 : 0
+    window.speechSynthesis.cancel()
+    setCharIndex(fromChar)
+    setPaused(false)
+    startFrom(fromChar)
+  }
+
+  const progress = fullTextRef.current.length > 0 ? charIndex / fullTextRef.current.length : 0
 
   return (
     <div className={cn('flex gap-3 animate-slide-up', isUser ? 'justify-end' : 'justify-start')}>
@@ -255,6 +371,21 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
               {copied ? 'Copied' : 'Copy'}
             </button>
 
+            {/* Speak button */}
+            {!isStreaming && !speaking && (
+              <button
+                onClick={handleSpeak}
+                className="flex items-center gap-1.5 text-xs py-0.5 transition-colors duration-200"
+                style={{ color: '#a0a0a0' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#f2f2f2')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#a0a0a0')}
+                title="Read aloud"
+              >
+                <Volume2 className="w-3 h-3" />
+                Listen
+              </button>
+            )}
+
             {/* Sources toggle */}
             {message.sources && message.sources.length > 0 && (
               <button
@@ -271,6 +402,70 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
             )}
           </div>
         )}
+
+        {/* Audio player bar */}
+        <AnimatePresence>
+          {speaking && (
+            <motion.div
+              initial={{ opacity: 0, y: -6, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: 'auto' }}
+              exit={{ opacity: 0, y: -6, height: 0 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+              className="w-full overflow-hidden"
+            >
+              <div
+                className="flex items-center gap-2.5 px-3 py-2 rounded-xl"
+                style={{ background: 'rgba(245,107,0,0.1)', border: '1px solid rgba(245,107,0,0.25)', backdropFilter: 'blur(12px)' }}
+              >
+                {/* Pause / Resume */}
+                <button
+                  onClick={handlePause}
+                  className="flex-shrink-0 transition-colors duration-150"
+                  style={{ color: '#F56B00' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#ff8c3a')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#F56B00')}
+                  title={paused ? 'Resume' : 'Pause'}
+                >
+                  {paused ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
+                </button>
+
+                {/* Progress bar / seek */}
+                <div
+                  className="flex-1 h-1.5 rounded-full cursor-pointer relative overflow-hidden"
+                  style={{ background: 'rgba(255,255,255,0.12)' }}
+                  onClick={handleSeek}
+                  title="Click to seek"
+                >
+                  <motion.div
+                    className="absolute inset-y-0 left-0 rounded-full"
+                    style={{ background: 'linear-gradient(90deg, #F56B00, #ff9147)' }}
+                    animate={{ width: `${progress * 100}%` }}
+                    transition={{ duration: 0.15, ease: 'linear' }}
+                  />
+                  {/* Playhead thumb */}
+                  <motion.div
+                    className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full -ml-1.5"
+                    style={{ background: '#ffffff', boxShadow: '0 0 4px rgba(245,107,0,0.6)', left: `${progress * 100}%` }}
+                    animate={{ left: `${progress * 100}%` }}
+                    transition={{ duration: 0.15, ease: 'linear' }}
+                  />
+                </div>
+
+                {/* Stop */}
+                <button
+                  onClick={handleStop}
+                  className="flex-shrink-0 transition-colors duration-150"
+                  style={{ color: 'rgba(255,255,255,0.45)' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#ef4444')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.45)')}
+                  title="Stop"
+                >
+                  <Square className="w-3 h-3" fill="currentColor" />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Source cards */}
         {!isUser && sourcesOpen && message.sources && message.sources.length > 0 && (
