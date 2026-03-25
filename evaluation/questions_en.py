@@ -63,15 +63,4 @@ QUESTIONS_EN = [
         "document": "schufa",
     },
 
-    # ── Creditreform ────────────────────────────────────────────────────────
-    {
-        "question": "What is Creditreform and why does DEW21 use it?",
-        "ground_truth": "Creditreform is a credit agency that provides creditworthiness information about companies and private individuals. DEW21 uses Creditreform for credit checks to minimise the risk of payment defaults when entering into contracts.",
-        "document": "creditreform",
-    },
-    {
-        "question": "When does DEW21 involve Creditreform?",
-        "ground_truth": "DEW21 may involve Creditreform for a credit check before or at the time of entering into a contract if there are indications of an increased risk of payment default. This serves to protect the company.",
-        "document": "creditreform",
-    },
 ]

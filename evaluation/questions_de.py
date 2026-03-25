@@ -69,15 +69,4 @@ QUESTIONS_DE = [
         "document": "schufa",
     },
 
-    # ── Creditreform ────────────────────────────────────────────────────────
-    {
-        "question": "Was ist Creditreform und warum nutzt DEW21 diese?",
-        "ground_truth": "Creditreform ist eine Wirtschaftsauskunftei, die Bonitätsinformationen über Unternehmen und Privatpersonen bereitstellt. DEW21 nutzt Creditreform zur Bonitätsprüfung, um das Zahlungsausfallrisiko bei Vertragsabschluss zu minimieren.",
-        "document": "creditreform",
-    },
-    {
-        "question": "Wann schaltet DEW21 Creditreform ein?",
-        "ground_truth": "DEW21 kann Creditreform zur Bonitätsprüfung vor oder bei Vertragsabschluss einschalten, wenn Anhaltspunkte für ein erhöhtes Zahlungsausfallrisiko bestehen. Dies dient der Absicherung des Unternehmens.",
-        "document": "creditreform",
-    },
 ]

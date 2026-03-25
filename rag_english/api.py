@@ -209,7 +209,9 @@ def query(req: QueryRequest):
         for _, c, m in top_chunks
     ]
 
-    context = "\n\n".join(c for _, c, _ in top_chunks)
+    context = "\n\n".join(
+        f"[Passage {i+1}]\n{c}" for i, (_, c, _) in enumerate(top_chunks)
+    )
 
     # Conversation history (last 3 exchanges = up to 6 messages)
     history_section = ""
@@ -233,28 +235,38 @@ def query(req: QueryRequest):
 
     if lang == "de":
         prompt = f"""Du bist ein Assistent für DEW21-Mitarbeiter im Kundenkontakt.
-Beantworte die Frage ausschließlich auf Basis des folgenden Kontexts aus den DEW21-Dokumenten.
-Antworte NUR mit Informationen aus dem Kontext. Sei präzise und kurz — der Nutzer will die Antwort sofort sehen, keinen langen Text lesen.
-Gib die direkte Antwort auf die gestellte Frage. Erweitere NICHT auf Randthemen oder Sonderfälle, die nicht gefragt wurden.
-Erfinde niemals Informationen.
 
-Regeln:
+STRENGE REGELN — halte dich immer daran:
+1. Beantworte die Frage AUSSCHLIESSLICH auf Basis der unten stehenden Textpassagen. Nutze KEIN Wissen aus deinem Training.
+2. Wenn die Antwort nicht in den Passagen steht, sage genau: "Diese Information ist in den vorliegenden Dokumenten nicht enthalten."
+3. Wenn die Passagen die Frage nur teilweise beantworten, gib die verfügbaren Informationen an und weise klar darauf hin, was fehlt.
+4. Wenn du dir bei einer Information unsicher bist, sage es explizit ("laut Dokument", "soweit aus dem Kontext ersichtlich").
+5. Wenn der Kontext nur einen einzigen Wert enthält (z.B. eine Telefonnummer), nenne ihn nur EINMAL. Erfinde keine zweite Version.
+6. Sei präzise und kurz — der Nutzer will die Antwort sofort, keinen langen Text.
+7. Gib nur die direkte Antwort auf die gestellte Frage. Keine Randthemen, keine Sonderfälle, die nicht gefragt wurden.
+
+Formatregeln:
 {rules}
-Kontext:
+Textpassagen aus den DEW21-Dokumenten:
 {context}
 {history_section}Frage: {req.query}
 
 Antwort:"""
     else:
         prompt = f"""You are an assistant for DEW21 customer service employees.
-Answer the question using ONLY the information from the context below.
-Be precise and concise — the user wants the answer immediately, not a long text to read.
-Give the direct answer to what was asked. Do NOT expand into edge cases or related topics that were not asked about.
-Never invent information.
 
-Rules:
+STRICT RULES — always follow these:
+1. Answer using ONLY the passages provided below. Do NOT use knowledge from your training data.
+2. If the answer is not in the passages, say exactly: "This information is not contained in the provided documents."
+3. If the passages only partially answer the question, give what is available and explicitly state what is missing.
+4. If you are uncertain about a detail, say so explicitly ("according to the document", "as far as the context shows").
+5. If the context contains only one value (e.g. one phone number), state it exactly ONCE. Do not invent a second version.
+6. Be precise and concise — the user wants the answer immediately, not a long text to read.
+7. Answer only what was asked. No tangents, no edge cases that were not asked about.
+
+Formatting rules:
 {rules}
-Context:
+Passages from DEW21 documents:
 {context}
 {history_section}Question: {req.query}
 
