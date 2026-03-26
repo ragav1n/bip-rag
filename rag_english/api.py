@@ -5,7 +5,9 @@ from pydantic import BaseModel
 import chromadb
 import requests
 import json
+import re
 from sentence_transformers import SentenceTransformer, CrossEncoder
+from rank_bm25 import BM25Okapi
 
 app = FastAPI()
 
@@ -28,6 +30,10 @@ LLM_MODEL = "qwen3.5:9b"
 REWRITE_MODEL = "qwen3.5:4b"  # fast model just for query rewriting
 TOP_K = 8           # final chunks sent to LLM
 TOP_K_RETRIEVE = 20 # candidates retrieved before reranking
+
+def bm25_tokenize(text: str) -> list[str]:
+    return re.sub(r'[^\w\s]', ' ', text.lower()).split()
+
 
 print("Loading English embedding model...")
 en_model = SentenceTransformer(EN_MODEL_NAME, trust_remote_code=True)
@@ -72,6 +78,18 @@ de_collection = de_client.get_or_create_collection(COLLECTION_NAME)
 print(f"EN collection: {en_collection.count()} chunks")
 print(f"DE collection: {de_collection.count()} chunks")
 
+print("Building BM25 indices...")
+_en_all = en_collection.get(include=["documents", "metadatas"])
+en_bm25_docs  = _en_all["documents"]
+en_bm25_metas = _en_all["metadatas"]
+en_bm25 = BM25Okapi([bm25_tokenize(d) for d in en_bm25_docs])
+
+_de_all = de_collection.get(include=["documents", "metadatas"])
+de_bm25_docs  = _de_all["documents"]
+de_bm25_metas = _de_all["metadatas"]
+de_bm25 = BM25Okapi([bm25_tokenize(d) for d in de_bm25_docs])
+print("BM25 indices ready.")
+
 # Document source filename mapping (matches metadata stored by ingest.py)
 DOC_SOURCES = {
     "strom": {
@@ -89,6 +107,10 @@ DOC_SOURCES = {
     "creditreform": {
         "en": ["Anhang Creditreform.pdf_en.txt"],
         "de": ["Anhang Creditreform.pdf_de.txt"],
+    },
+    "kosten": {
+        "en": ["Kostenübersicht_DEW21.pdf_en.txt"],
+        "de": ["Kostenübersicht_DEW21.pdf_de.txt"],
     },
 }
 
@@ -189,12 +211,36 @@ def query(req: QueryRequest):
     r1 = collection.query(query_embeddings=orig_embedding, n_results=n_retrieve, **doc_filter)
     r2 = collection.query(query_embeddings=rewritten_embedding, n_results=n_retrieve, **doc_filter)
 
-    # Merge and deduplicate by chunk text
+    # BM25 retrieval — exact term matching for numbers, fees, clause references
+    bm25_tokens = bm25_tokenize(req.query + " " + search_query)
+    if lang == "de":
+        bm25_scores = de_bm25.get_scores(bm25_tokens)
+        bm25_corpus, bm25_metas = de_bm25_docs, de_bm25_metas
+    else:
+        bm25_scores = en_bm25.get_scores(bm25_tokens)
+        bm25_corpus, bm25_metas = en_bm25_docs, en_bm25_metas
+
+    allowed_sources = None
+    if req.document != "all" and req.document in DOC_SOURCES:
+        faq_src = f"faq_{lang}"
+        allowed_sources = set(DOC_SOURCES[req.document][lang] + [faq_src])
+
+    bm25_ranked = sorted(
+        [(i, bm25_scores[i]) for i in range(len(bm25_corpus))
+         if allowed_sources is None or bm25_metas[i].get("source") in allowed_sources],
+        key=lambda x: x[1], reverse=True,
+    )[:TOP_K_RETRIEVE]
+
+    # Merge dense + BM25, deduplicate by chunk text
     seen = {}
     for doc, meta in zip(r1["documents"][0] + r2["documents"][0],
                          r1["metadatas"][0] + r2["metadatas"][0]):
         if doc not in seen:
             seen[doc] = meta
+    for idx, _ in bm25_ranked:
+        doc = bm25_corpus[idx]
+        if doc not in seen:
+            seen[doc] = bm25_metas[idx]
     chunks = list(seen.keys())
     metadatas = list(seen.values())
 
@@ -245,6 +291,7 @@ STRENGE REGELN — halte dich immer daran:
 6. Sei präzise und kurz — der Nutzer will die Antwort sofort, keinen langen Text.
 7. Gib nur die direkte Antwort auf die gestellte Frage. Keine Randthemen, keine Sonderfälle, die nicht gefragt wurden.
 8. Wenn der Nutzer einen Vergleich zwischen zwei Dingen fragt (z.B. Strom- vs. Gasvertrag, SCHUFA vs. Creditreform), fasse die relevanten Fakten aus den Passagen zusammen und stelle sie als strukturierten Vergleich dar — auch wenn das Dokument keinen expliziten Vergleich enthält. Dies überschreibt Regel 2: Sage NICHT "nicht in den Dokumenten enthalten", nur weil kein expliziter Vergleich vorhanden ist. Baue den Vergleich aus den verfügbaren Informationen auf.
+9. Wenn du Beträge, Gebühren oder Preise aus der Kostenübersicht nennst, füge immer den Hinweis "Stand: 1. April 2025" hinzu.
 
 Formatregeln:
 {rules}
@@ -265,6 +312,7 @@ STRICT RULES — always follow these:
 6. Be precise and concise — the user wants the answer immediately, not a long text to read.
 7. Answer only what was asked. No tangents, no edge cases that were not asked about.
 8. If the user asks for a comparison between two things (e.g. electricity vs gas contract, SCHUFA vs Creditreform), synthesize the relevant facts from the passages and present them as a structured comparison — even if the document does not explicitly compare them. This overrides rule 2: do NOT say "not in the documents" just because no explicit comparison exists. Build the comparison from what is available.
+9. When citing any fee, cost, or price from the fee schedule, always append "as of April 1, 2025" to make clear the amounts may change.
 
 Formatting rules:
 {rules}

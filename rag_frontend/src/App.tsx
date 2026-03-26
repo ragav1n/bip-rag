@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Zap, Globe, ChevronDown, ChevronUp, FileText, Sparkles, SquarePen, MessageSquare, Trash2, AlignLeft, BarChart2, GraduationCap, Files, Flame, Shield, CreditCard, Copy, Check, Volume2, Pause, Play, Square } from 'lucide-react'
+import { Zap, Globe, ChevronDown, ChevronUp, FileText, Sparkles, SquarePen, MessageSquare, Trash2, AlignLeft, BarChart2, GraduationCap, Files, Flame, Shield, CreditCard, Copy, Check, Volume2, Pause, Play, Square, Receipt, BrainCircuit } from 'lucide-react'
 import FloatingActionMenu from './components/ui/floating-action-menu'
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
@@ -87,7 +87,7 @@ const TONES: Record<Lang, { value: Tone; label: string; description: string; ico
   ],
 }
 
-type DocFilter = 'all' | 'strom' | 'erdgas' | 'schufa' | 'creditreform'
+type DocFilter = 'all' | 'strom' | 'erdgas' | 'schufa' | 'creditreform' | 'kosten'
 
 const DOCS: Record<Lang, { value: DocFilter; label: string; description: string; icon: React.ReactNode }[]> = {
   en: [
@@ -96,6 +96,7 @@ const DOCS: Record<Lang, { value: DocFilter; label: string; description: string;
     { value: 'erdgas',       label: 'Gas',           description: 'Erdgas AGB',              icon: <Flame className="w-3.5 h-3.5" /> },
     { value: 'schufa',       label: 'SCHUFA',        description: 'SCHUFA appendix',         icon: <Shield className="w-3.5 h-3.5" /> },
     { value: 'creditreform', label: 'Creditreform',  description: 'Creditreform appendix',   icon: <CreditCard className="w-3.5 h-3.5" /> },
+    { value: 'kosten',       label: 'Fee Schedule',  description: 'Cost overview (Apr 2025)', icon: <Receipt className="w-3.5 h-3.5" /> },
   ],
   de: [
     { value: 'all',          label: 'Alle Docs',     description: 'Alle Dokumente durchsuchen', icon: <Files className="w-3.5 h-3.5" /> },
@@ -103,6 +104,7 @@ const DOCS: Record<Lang, { value: DocFilter; label: string; description: string;
     { value: 'erdgas',       label: 'Erdgas',        description: 'Erdgas AGB',                 icon: <Flame className="w-3.5 h-3.5" /> },
     { value: 'schufa',       label: 'SCHUFA',        description: 'SCHUFA-Anhang',              icon: <Shield className="w-3.5 h-3.5" /> },
     { value: 'creditreform', label: 'Creditreform',  description: 'Creditreform-Anhang',        icon: <CreditCard className="w-3.5 h-3.5" /> },
+    { value: 'kosten',       label: 'Kostenübersicht', description: 'Gebühren (Stand Apr. 2025)', icon: <Receipt className="w-3.5 h-3.5" /> },
   ],
 }
 
@@ -365,7 +367,7 @@ function ChatMessage({ message, isStreaming }: { message: Message; isStreaming?:
     <div className={cn('flex gap-3 animate-slide-up', isUser ? 'justify-end' : 'justify-start')}>
       {!isUser && (
         <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-1" style={{ background: 'rgba(245,107,0,0.15)', border: '1px solid rgba(245,107,0,0.25)', boxShadow: '0 0 12px rgba(245,107,0,0.1)' }}>
-          <Zap className="w-4 h-4" style={{ color: '#F56B00' }} />
+          <BrainCircuit className="w-4 h-4" style={{ color: '#F56B00' }} />
         </div>
       )}
       <div className={cn('flex flex-col gap-2', isUser ? 'items-end max-w-[72%]' : 'items-start max-w-[80%]')}>
@@ -538,7 +540,7 @@ function TypingIndicator({ language }: { language: Lang }) {
   return (
     <div className="flex gap-3 animate-slide-up">
       <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(245,107,0,0.15)', border: '1px solid rgba(245,107,0,0.25)', boxShadow: '0 0 12px rgba(245,107,0,0.1)' }}>
-        <Zap className="w-4 h-4" style={{ color: '#F56B00' }} />
+        <BrainCircuit className="w-4 h-4" style={{ color: '#F56B00' }} />
       </div>
       <ShiningText text={LANG[language].thinkingLabel} />
     </div>
@@ -554,7 +556,7 @@ function EmptyState({ language, onSuggestion }: { language: Lang; onSuggestion: 
       <div className="relative">
         <div className="absolute inset-0 scale-150 rounded-full blur-2xl" style={{ background: 'rgba(245,107,0,0.25)' }} />
         <div className="relative w-20 h-20 rounded-2xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(245,107,0,0.3) 0%, rgba(245,107,0,0.1) 100%)', border: '1px solid rgba(245,107,0,0.45)', boxShadow: '0 0 40px rgba(245,107,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)' }}>
-          <Zap className="w-10 h-10" style={{ color: '#F56B00', filter: 'drop-shadow(0 0 8px rgba(245,107,0,0.6))' }} />
+          <BrainCircuit className="w-10 h-10" style={{ color: '#F56B00', filter: 'drop-shadow(0 0 8px rgba(245,107,0,0.6))' }} />
         </div>
       </div>
       <div className="space-y-2">
@@ -623,7 +625,7 @@ function SidebarContent({ conversations, activeId, onSelect, onNew, onDelete }: 
         <div className="relative flex-shrink-0">
           <div className="absolute inset-0 rounded-lg blur-md" style={{ background: 'rgba(245,107,0,0.25)' }} />
           <div className="relative w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: '#F56B00' }}>
-            <Zap className="w-4 h-4" style={{ color: '#ffffff' }} />
+            <BrainCircuit className="w-4 h-4" style={{ color: '#ffffff' }} />
           </div>
         </div>
         <motion.span

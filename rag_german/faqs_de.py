@@ -129,4 +129,61 @@ FAQS_DE = [
         "answer": "Sie haben das Recht auf Auskunft über die gespeicherten Daten. Bei falschen Daten haben Sie Anspruch auf Berichtigung oder Löschung. Kann die Richtigkeit nicht sofort festgestellt werden, haben Sie ein Recht auf Sperrung. Bei unvollständigen Daten haben Sie das Recht auf Ergänzung. Eine erteilte Einwilligung zur Datenverarbeitung kann jederzeit widerrufen werden.",
         "document": "creditreform",
     },
+
+    # ── Kostenübersicht ───────────────────────────────────────────────────────
+    {
+        "question": "Was kostet eine Rechnungskopie?",
+        "answer": "Eine Rechnungskopie kostet 4,62 Euro (netto) bzw. 5,50 Euro inkl. 19 % USt.",
+        "document": "kosten",
+    },
+    {
+        "question": "Wie hoch sind die Mahnkosten?",
+        "answer": "Die Mahnkosten betragen 1,50 Euro. Dieser Betrag ist umsatzsteuerfrei.",
+        "document": "kosten",
+    },
+    {
+        "question": "Was ist die Verzugspauschale?",
+        "answer": "Die Verzugspauschale gemäß § 288 Abs. 5 BGB beträgt 40,00 Euro. Dieser Betrag ist umsatzsteuerfrei und gilt nur für Nicht-Verbraucher (Geschäftskunden).",
+        "document": "kosten",
+    },
+    {
+        "question": "Was kostet die Wiederinbetriebnahme von Strom?",
+        "answer": "Die Wiederinbetriebnahme Strom kostet innerhalb der regulären Arbeitszeit (Mo–Do 8–16 Uhr, Fr 8–14 Uhr) 54,58 Euro (netto) / 64,95 Euro inkl. USt. Außerhalb der regulären Arbeitszeit 205,15 Euro (netto) / 244,13 Euro inkl. USt. Diese Preise gelten nur im Grundversorgungsgebiet von DEW21.",
+        "document": "kosten",
+    },
+    {
+        "question": "Was kostet die Wiederinbetriebnahme von Erdgas?",
+        "answer": "Die Wiederinbetriebnahme Erdgas kostet innerhalb der regulären Arbeitszeit (Mo–Do 8–16 Uhr, Fr 8–14 Uhr) 115,80 Euro (netto) / 137,80 Euro inkl. USt. Außerhalb der regulären Arbeitszeit 319,01 Euro (netto) / 379,62 Euro inkl. USt. Diese Preise gelten nur im Grundversorgungsgebiet von DEW21.",
+        "document": "kosten",
+    },
+    {
+        "question": "Was kostet die Wiederinbetriebnahme von Wasser?",
+        "answer": "Die Wiederinbetriebnahme Wasser kostet 74,90 Euro (netto) / 89,13 Euro inkl. USt.",
+        "document": "kosten",
+    },
+    {
+        "question": "Was kostet die Sperreinleitung?",
+        "answer": "Die Maßnahmen zur Sperreinleitung kosten 58,55 Euro bei Strom, Erdgas und Wasser. Dieser Betrag ist umsatzsteuerfrei.",
+        "document": "kosten",
+    },
+    {
+        "question": "Was kostet die Stornierung eines Sperrauftrags?",
+        "answer": "Die Stornierung eines Sperrauftrags kostet 15,52 Euro, wenn sie bis zum Vortag der Sperrung erfolgt, oder 46,99 Euro, wenn sie am Tag der Sperrung erfolgt. Beide Beträge sind umsatzsteuerfrei und gelten für Strom und Erdgas.",
+        "document": "kosten",
+    },
+    {
+        "question": "Was kostet eine erfolglose Unterbrechung?",
+        "answer": "Eine erfolglose Unterbrechung kostet 46,99 Euro je Fall, umsatzsteuerfrei. Gilt für Strom und Erdgas.",
+        "document": "kosten",
+    },
+    {
+        "question": "Was kostet eine Sperrkontrolle?",
+        "answer": "Eine Sperrkontrolle kostet bei Strom 42,87 Euro (netto) / 51,02 Euro inkl. USt. und bei Erdgas 51,34 Euro (netto) / 61,09 Euro inkl. USt.",
+        "document": "kosten",
+    },
+    {
+        "question": "Welche Gebühren und Kosten gibt es bei DEW21?",
+        "answer": "Wichtige DEW21-Gebühren (Stand: 1. April 2025): Rechnungskopie: 5,50 Euro inkl. USt. Mahnkosten: 1,50 Euro (umsatzsteuerfrei). Verzugspauschale (nur Geschäftskunden): 40,00 Euro. Sperreinleitung: 58,55 Euro (umsatzsteuerfrei). Wiederinbetriebnahme Strom: 64,95 Euro (Arbeitszeit) / 244,13 Euro (außerhalb) inkl. USt. Wiederinbetriebnahme Erdgas: 137,80 Euro (Arbeitszeit) / 379,62 Euro (außerhalb) inkl. USt. Wiederinbetriebnahme Wasser: 89,13 Euro inkl. USt.",
+        "document": "kosten",
+    },
 ]

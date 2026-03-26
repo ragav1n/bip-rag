@@ -128,4 +128,61 @@ FAQS_EN = [
         "answer": "You have the right to receive information about data stored about you. If data is incorrect, you can request correction or deletion. If correctness cannot be immediately determined, you can request blocking until clarified. If data is incomplete, you have the right to have it completed. You may also withdraw consent at any time, though this does not affect the lawfulness of prior processing.",
         "document": "creditreform",
     },
+
+    # ── Fee Schedule (Kostenübersicht) ────────────────────────────────────────
+    {
+        "question": "How much does it cost to get a copy of my invoice?",
+        "answer": "An invoice copy (Rechnungskopie) costs 4.62 Euro (net) or 5.50 Euro including 19% VAT.",
+        "document": "kosten",
+    },
+    {
+        "question": "What is the reminder fee (Mahnkosten)?",
+        "answer": "The reminder fee (Mahnkosten) is 1.50 Euro. This amount is VAT-exempt.",
+        "document": "kosten",
+    },
+    {
+        "question": "What is the default surcharge (Verzugspauschale)?",
+        "answer": "The default surcharge pursuant to § 288(5) BGB is 40.00 Euro. This amount is VAT-exempt and applies only to business customers (nicht für Verbraucher — not for consumers).",
+        "document": "kosten",
+    },
+    {
+        "question": "How much does electricity reconnection cost?",
+        "answer": "Electricity reconnection (Wiederinbetriebnahme Strom) costs 54.58 Euro (net) / 64.95 Euro incl. VAT during regular working hours (Mon–Thu 8–16h, Fri 8–14h), and 205.15 Euro (net) / 244.13 Euro incl. VAT outside regular working hours. These prices apply only within DEW21's basic supply area.",
+        "document": "kosten",
+    },
+    {
+        "question": "How much does gas reconnection cost?",
+        "answer": "Gas reconnection (Wiederinbetriebnahme Erdgas) costs 115.80 Euro (net) / 137.80 Euro incl. VAT during regular working hours (Mon–Thu 8–16h, Fri 8–14h), and 319.01 Euro (net) / 379.62 Euro incl. VAT outside regular working hours. These prices apply only within DEW21's basic supply area.",
+        "document": "kosten",
+    },
+    {
+        "question": "How much does water reconnection cost?",
+        "answer": "Water reconnection (Wiederinbetriebnahme Wasser) costs 74.90 Euro (net) / 89.13 Euro incl. VAT.",
+        "document": "kosten",
+    },
+    {
+        "question": "What are the fees for initiating a disconnection?",
+        "answer": "The fee for initiating a disconnection (Maßnahmen zur Sperreinleitung) is 58.55 Euro for electricity, gas, and water alike. This amount is VAT-exempt.",
+        "document": "kosten",
+    },
+    {
+        "question": "What does it cost to cancel a disconnection order?",
+        "answer": "Cancelling a disconnection order (Stornierung des Sperrauftrags) costs 15.52 Euro if cancelled before the day of disconnection, or 46.99 Euro if cancelled on the day of disconnection. Both amounts are VAT-exempt and apply to electricity and gas.",
+        "document": "kosten",
+    },
+    {
+        "question": "What is the fee for an unsuccessful disconnection attempt?",
+        "answer": "An unsuccessful interruption (Erfolglose Unterbrechung) costs 46.99 Euro per case, VAT-exempt. Applies to both electricity and gas.",
+        "document": "kosten",
+    },
+    {
+        "question": "What is the fee for a disconnection inspection (Sperrkontrolle)?",
+        "answer": "A disconnection inspection (Sperrkontrolle) costs 42.87 Euro (net) / 51.02 Euro incl. VAT for electricity, and 51.34 Euro (net) / 61.09 Euro incl. VAT for gas.",
+        "document": "kosten",
+    },
+    {
+        "question": "What are the general fees and charges at DEW21?",
+        "answer": "Key DEW21 fees (as of April 1, 2025): Invoice copy: €5.50 (incl. VAT). Reminder fee: €1.50 (VAT-exempt). Default surcharge (business only): €40.00. Disconnection initiation: €58.55 (VAT-exempt). Electricity reconnection: €64.95 (business hours) / €244.13 (outside hours) incl. VAT. Gas reconnection: €137.80 (business hours) / €379.62 (outside hours) incl. VAT. Water reconnection: €89.13 incl. VAT.",
+        "document": "kosten",
+    },
 ]

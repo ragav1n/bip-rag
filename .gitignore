@@ -34,3 +34,7 @@ CLAUDE.md
 
 # Project notes (internal)
 explanation.md
+
+# Raw source PDFs (processed into .txt files in docs/ — run OCR pipeline to rebuild)
+rag_english/docs/*.pdf
+rag_german/docs/*.pdf
