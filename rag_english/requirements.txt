@@ -10,3 +10,5 @@ pytesseract
 pdf2image
 PyMuPDF
 rank-bm25
+faster-whisper
+python-multipart

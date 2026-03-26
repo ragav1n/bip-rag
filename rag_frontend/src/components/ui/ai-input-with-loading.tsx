@@ -20,6 +20,7 @@ interface AIInputWithLoadingProps {
   className?: string;
   autoAnimate?: boolean;
   toolbar?: React.ReactNode;
+  language?: 'en' | 'de';
 }
 
 export function AIInputWithLoading({
@@ -33,6 +34,7 @@ export function AIInputWithLoading({
   className,
   autoAnimate = false,
   toolbar,
+  language = 'en',
 }: AIInputWithLoadingProps) {
   const [inputValue, setInputValue] = useState("");
   const [submitted, setSubmitted] = useState(autoAnimate);
@@ -106,6 +108,7 @@ export function AIInputWithLoading({
               onStart={handleVoiceStart}
               onLiveTranscript={handleLiveTranscript}
               onTranscript={handleTranscript}
+              language={language}
               className="py-3"
             />
           </motion.div>

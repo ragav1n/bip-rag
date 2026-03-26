@@ -40,6 +40,7 @@ interface AIVoiceInputProps {
   onStop?: (duration: number) => void;
   onTranscript?: (text: string) => void;
   onLiveTranscript?: (text: string) => void;
+  language?: 'en' | 'de';
   visualizerBars?: number;
   className?: string;
 }
@@ -49,6 +50,7 @@ export function AIVoiceInput({
   onStop,
   onTranscript,
   onLiveTranscript,
+  language = 'en',
   visualizerBars = 48,
   className,
 }: AIVoiceInputProps) {
@@ -91,29 +93,43 @@ export function AIVoiceInput({
     });
   }, [visualizerBars]);
 
+  // Per-bar smoothed values for silky interpolation between frames
+  const smoothedRef = useRef<number[]>([]);
+
   // Animate bars directly via DOM refs — no React state, no re-renders
   const startVisualizer = useCallback((analyser: AnalyserNode) => {
     const data = new Uint8Array(analyser.frequencyBinCount);
     const idleHeight = 0.04;
+    const lerpUp = 0.22;    // attack — rises quickly to catch speech onset
+    const lerpDown = 0.08;  // release — falls slowly for smooth decay
+
+    // Initialise smoothed array
+    if (smoothedRef.current.length !== visualizerBars) {
+      smoothedRef.current = new Array(visualizerBars).fill(0);
+    }
 
     const tick = () => {
       analyser.getByteFrequencyData(data);
+      const smoothed = smoothedRef.current;
       barRefs.current.forEach((bar, i) => {
         if (!bar) return;
         const bin = binIndicesRef.current[i] ?? i;
-        const raw = data[bin] / 255;
-        // Symmetric scaleY from center: small floor so bars are always visible
-        const scale = Math.max(idleHeight, raw);
+        const target = data[bin] / 255;
+        // Asymmetric lerp: fast attack, slow release → natural breathing feel
+        const lerp = target > smoothed[i] ? lerpUp : lerpDown;
+        smoothed[i] += (target - smoothed[i]) * lerp;
+        const scale = Math.max(idleHeight, smoothed[i]);
         bar.style.transform = `scaleY(${scale})`;
-        bar.style.opacity = String(Math.max(0.25, 0.3 + raw * 0.7));
+        bar.style.opacity = String(Math.max(0.25, 0.3 + smoothed[i] * 0.7));
       });
       rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
-  }, []);
+  }, [visualizerBars]);
 
   // Reset bars to idle state
   const resetBars = useCallback(() => {
+    smoothedRef.current = [];
     barRefs.current.forEach((bar) => {
       if (!bar) return;
       bar.style.transform = "scaleY(0.04)";
@@ -166,7 +182,7 @@ export function AIVoiceInput({
 
       const analyser = audioCtx.createAnalyser();
       analyser.fftSize = 256;                  // 128 frequency bins
-      analyser.smoothingTimeConstant = 0.82;   // natural damping — no jitter
+      analyser.smoothingTimeConstant = 0.88;   // heavier damping for fluid motion
       audioCtx.createMediaStreamSource(stream).connect(analyser);
       analyserRef.current = analyser;
 
@@ -185,19 +201,19 @@ export function AIVoiceInput({
     if (!SpeechRecognitionAPI) return;
 
     const recognition = new SpeechRecognitionAPI();
-    recognition.lang = "";          // empty = browser/OS lang → Chrome uses multilingual model (EN + DE)
+    recognition.lang = language === 'de' ? 'de-DE' : 'en-US';
     recognition.interimResults = true;
     recognition.continuous = true;
 
     recognition.onresult = (e: SpeechRecognitionEvent) => {
-      let final = "";
+      let newFinal = "";
       let interim = "";
-      for (let i = 0; i < e.results.length; i++) {
-        if (e.results[i].isFinal) final += e.results[i][0].transcript;
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        if (e.results[i].isFinal) newFinal += e.results[i][0].transcript;
         else interim += e.results[i][0].transcript;
       }
-      finalTranscriptRef.current = final;
-      onLiveTranscript?.(final + interim);
+      finalTranscriptRef.current += newFinal;
+      onLiveTranscript?.(finalTranscriptRef.current + interim);
     };
 
     // Continuous mode can auto-end on silence — restart if still supposed to be recording
@@ -267,7 +283,7 @@ export function AIVoiceInput({
             Microphone access denied
           </p>
         ) : (
-          <p className="text-xs" style={{ color: "rgba(232,244,253,0.5)" }}>
+          <p className="text-xs" style={{ color: "rgba(208,207,201,0.5)" }}>
             {recording ? "Listening… (click to stop)" : "Click to speak"}
           </p>
         )}

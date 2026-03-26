@@ -928,6 +928,7 @@ export default function App() {
                 placeholder={LANG[language].placeholder}
                 onSubmit={handleSubmit}
                 loadingDuration={0}
+                language={language}
                 toolbar={
                   <div className="flex items-center gap-1.5">
                     <FloatingActionMenu

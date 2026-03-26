@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
@@ -6,8 +6,11 @@ import chromadb
 import requests
 import json
 import re
+import os
+import tempfile
 from sentence_transformers import SentenceTransformer, CrossEncoder
 from rank_bm25 import BM25Okapi
+from faster_whisper import WhisperModel
 
 app = FastAPI()
 
@@ -77,6 +80,10 @@ de_collection = de_client.get_or_create_collection(COLLECTION_NAME)
 
 print(f"EN collection: {en_collection.count()} chunks")
 print(f"DE collection: {de_collection.count()} chunks")
+
+print("Loading Whisper model (base)...")
+whisper_model = WhisperModel("base", device="cpu", compute_type="int8")
+print("Whisper ready.")
 
 print("Building BM25 indices...")
 _en_all = en_collection.get(include=["documents", "metadatas"])
@@ -371,6 +378,21 @@ Title:"""
     if len(title) > 50:
         title = title[:47] + "…"
     return {"title": title}
+
+
+@app.post("/transcribe")
+async def transcribe(audio: UploadFile = File(...), language: str = "en"):
+    suffix = ".webm"
+    with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as f:
+        f.write(await audio.read())
+        tmp_path = f.name
+    try:
+        lang_code = "de" if language == "de" else "en"
+        segments, _ = whisper_model.transcribe(tmp_path, language=lang_code)
+        text = " ".join(seg.text for seg in segments).strip()
+        return {"text": text}
+    finally:
+        os.unlink(tmp_path)
 
 
 @app.get("/health")
