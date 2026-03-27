@@ -38,7 +38,7 @@ import numpy as np
 # ── Config ────────────────────────────────────────────────────────────────────
 API_BASE = "http://localhost:8000"
 OLLAMA_BASE = "http://localhost:11434"
-OLLAMA_MODEL = "qwen3.5:4b"
+OLLAMA_MODEL = "qwen2.5:7b"
 RESULTS_DIR = Path(__file__).parent / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 
@@ -50,7 +50,7 @@ def call_query_api(question: str, language: str, document: str, tone: str = "sta
         "query": question,
         "language": language,
         "tone": tone,
-        "document": document,
+        "document": document if document is not None else "all",
         "history": [],
     }
     start = time.time()
@@ -142,27 +142,31 @@ def keyword_overlap(answer: str, ground_truth: str) -> float:
 def setup_ragas(lang: str):
     """
     Configure RAGAS to use local Ollama instead of OpenAI.
-    Returns (metrics_list, ragas_llm, ragas_embeddings) or None if unavailable.
+    Uses the old-style singleton metrics (ragas.metrics._*) which are
+    still the ones accepted by ragas.evaluate() in RAGAS 0.4.x.
     """
     try:
         from ragas import evaluate as ragas_evaluate
-        from ragas.metrics import (
-            faithfulness,
-            answer_relevancy,
-            context_precision,
-            context_recall,
-            answer_correctness,
-        )
+        from ragas.metrics._faithfulness import faithfulness
+        from ragas.metrics._answer_relevance import answer_relevancy
+        from ragas.metrics._context_precision import context_precision
+        from ragas.metrics._context_recall import context_recall
+        from ragas.metrics._answer_correctness import answer_correctness
         from ragas.llms import LangchainLLMWrapper
         from ragas.embeddings import LangchainEmbeddingsWrapper
-        from langchain_community.llms import Ollama
-        from langchain_community.embeddings import OllamaEmbeddings
+        from langchain_community.chat_models import ChatOllama
+        from langchain_community.embeddings import HuggingFaceEmbeddings as LCHFEmbeddings
 
-        llm = LangchainLLMWrapper(Ollama(model=OLLAMA_MODEL, base_url=OLLAMA_BASE))
-        embed_model = "nomic-embed-text"
-        embeddings = LangchainEmbeddingsWrapper(
-            OllamaEmbeddings(model=embed_model, base_url=OLLAMA_BASE)
-        )
+        llm = LangchainLLMWrapper(ChatOllama(model=OLLAMA_MODEL, base_url=OLLAMA_BASE))
+        # Use LangChain HuggingFace embeddings (has embed_query) wrapped for RAGAS
+        if lang == "en":
+            lc_emb = LCHFEmbeddings(
+                model_name="nomic-ai/nomic-embed-text-v1",
+                model_kwargs={"trust_remote_code": True},
+            )
+        else:
+            lc_emb = LCHFEmbeddings(model_name="paraphrase-multilingual-mpnet-base-v2")
+        embeddings = LangchainEmbeddingsWrapper(lc_emb)
 
         metrics = [faithfulness, answer_relevancy, context_precision, context_recall, answer_correctness]
         for m in metrics:
@@ -178,6 +182,7 @@ def setup_ragas(lang: str):
 # ── Main evaluation loop ──────────────────────────────────────────────────────
 
 def run_evaluation(lang: str, use_ragas: bool, tone: str = "standard"):
+    label = lang  # preserve original label for filenames
     print(f"\n{'='*60}")
     print(f"  DEW21 RAG Evaluation — language={lang.upper()}  tone={tone}")
     print(f"{'='*60}\n")
@@ -185,6 +190,12 @@ def run_evaluation(lang: str, use_ragas: bool, tone: str = "standard"):
     # Load questions
     if lang == "de":
         from questions_de import QUESTIONS_DE as questions
+    elif lang == "de-dew21":
+        from questions_dew21_de import QUESTIONS_DEW21_DE as questions
+        lang = "de"  # use DE pipeline
+    elif lang == "en-dew21":
+        from questions_dew21_en import QUESTIONS_DEW21_EN as questions
+        lang = "en"  # use EN pipeline
     else:
         from questions_en import QUESTIONS_EN as questions
 
@@ -237,6 +248,7 @@ def run_evaluation(lang: str, use_ragas: bool, tone: str = "standard"):
             "document": doc_filter,
             "answer": answer,
             "ground_truth": ground_truth,
+            "contexts": contexts,
             "num_contexts": len(contexts),
             "latency_s": latency,
             "semantic_similarity": sim,
@@ -261,18 +273,22 @@ def run_evaluation(lang: str, use_ragas: bool, tone: str = "standard"):
             dataset = Dataset.from_dict({
                 "question": [r["question"] for r in valid_rows],
                 "answer": [r["answer"] for r in valid_rows],
-                "contexts": [[c for c in rows[i].get("contexts", [])] for i in range(len(valid_rows))],
+                "contexts": [r["contexts"] for r in valid_rows],
                 "ground_truth": [r["ground_truth"] for r in valid_rows],
             })
-            scores = ragas_evaluate(dataset, metrics=ragas_metrics)
+            from ragas.run_config import RunConfig
+            scores = ragas_evaluate(
+                dataset,
+                metrics=ragas_metrics,
+                run_config=RunConfig(timeout=600, max_retries=3, max_workers=1),
+            )
             scores_df = scores.to_pandas()
 
-            for i, r in enumerate(valid_rows):
-                r["faithfulness"] = round(float(scores_df.iloc[i]["faithfulness"]), 4)
-                r["answer_relevancy"] = round(float(scores_df.iloc[i]["answer_relevancy"]), 4)
-                r["context_precision"] = round(float(scores_df.iloc[i]["context_precision"]), 4)
-                r["context_recall"] = round(float(scores_df.iloc[i]["context_recall"]), 4)
-                r["answer_correctness"] = round(float(scores_df.iloc[i]["answer_correctness"]), 4)
+            for key in ["faithfulness", "answer_relevancy", "context_precision", "context_recall", "answer_correctness"]:
+                if key in scores_df.columns:
+                    for i, r in enumerate(valid_rows):
+                        val = scores_df.iloc[i][key]
+                        r[key] = round(float(val), 4) if val is not None and str(val) != "nan" else None
 
             print("✓ RAGAS evaluation complete\n")
         except Exception as e:
@@ -280,8 +296,8 @@ def run_evaluation(lang: str, use_ragas: bool, tone: str = "standard"):
 
     # ── Save results ──────────────────────────────────────────────────────────
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    csv_path = RESULTS_DIR / f"eval_{lang}_{tone}_{timestamp}.csv"
-    json_path = RESULTS_DIR / f"eval_{lang}_{tone}_{timestamp}.json"
+    csv_path = RESULTS_DIR / f"eval_{label}_{tone}_{timestamp}.csv"
+    json_path = RESULTS_DIR / f"eval_{label}_{tone}_{timestamp}.json"
 
     fieldnames = [
         "question", "document", "answer", "ground_truth", "num_contexts",
@@ -290,7 +306,7 @@ def run_evaluation(lang: str, use_ragas: bool, tone: str = "standard"):
         "context_recall", "answer_correctness",
     ]
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -329,7 +345,7 @@ if __name__ == "__main__":
     os.chdir(Path(__file__).parent)
 
     parser = argparse.ArgumentParser(description="Evaluate DEW21 RAG system")
-    parser.add_argument("--lang", choices=["de", "en", "both"], default="de",
+    parser.add_argument("--lang", choices=["de", "en", "both", "de-dew21", "en-dew21", "both-dew21"], default="de",
                         help="Language to evaluate (default: de)")
     parser.add_argument("--tone", choices=["easy", "standard", "technical"], default="standard",
                         help="Response tone to evaluate (default: standard)")
@@ -348,6 +364,11 @@ if __name__ == "__main__":
         print("  Start it with:  cd rag_english && uvicorn api:app --reload")
         sys.exit(1)
 
-    langs = ["de", "en"] if args.lang == "both" else [args.lang]
+    if args.lang == "both":
+        langs = ["de", "en"]
+    elif args.lang == "both-dew21":
+        langs = ["de-dew21", "en-dew21"]
+    else:
+        langs = [args.lang]
     for lang in langs:
         run_evaluation(lang, use_ragas, args.tone)

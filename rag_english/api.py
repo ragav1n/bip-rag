@@ -29,10 +29,11 @@ DE_CHROMA_PATH = "../rag_german/chroma_db"
 
 COLLECTION_NAME = "dew21_docs"
 OLLAMA_URL = "http://localhost:11434/api/generate"
-LLM_MODEL = "qwen3.5:9b"
+LLM_MODEL = "qwen3.5:4b"
 REWRITE_MODEL = "qwen3.5:4b"  # fast model just for query rewriting
-TOP_K = 8           # final chunks sent to LLM
-TOP_K_RETRIEVE = 20 # candidates retrieved before reranking
+TOP_K = 8            # final chunks sent to LLM (kept the same for both modes)
+TOP_K_RETRIEVE = 20  # candidates retrieved before reranking (single-doc)
+TOP_K_RETRIEVE_ALL = 40  # wider candidate pool for cross-document queries
 
 def bm25_tokenize(text: str) -> list[str]:
     return re.sub(r'[^\w\s]', ' ', text.lower()).split()
@@ -49,15 +50,31 @@ print("Loading reranker model...")
 reranker = CrossEncoder("cross-encoder/mmarco-mMiniLMv2-L12-H384-v1")
 
 
-def rewrite_query(query: str, lang: str) -> str:
-    """Rewrite natural language query into technical terms matching the document vocabulary."""
-    if lang == "de":
-        prompt = f"""Formuliere diese Kundenfrage in technische Begriffe um, die in einem Energieversorgungsvertrag oder AGB vorkommen würden (z.B. Paragrafennummern, Fachbegriffe, Vertragsklauseln). Gib NUR die umformulierte Suchanfrage aus, keine Erklärung.
+def rewrite_query(query: str, lang: str, cross_doc: bool = False) -> list[str]:
+    """
+    Rewrite query into document vocabulary.
+    - cross_doc=False: returns [single rephrased query]
+    - cross_doc=True:  returns 2-3 targeted sub-queries covering different aspects/documents
+    """
+    if cross_doc:
+        if lang == "de":
+            prompt = f"""Zerlege diese Frage in 2–3 spezifische Suchanfragen, die jeweils einen anderen Aspekt oder ein anderes Dokument abdecken (AGB Strom, AGB Erdgas, SCHUFA-Anhang, Creditreform-Anhang, Datenschutz, DSGVO). Verwende technische Begriffe aus Energieversorgungsverträgen. Gib NUR die Suchanfragen aus, eine pro Zeile, keine Nummerierung, keine Erklärung.
+
+Frage: {query}
+Suchanfragen:"""
+        else:
+            prompt = f"""Break this question into 2–3 specific search queries, each targeting a different aspect or document (AGB Strom, AGB Erdgas, SCHUFA appendix, Creditreform appendix, data protection, GDPR). Use technical terms from energy supply contracts. Output ONLY the search queries, one per line, no numbering, no explanation.
+
+Question: {query}
+Search queries:"""
+    else:
+        if lang == "de":
+            prompt = f"""Formuliere diese Kundenfrage in technische Begriffe um, die in einem Energieversorgungsvertrag oder AGB vorkommen würden (z.B. Paragrafennummern, Fachbegriffe, Vertragsklauseln). Gib NUR die umformulierte Suchanfrage aus, keine Erklärung.
 
 Frage: {query}
 Suchanfrage:"""
-    else:
-        prompt = f"""Rephrase this customer question into technical terms that would appear in an energy supply contract or terms and conditions (e.g. clause names, legal terms, contract concepts). Output ONLY the rephrased search query, no explanation.
+        else:
+            prompt = f"""Rephrase this customer question into technical terms that would appear in an energy supply contract or terms and conditions (e.g. clause names, legal terms, contract concepts). Output ONLY the rephrased search query, no explanation.
 
 Question: {query}
 Search query:"""
@@ -65,12 +82,17 @@ Search query:"""
         resp = requests.post(
             OLLAMA_URL,
             json={"model": REWRITE_MODEL, "prompt": prompt, "stream": False, "think": False, "options": {"temperature": 0}},
-            timeout=15,
+            timeout=20,
         )
-        rewritten = resp.json()["response"].strip()
-        return rewritten if rewritten else query
+        raw = resp.json()["response"].strip()
+        if not raw:
+            return [query]
+        if cross_doc:
+            queries = [q.strip() for q in raw.splitlines() if q.strip()]
+            return queries[:3] if queries else [query]
+        return [raw]
     except Exception:
-        return query
+        return [query]
 
 en_client = chromadb.PersistentClient(path=EN_CHROMA_PATH)
 en_collection = en_client.get_or_create_collection(COLLECTION_NAME)
@@ -190,36 +212,44 @@ class QueryRequest(BaseModel):
 def query(req: QueryRequest):
     tone = req.tone if req.tone in ("easy", "standard", "technical") else "standard"
     lang = req.language if req.language in ("en", "de") else "de"
+    cross_doc = (req.document == "all")
 
-    # Rewrite query into document vocabulary before embedding
-    search_query = rewrite_query(req.query, lang)
+    # Rewrite query — expand into sub-queries for cross-document searches
+    search_queries = rewrite_query(req.query, lang, cross_doc=cross_doc)
 
     if lang == "de":
-        orig_embedding = de_model.encode([req.query]).tolist()
-        rewritten_embedding = de_model.encode([search_query]).tolist()
+        model = de_model
         collection = de_collection
         rules = TONE_RULES["de"][tone]
+        encode = lambda q: de_model.encode([q]).tolist()
     else:
-        orig_embedding = en_model.encode([f"search_query: {req.query}"]).tolist()
-        rewritten_embedding = en_model.encode([f"search_query: {search_query}"]).tolist()
+        model = en_model
         collection = en_collection
         rules = TONE_RULES["en"][tone]
+        encode = lambda q: en_model.encode([f"search_query: {q}"]).tolist()
 
-    # Retrieve candidates with both original and rewritten query, then merge
-    n_retrieve = min(TOP_K_RETRIEVE, collection.count())
+    orig_embedding = encode(req.query)
+
+    # Fix 1: wider retrieval pool for cross-doc, but still send only TOP_K to LLM
+    n_retrieve = min(TOP_K_RETRIEVE_ALL if cross_doc else TOP_K_RETRIEVE, collection.count())
+
     doc_filter: dict = {}
-    if req.document != "all" and req.document in DOC_SOURCES:
+    if not cross_doc and req.document in DOC_SOURCES:
         filenames = DOC_SOURCES[req.document][lang]
         faq_source = f"faq_{lang}"
         doc_filter = {"where": {"source": {"$in": filenames + [faq_source]}}}
         doc_count = len(collection.get(where={"source": {"$in": filenames}})["ids"])
         n_retrieve = min(TOP_K_RETRIEVE, doc_count + 5) if doc_count > 0 else 1
 
-    r1 = collection.query(query_embeddings=orig_embedding, n_results=n_retrieve, **doc_filter)
-    r2 = collection.query(query_embeddings=rewritten_embedding, n_results=n_retrieve, **doc_filter)
+    # Fix 2: retrieve with original query + all sub-queries, then merge
+    dense_results = [collection.query(query_embeddings=orig_embedding, n_results=n_retrieve, **doc_filter)]
+    for sq in search_queries:
+        dense_results.append(
+            collection.query(query_embeddings=encode(sq), n_results=n_retrieve, **doc_filter)
+        )
 
     # BM25 retrieval — exact term matching for numbers, fees, clause references
-    bm25_tokens = bm25_tokenize(req.query + " " + search_query)
+    bm25_tokens = bm25_tokenize(req.query + " " + " ".join(search_queries))
     if lang == "de":
         bm25_scores = de_bm25.get_scores(bm25_tokens)
         bm25_corpus, bm25_metas = de_bm25_docs, de_bm25_metas
@@ -240,10 +270,10 @@ def query(req: QueryRequest):
 
     # Merge dense + BM25, deduplicate by chunk text
     seen = {}
-    for doc, meta in zip(r1["documents"][0] + r2["documents"][0],
-                         r1["metadatas"][0] + r2["metadatas"][0]):
-        if doc not in seen:
-            seen[doc] = meta
+    for result in dense_results:
+        for doc, meta in zip(result["documents"][0], result["metadatas"][0]):
+            if doc not in seen:
+                seen[doc] = meta
     for idx, _ in bm25_ranked:
         doc = bm25_corpus[idx]
         if doc not in seen:

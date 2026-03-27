@@ -1,0 +1,108 @@
+question,document,answer,ground_truth,num_contexts,latency_s,semantic_similarity,keyword_f1,faithfulness,answer_relevancy,context_precision,context_recall,answer_correctness
+Am I allowed to share this customer data?,,"No, you are not allowed to share customer data unless it falls under specific legal bases or recipient categories defined in the documents.
+
+*   **Permitted Recipients**: Data is disclosed or transmitted **exclusively** to **DONETZ**, **service providers for advertising/marketing**, and **service providers** (Passage 4, Passage 7).
+*   **Legal Bases**: Processing and transmission occur only for:
+    *   Fulfilment of the energy supply contract (Passage 1).
+    *   Fulfilment of legal obligations (Passage 1).
+    *   Direct marketing and market research (with customer consent or legitimate interest) (Passage 1).
+    *   Telephone marketing (with explicit customer consent) (Passage 1).
+    *   Creditworthiness checks with **SCHUFA** and **Creditreform** (Passage 1).
+*   **Customer Rights**: Customers can object to processing for direct marketing, market research, and credit agency data transmission at any time. Upon a justified objection, DEW21 will generally stop processing and delete the data unless compelling legitimate grounds exist (Passage 2, Passage 3).
+*   **Storage Limits**: For direct marketing and market research, data is stored for no longer than **12 months** after the end of the contract (Passage 5, Passage 6).
+
+Any sharing outside these specific recipients, legal bases, or upon a valid customer objection is not permitted according to the provided documents.","DEW21 may share customer data with SCHUFA and Creditreform based on Article 6(1)(b) and (f) GDPR for creditworthiness checks and to protect against payment default. Data is only shared if a legitimate interest exists and does not outweigh the customer's rights. Personal data is not transmitted to third countries (§22.4e, §22.6 AGB Strom).",8,36.62,0.7923,0.2073,0.75,0.8217,0.8333,0.6667,0.4703
+What data am I allowed to store for this process?,,"This information is not contained in the provided documents.
+
+(Note: The provided passages detail the data DEW21 stores and transmits to Creditreform, but they do not contain a specific list of data categories that the customer is *allowed* to store for the process, nor do they list the specific data categories Creditreform stores beyond general descriptions of transmitted data.)","DEW21 may store: customer contact details (name, address, email, phone), delivery address data (meter number, market location ID), consumption data, supply period information, billing data (bank details), and payment behaviour data. Processing must have a legal basis under Art. 6 GDPR (§22.3 AGB Strom).",8,17.52,0.752,0.119,0.25,0.0,0.5833,0.3333,0.4344
+Do I need to obtain consent?,,"No, you do not need to obtain consent for DEW21 to access your property for meter reading or price calculation, as this is permitted after **prior notification** (at least one week in advance) and offering an alternative date, per **§ 8** of the provided context. Consent is only required for **onward transmission** of electricity to third parties (**§ 17.1**) or for **telephone marketing** if you have given specific consent (**§ 22.4**).","Consent (Art. 6(1)(a) GDPR) is required specifically for telephone marketing. For contract fulfilment, legal obligations, and legitimate interests, consent is not required — Art. 6(1)(b), (c), and (f) GDPR apply instead. SCHUFA and Creditreform data transmissions are based on legitimate interest (Art. 6(1)(f) GDPR), not consent (§22.4 AGB Strom).",8,15.6,0.7091,0.1224,0.75,0.4737,0.25,1.0,0.5512
+What legal requirements apply to district heating contracts?,,"This information is not contained in the provided documents. The passages cover electricity and natural gas contracts, including references to the German Energy Supply Act (MsbG), the German Energy Industry Act (EnWG), and the German Metering Point System Act (MsbG), but do not contain specific legal requirements for district heating contracts.",The available DEW21 documents cover electricity and natural gas supply contracts only. District heating (Fernwärme) contracts are not addressed in the current document base and would require separate regulatory documentation.,8,15.8,0.7598,0.3333,1.0,0.0,0.0,1.0,0.1981
+What information obligations do energy companies have towards their customers?,strom,"DEW21 must inform customers of the following obligations and rights:
+
+*   **Notification of Moves**: Customers must inform DEW21 in writing no later than **10 working days** before a move, specifying the date, new address, and new meter number (**§ 19.1**).
+*   **Notification of Third-Party Agreements**: Customers must immediately notify DEW21 of agreements with third parties regarding excess/reduced generation, consumption, or a different balancing group (**§ 17.3**).
+*   **Employee Data Processing**: If DEW21 processes employee data, the customer must inform employees that DEW21 processes contact details and job titles for contract fulfillment under **Art. 6(1)(b) GDPR** (**§ 22.9**).
+*   **Data Subject Rights**: Customers have the right to receive information on stored data, correct inaccuracies, delete data, restrict processing, transfer data, withdraw consent, and lodge complaints (**§ 22.8**).
+*   **Contact Information**: The person responsible for data protection is **Dortmunder Energie- und Wasserversorgung GmbH (DEW21)**, Management: Peter Flosbach, Dr. Gerhard Holtmeier, Matthias Klein-Lassek, Günter-Samtlebe-Platz 1, 44135 Dortmund, email: info@dew21.de, telephone 0231.544-0 (**§ 22.1**).",DEW21 must inform customers of: price changes at least 6 weeks before they take effect (§9.13); contract amendments at least 6 weeks in advance (§21.2); the special termination right when prices or contract terms change; the responsible network operator (§12); and dispute resolution options including the Schlichtungsstelle Energie (§23.1 AGB Strom).,8,23.04,0.8012,0.1455,1.0,0.6823,0.0,0.0,0.1968
+What legal regulations apply in the event of account suspensions or debt collection procedures?,strom,"This information is not contained in the provided documents.
+
+The provided passages cover:
+*   Customer rights regarding personal data (Passage 1).
+*   Adjustments to installment payments based on consumption (Passage 2).
+*   Timing for interim settlements (Passage 3).
+*   Price adjustments for taxes and levies (Passage 4).
+*   Payment deadlines and costs for debt collection agencies (Passage 5).
+*   Criteria for an ""important reason"" to terminate a contract, including enforcement procedures against assets (Passage 6).
+*   Fees for metering systems and grid operators (Passage 7).
+*   Liability exclusions for damages (Passage 8).
+
+None of these passages explicitly detail the specific legal regulations governing **account suspensions** or the full scope of **debt collection procedures** beyond the reimbursement of costs for engaging a lawyer or agency (Passage 5) and the definition of an ""important reason"" for termination (Passage 6).","DEW21 may suspend supply if the outstanding amount equals twice the monthly instalment or at least €100, including collection costs. The customer must be notified at least 4 weeks before interruption. Debt collection costs (lawyers, debt collection agencies) may be charged to the customer under §288 BGB. The minimum amount thresholds of §19(2) StromGVV must be met (§7.5 AGB Strom).",8,20.3,0.6566,0.1324,0.7,0.0,0.0,0.5,0.324
+What information must be included in written correspondence from a legal standpoint?,strom,This information is not contained in the provided documents.,"Written notifications from DEW21 must include: the intended effective date and reasons for price or contract changes; the customer's special right of termination and the deadline to exercise it; for suspension notices, the planned date of interruption at least 4 weeks in advance. Contract termination confirmations must specify the end date (§9.13, §18.1, §21.2 AGB Strom).",8,11.9,0.5425,0.0755,0.0,0.0,0.0,0.25,0.1132
+How long are we allowed to store this data?,,"The storage duration depends on the specific purpose and the data controller, as follows:
+
+*   **DEW21**: Personal data is stored as long as necessary to fulfill contract purposes (Section 22.4). For **direct marketing and market research**, data is stored for no longer than **12 months** after the end of the contract (Section 22.7).
+*   **SCHUFA**: The standard storage period is **three years** from the date of completion. Specific deviations include deletion after **twelve months** for inquiries and **three years** for insolvency/debt relief data (Passage 3).
+*   **Creditreform**: The initial storage period is generally **four years**, after which necessity is reviewed. Resolved matters are deleted **three years** after resolution, and debtor registry entries are deleted **three years** after the entry order (Passages 4, 5, 6).
+
+**Note**: All fee-related amounts in the provided documents are as of April 1, 2025; however, the specific retention periods listed above are not monetary fees and do not carry this date suffix in the source text.","Under §22.7 AGB Strom, personal data is stored only as long as necessary for its purpose. Marketing data is deleted no later than 12 months after contract end. SCHUFA stores data for a standard period of 3 years after completion. Creditreform stores data for an initial period of 4 years, then reviews necessity; data is deleted exactly 3 years after completion of a matter.",8,20.35,0.8494,0.2585,0.875,0.6836,0.0,1.0,0.6089
+What legal risks are associated with this response to the customer?,,"This response (a standard clause from a German energy supplier contract, likely DEW21) contains several provisions that expose the supplier and the customer to specific legal risks. These risks stem from the interplay between German energy law (*EnWG*, *GasNEV*, *BGB*) and general contract law principles.
+
+Here is an analysis of the primary legal risks associated with these clauses:
+
+### 1. Risk of Invalidity Due to Unfair Terms (*Unfair Contract Terms Act - § 307 BGB*)
+The most significant risk for the supplier is that clauses allowing for **retroactive adjustments** (Sections 9.3 c, 9.3 e, and 9.11) may be deemed unfair and thus invalid under German law.
+*   **The Issue:** Clauses that allow the supplier to charge or refund amounts for *previous periods* (retroactivity) after the contract has been terminated or after the supply connection has been closed are highly controversial.
+*   **Legal Basis:** Under § 307 of the German Civil Code (*BGB*), standard terms (*Allgemeine Geschäftsbedingungen* or AGB) must not create a significant imbalance in the parties' rights and obligations to the detriment of the consumer.
+*   **The Risk:** Courts (specifically the BGH - Federal Court of Justice) have historically ruled that retroactive adjustments for taxes or network charges are permissible only if the supplier could not have foreseen the change at the time of contract conclusion. However, if the clause allows for retroactive claims *after* contract termination, it may be seen as an attempt to shift the risk of regulatory changes entirely onto the consumer in a way that violates the principle of good faith (*Treu und Glauben*). If a court strikes down these retroactive clauses, the supplier loses the right to claim back overpayments or charge for underpayments for past periods, leading to financial loss.
+
+### 2. Risk of ""Passing On"" Costs Being Denied (*Kostenerstreckung*)
+Section 9.11 attempts to pass on new taxes or levies.
+*   **The Issue:** The clause states costs are passed on unless they were ""specifically foreseeable.""
+*   **The Risk:** The definition of ""foreseeable"" is a frequent battleground in litigation. If a court determines that a new tax was foreseeable based on existing legislative trends, the supplier cannot pass it on. Furthermore, if the clause is interpreted as allowing the passing on of *all* costs regardless of the specific purpose of the levy, it may violate the principle that costs must be directly attributable to the service provided. If the court finds the ""passing on"" mechanism invalid, the supplier must absorb the cost, affecting their margin.
+
+### 3. Risk Regarding Interest Claims (§ 247 BGB)
+Section 9.3 e mandates interest on retroactive payments based on the base interest rate.
+*   **The Issue:** The clause applies interest even if the base rate is negative (with an exception stated).
+*   **The Risk:** While the exception for negative rates is legally sound, the application of interest on *retroactive* claims is risky. If the underlying retroactive claim itself is invalid (see point #1), the interest claim is also invalid. Additionally, if the retroactive period extends far into the past, the calculation of the ""base interest rate"" for each specific period can become complex and prone to calculation errors, leading to disputes over the exact amount owed.
+
+### 4. Risk of Data Processing Violations (GDPR)
+Passage 6 outlines data processing for credit checks (SCHUFA) and advertising.
+*   **The Issue:** The text relies on ""legitimate interests"" (Art. 6(1)(f) GDPR) for data exchange with credit bureaus and advertising.
+*   **The Risk:**
+    *   **Transparency:** If the customer is not explicitly informed about the specific scope of data shared with SCHUFA/Creditreform at the time of collection (beyond a general notice), they may claim a violation of the transparency principle.
+    *   **Opt-out Mechanisms:** The clause mentions the right to object to advertising. If the technical implementation of this opt-out (e.g., a checkbox or a specific contact method) is not easily accessible or functional, the supplier faces fines from the supervisory authority (*Datenschutzbehörde*).
+    *   **Credit Checks:** While credit checks are generally allowed, the legal basis must be strictly adhered to. If the data is used for purposes beyond creditworthiness (e.g., marketing) without explicit consent, it violates GDPR.
+
+### 5. Risk of Dispute Over ""Upstream"" Network Charges
+Section 9.3 d mentions applying the clause to legal remedies against the revenue cap of the *upstream* network operator.
+*   **The Issue:** The distribution network operator (DEW21) is trying to pass on regulatory changes from a higher-level (transmission) network operator.
+*   **The Risk:** There is a risk that a court will not recognize the downstream operator's right to pass on upstream regulatory changes retroactively to the end consumer, especially if the downstream operator had a contractual obligation to the upstream operator that did not include such retroactive pass-throughs. This creates a ""double dipping"" risk where the supplier might be liable to the upstream operator but unable to recover from the customer.
+
+### 6. Risk of Ambiguity in ""Net Price"" Definitions
+Section 9.11 defines prices as ""net"" and adds taxes later.
+*   **The Issue:** The distinction between ""net price,"" ""energy tax,"" and ""VAT"" is crucial.
+*   **The Risk:** If the contract does not clearly define which specific taxes are included in the ""net"" price versus those passed on later, disputes can arise during audits or tax inspections. If the tax authority determines that certain costs were already foreseeable and should have been included in the net price, the supplier faces tax penalties and the need to refund customers.
+
+### Summary of Consequences
+If these risks materialize:
+1.  **Financial Loss:** The supplier cannot recover overpaid amounts from previous years.
+2.  **Reputational Damage:** Customers may feel they are being charged unfairly for past periods, leading to churn and negative publicity.
+3.  **Regulatory Fines:** The Bundesnetzagentur (Federal Network Agency) or data protection authorities could impose fines for unfair terms or GDPR violations.
+4.  **Litigation Costs:** Defending against class-action lawsuits or individual claims regarding retroactive billing can be expensive.
+
+*Disclaimer: This analysis is based on general legal principles regarding German energy contracts and does not constitute legal advice. Specific contract interpretation requires a qualified attorney.*",The available DEW21 documents do not provide general legal risk assessment for individual customer responses. Legal risk evaluation would require case-specific legal advice beyond the scope of these terms and conditions documents.,8,82.83,0.6384,0.0551,,0.6138,0.0,,0.1593
+What possible scenarios are there in this case?,strom,"The provided passages do not contain information regarding specific ""scenarios"" for a particular case, as no case details were included in the query. However, the documents outline general scenarios for contract termination, liability, and price adjustments:
+
+*   **Contract Termination upon Move**: A customer may terminate the contract with **six weeks' notice** in writing, stating their future address or market location ID (**Passage 7**).
+*   **Liability Limitations**: Liability for damages is limited to foreseeable consequences if the breach is not based on intent or gross negligence (**Passage 6**). Liability for damages to life, body, and health is excluded only if not caused by intent or gross negligence (**Passage 6**).
+*   **Enforcement/Insolvency Scenarios**: Termination reasons include enforcement procedures against assets, grounds for insolvency proceedings, or the other party ceasing payments (**Passage 5**).
+*   **Price Adjustment Scenarios**: Prices change based on cost increases or reductions, effective on the first day of the month after written notification at least six weeks in advance (**Passage 3**).
+*   **Tax and Levy Scenarios**: Prices are adjusted for changes in electricity tax, VAT, or new legally imposed charges, with reductions passed on if taxes are eliminated (**Passage 4**).
+*   **Data Processing Scenarios**: Personal data is processed for contract fulfillment, legal obligations, direct marketing (with objection rights), and creditworthiness checks via SCHUFA/Creditreform (**Passage 2**).
+*   **Metering Fee Scenarios**: Fees for metering system operation apply unless a smart meter is installed or DEW21 is obligated to pay the fee directly (**Passage 1**).
+
+This information is not contained in the provided documents.","The available documents do not support open-ended case scenario analysis. The AGB Strom covers specific scenarios such as payment default (§7.5), supply interruption (§7.5), price disputes (§10), and extraordinary termination (§18.2), but a general scenario overview depends on the specific case context.",8,29.76,0.7216,0.1353,1.0,0.666,0.0,0.6667,0.2855
+What is the risk level associated with these options?,,This information is not contained in the provided documents.,Risk level assessment is not covered by the available DEW21 documents. The documents provide contractual obligations and legal bases but do not quantify or categorise risk levels for specific decisions.,8,9.82,0.6351,0.2222,0.0,0.3793,0.0,0.0,0.1423
+What would be the formally correct next step?,strom,"The formally correct next step is to **terminate the contract with one month's notice in writing**, as the contractual relationship is for an indefinite period (**§ 18.1**). DEW21 will confirm the termination in writing within one week, specifying the end date.","The formally correct next step depends on the situation. For payment default: send a reminder, then notify the customer 4 weeks before suspension (§7.5). For price changes: notify the customer in writing at least 6 weeks in advance with information on the special termination right (§9.13). For contract disputes: refer to the Schlichtungsstelle Energie (§23.1).",8,16.03,0.7153,0.3117,0.6667,0.5032,0.0,0.25,0.3697
+"Why am I being registered for basic coverage, even though I haven't signed a contract?",strom,This information is not contained in the provided documents.,"Under German energy law (§36 EnWG), customers who move into a property connected to the grid are automatically included in the basic supply (Grundversorgung) of the local provider if no other supply contract exists. This is a statutory obligation and does not require the customer to actively sign a contract. DEW21's standard AGBs apply to customers who have signed a supply agreement; the Grundversorgung regime is governed by the StromGVV regulation.",8,11.59,0.5195,0.1538,1.0,0.349,0.0,0.0,0.1098
+Why am I paying for electricity when the apartment is empty?,strom,"You are paying because the price structure includes a **consumption-independent base rate (Basisgrundpreis, §9.1)** that is charged regardless of usage, even at zero consumption. This fee covers fixed infrastructure costs such as **meter operation** and **grid connection**. You only avoid this charge by **terminating the contract**.","If a customer moves out without notifying DEW21 in advance as required by §19.1 AGB Strom, they remain liable for any continued withdrawals at the previous delivery location. Additionally, monthly advance payments are based on estimated annual consumption (§6.1) and continue until DEW21 is informed of the move or the contract is formally terminated.",8,13.61,0.6086,0.1957,1.0,0.5641,0.1667,0.0,0.6416

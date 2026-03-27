@@ -1,0 +1,163 @@
+question,document,answer,ground_truth,num_contexts,latency_s,semantic_similarity,keyword_f1,faithfulness,answer_relevancy,context_precision,context_recall,answer_correctness
+Darf ich diese Kundendaten weitergeben?,,"Nein, die Weitergabe Ihrer Kundendaten ist nicht gestattet.
+
+**Verantwortlicher:**
+DEW21 (Dortmunder Energie- und Wasserversorgung GmbH), Geschäftsführung: Peter Flosbach, Dr. Gerhard Holtmeier, Matthias Klein-Lassek, Günter-Samtlebe-Platz 1, 44135 Dortmund.
+
+**Rechtsgrundlage:**
+Die Verarbeitung erfolgt ausschließlich zu den in **Ziff. 22.4** genannten Zwecken (Erfüllung des Vertrags, vorvertragliche Maßnahmen, Direktwerbung, Marktforschung) auf Basis der **Art. 6 Abs. 1 lit. b DSGVO** sowie des berechtigten Interesses gemäß **Art. 6 Abs. 1 lit. f DSGVO**.
+
+**Empfänger:**
+Eine Offenlegung oder Übermittlung erfolgt **ausschließlich gegenüber** folgenden Empfängern (**Ziff. 22.5**):
+*   DONETZ
+*   Dienstleister für Werbung/Marketing
+*   Servicedienstleister
+
+**Widerspruchsrecht:**
+Sie können der Verarbeitung für Zwecke der Direktwerbung und/oder Marktforschung jederzeit widersprechen (**Ziff. 22.8**). Bei begründetem Widerspruch werden die Daten grundsätzlich nicht mehr verarbeitet und gelöscht.
+
+**Speicherdauer:**
+Für Direktwerbung und Marktforschung längstens **12 Monate** über das Vertragsende hinaus (**Ziff. 22.7**).
+
+**Hinweis:**
+Alle genannten Beträge und Preise sind Stand: 1. April 2025.","DEW21 darf Kundendaten auf Basis von Art. 6 Abs. 1 lit. b und f DSGVO an SCHUFA und Creditreform zur Bonitätsprüfung und zum Schutz vor Zahlungsausfall übermitteln. Eine Weitergabe ist nur zulässig, wenn ein berechtigtes Interesse besteht und dieses die Interessen des Kunden überwiegt. Eine Übermittlung in Drittländer findet nicht statt (§22.4e, §22.6 AGB Strom).",8,30.79,0.6301,0.2289,,,,,
+Welche Daten darf ich für diesen Prozess speichern?,,"Laut den vorliegenden Dokumenten werden für den Prozess folgende Datenarten gespeichert:
+
+*   **Personendaten**: Name (ggf. auch vorherige Namen), Vorname, Geburtsdatum, Geburtsort, Anschrift, frühere Anschriften.
+*   **Geschäftsdaten**: Informationen über die Aufnahme und vertragsgemäße Durchführung eines Geschäftes (z. B. Girokonten, Kreditkarten, Energiekonten).
+*   **Zahlungsverhalten**: Informationen über unbestrittene, fällige und angemahnte Forderungen sowie deren Erledigung.
+*   **Verhaltensdaten**: Informationen zu missbräuchlichem oder betrügerischem Verhalten.
+*   **Öffentliche Daten**: Informationen aus öffentlichen Verzeichnissen und amtlichen Bekanntmachungen.
+*   **Scorewerte**: Die berechneten Werte zur Risikobewertung.
+
+**Hinweis**: Die Speicherung erfolgt auf der Grundlage der **Erforderlichkeit**. Maßgeblich sind die **Regelfristen** der SCHUFA (z. B. drei Jahre nach Erledigung), wobei bestimmte Daten (z. B. bei störungsfreien Verträgen) früher gelöscht werden.","DEW21 darf folgende Datenkategorien speichern: Kundenkontaktdaten (Name, Adresse, E-Mail, Telefon), Lieferadressdaten (Zählernummer, Marktlokations-ID), Verbrauchsdaten, Informationen zur Lieferdauer, Abrechnungsdaten (Bankverbindung) sowie Daten zum Zahlungsverhalten. Die Verarbeitung muss auf einer Rechtsgrundlage nach Art. 6 DSGVO basieren (§22.3 AGB Strom).",8,34.62,0.7076,0.128,,,,,
+Muss ich eine Einwilligung einholen?,,"Nein, Sie müssen für die in den vorliegenden Passagen beschriebenen Maßnahmen **keine separate Einwilligung** einholen.
+
+Hier ist die Begründung basierend auf den Textstellen:
+
+1.  **Rechtsgrundlagen sind bereits vorhanden:**
+    *   **Vertragserfüllung:** Die Verarbeitung von Daten zur Abrechnung, zur Ermittlung der Verbrauchsmenge und zur Durchsetzung des Vertragsverhältnisses erfolgt auf Grundlage von **Art. 6 Abs. 1 lit. b) DSGVO** (Erfüllung eines Vertrags). Dies ist eine gesetzliche Pflicht, keine freiwillige Einwilligung.
+    *   **Gesetzliche Verpflichtungen:** Die Weitergabe von Daten an die SCHUFA oder Creditreform zur Prüfung der Zahlungsfähigkeit erfolgt auf Grundlage von **Art. 6 Abs. 1 lit. b) DSGVO** (Erfüllung rechtlicher Verpflichtungen).
+    *   **Berechtigte Interessen:** Für Direktwerbung, Marktforschung oder den Datenfluss zwischen Messstellenbetreibern wird auf **Art. 6 Abs. 1 lit. f) DSGVO** (Berechtigte Interessen) Bezug genommen. Hier wird explizit darauf hingewiesen, dass dies nur zulässig ist, wenn die Interessen der betroffenen Person nicht überwiegen.
+    *   **Telefonwerbung:** Für Telefonwerbung wird zwar auf eine Einwilligung (**Art. 6 Abs. 1 lit. a) DSGVO**) verwiesen, diese kann aber **jederzeit widerrufen** werden. Wenn keine Einwilligung vorliegt, darf keine Telefonwerbung stattfinden.
+
+2.  **Bestehende Rechte statt Einwilligung:**
+    Die Texte betonen stattdessen die **Betroffenenrechte** (Auskunft, Berichtigung, Löschung, Widerspruch), die der Kunde gegenüber der SCHUFA oder DEW21 hat. Der Kunde kann insbesondere der Verarbeitung aus Gründen der besonderen Situation widersprechen (Art. 21 Abs. 1 DS-GVO) oder der Telefonwerbung widersprechen (Art. 21 Abs. 2 DSGVO).
+
+**Fazit:**
+Die Verarbeitung der Daten erfolgt primär auf Basis der gesetzlichen Verpflichtungen und des bestehenden Vertragsverhältnisses. Eine zusätzliche Einwilligung ist nur dann notwendig, wenn spezifische Handlungen (wie Telefonwerbung) außerhalb des reinen Vertragszwecks stattfinden sollen. Für den normalen Vertragsablauf (Messstellenbetrieb, Abrechnung, Kreditwürdigkeitsprüfung) ist eine Einwilligung nicht erforderlich.","Eine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) ist nur für das Telefonmarketing erforderlich. Für die Vertragserfüllung, gesetzliche Pflichten und berechtigte Interessen ist keine Einwilligung notwendig — es gelten Art. 6 Abs. 1 lit. b, c und f DSGVO. Die Übermittlung an SCHUFA und Creditreform erfolgt auf Basis des berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO), nicht auf Basis einer Einwilligung (§22.4 AGB Strom).",8,48.33,0.7681,0.2254,,,,,
+Welche gesetzlichen Vorgaben gelten für Fernwärmeverträge?,,Diese Information ist in den vorliegenden Dokumenten nicht enthalten.,Die verfügbaren DEW21-Dokumente behandeln ausschließlich Strom- und Erdgaslieferverträge. Fernwärmeverträge sind in der aktuellen Dokumentenbasis nicht abgedeckt und erfordern separate Regelwerke und gesetzliche Grundlagen.,8,16.9,0.503,0.1333,,,,,
+Welche Informationspflichten haben Energieunternehmen gegenüber Kund:innen?,strom,"Laut den vorliegenden Dokumenten haben Energieunternehmen folgende Informationspflichten gegenüber Kund:innen:
+
+*   **Veröffentlichung der Strom-NEV:** DEW21 muss die **Strom-NEV** auf seiner Internetseite veröffentlichen (§ 27).
+*   **Auskunft über Daten:** Der Kunde hat ein Recht auf **Auskunft** über gespeicherte personenbezogene Daten (Art. 15 DSGVO) sowie auf **Berichtigung** fehlerhafter Daten (Art. 16 DSGVO) (§ 22.8).
+*   **Löschung von Daten:** DEW21 ist verpflichtet, Daten zu **löschen**, wenn die Speicherung unzulässig ist, der Zweck erfüllt ist oder eine Einwilligung widerrufen wurde (Art. 17 DSGVO) (§ 22.8).
+*   **Einschränkung der Verarbeitung:** DEW21 muss die Verarbeitung **einschränken**, wenn gesetzliche Voraussetzungen aus Art. 18 DSGVO vorliegen (§ 22.8).
+*   **Datenübertragbarkeit:** DEW21 stellt dem Kunden die **Datenübertragbarkeit** seiner personenbezogenen Daten zur Verfügung (Art. 20 DSGVO) (§ 22.8).
+*   **Widerruf von Einwilligungen:** DEW21 informiert darüber, dass der Kunde eine erteilte Einwilligung **jederzeit widerrufen** kann (Art. 7 Abs. 3 DSGVO) (§ 22.8).
+*   **Beschwerderecht:** DEW21 teilt dem Kunden mit, dass er bei einer Aufsichtsbehörde **Beschwerde einreichen** kann (Art. 77 DSGVO) (§ 22.8).
+*   **Automatisierte Entscheidungen:** DEW21 informiert darüber, dass der Kunde nicht einer ausschließlich automatisierten Entscheidung (einschließlich Profiling) unterworfen werden darf, es sei denn, er willigt ein oder es liegt eine gesetzliche/vertragliche Verpflichtung vor (Art. 22 Abs. 1 DSGVO) (§ 22.8).
+*   **Widerspruch gegen Direktwerbung:** DEW21 informiert darüber, dass der Kunde der Verarbeitung für **Direktwerbung und Marktforschung jederzeit widersprechen** kann, ohne Gründe anzugeben (§ 22.8).
+*   **Widerspruch gegen andere Verarbeitungen:** DEW21 informiert darüber, dass der Kunde auch bei Verarbeitungen auf berechtigtes Interesse (z. B. Weitergabe an Auskunfteien) aus Gründen der besonderen Situation **jederzeit widersprechen** kann (§ 22.8).
+*   **Informationspflicht bei Mitarbeiterdaten:** DEW21 teilt dem Kunden die **Kontaktdaten** des Datenschutzbeauftragten und des Verantwortlichen mit, wenn personenbezogene Daten von Mitarbeitern des Kunden verarbeitet werden (§ 22.9).
+*   **Mitteilung bei Messstellenbetrieb:** DEW21 informiert den Kunden **informativ** über das zu zahlende Entgelt für den Messstellenbetrieb und den Umstand, dass dieses weiterberechnet wird, sobald dies bekannt ist (§ 27).
+*   **Energieeffizienz:** DEW21 informiert über die **Anbieterliste** der Bundesstelle für Energieeffizienz und die Deutsche Energieagentur (§ 24).
+
+Hinweis: Die genannten Informationen basieren auf den vorliegenden Textpassagen.",DEW21 muss Kunden informieren über: Preisänderungen mindestens 6 Wochen vor Inkrafttreten (§9.13); Vertragsänderungen mindestens 6 Wochen im Voraus (§21.2); das Sonderkündigungsrecht bei Preis- oder Vertragsänderungen; den zuständigen Netzbetreiber (§12); sowie Möglichkeiten zur außergerichtlichen Streitbeilegung durch die Schlichtungsstelle Energie (§23.1 AGB Strom).,8,60.63,0.7167,0.0982,,,,,
+Welche rechtlichen Rahmenbedingungen gelten bei Sperrungen oder Mahnverfahren?,strom,"Die vorliegenden Textpassagen enthalten keine spezifischen rechtlichen Rahmenbedingungen für **Sperrungen** oder **Mahnverfahren**.
+
+Es werden jedoch folgende verwandte Regelungen genannt:
+*   **Zahlungsverweigerung:** Einwände berechtigen nur unter bestimmten Voraussetzungen (z. B. doppelte Verbrauchsmenge, offensichtliche Fehler) zum Zahlungsaufschub oder zur Zahlungsverweigerung (**Passage 3**).
+*   **Widerspruchsmöglichkeiten:** Bei Zahlungsverweigerung kann der Kunde die **Schlichtungsstelle Energie e. V.** anrufen, sofern DEW21 die Beschwerde nicht innerhalb von vier Wochen beantwortet hat (**Passage 8**).
+*   **Insolvenz/Zwangsvollstreckung:** Ein wichtiger Grund für die Beendigung des Vertragsverhältnisses liegt vor, wenn ein Zwangsvollstreckungsverfahren gegen das Vermögen eingeleitet wurde oder Insolvenzgründe bestehen (**Passage 5**).
+*   **Datenübermittlung:** Daten werden an **SCHUFA** und **Creditreform** übermittelt, um Kreditwürdigkeitsprüfungen durchzuführen und gesetzliche Pflichten zu erfüllen (**Passage 4**).
+
+Eine detaillierte Beschreibung des Ablaufs oder der spezifischen Rechtsfolgen von Sperrungen oder Mahnverfahren ist in den Dokumenten nicht enthalten.","Eine Unterbrechung der Stromlieferung ist zulässig, wenn der offene Betrag dem Doppelten der monatlichen Abschlagszahlung oder mindestens 100 Euro entspricht. Der Kunde muss mindestens 4 Wochen vorher informiert werden. Inkasso- und Anwaltskosten können dem Kunden gemäß §288 BGB in Rechnung gestellt werden. Die Mindestbetragsschwellen des §19 Abs. 2 StromGVV müssen eingehalten werden (§7.5 AGB Strom).",8,42.66,0.5149,0.1548,,,,,
+Was muss im Schriftverkehr rechtlich zwingend enthalten sein?,strom,"Im Schriftverkehr muss rechtlich zwingend **Beginn, Höhe und die Gründe für die Vorauszahlung** sowie die **Voraussetzungen für ihren Wegfall** enthalten sein.
+
+Hinweis: Diese Information ist in den vorliegenden Dokumenten nicht enthalten, ob dies für *alle* Schriftstücke gilt oder nur für spezifische Fälle (z. B. Vorauszahlungen), da der Kontext dies nicht vollständig klärt.","Schriftliche Mitteilungen von DEW21 müssen enthalten: das geplante Inkrafttreten und die Begründung von Preis- oder Vertragsänderungen; den Hinweis auf das Sonderkündigungsrecht und die entsprechende Frist; bei Sperrandrohungen das geplante Unterbrechungsdatum mindestens 4 Wochen im Voraus. Kündigungsbestätigungen müssen das Vertragsendedatum benennen (§9.13, §18.1, §21.2 AGB Strom).",8,18.82,0.6581,0.122,,,,,
+Wie lange dürfen wir diese Daten aufbewahren?,,"Die **reguläre Speicherfrist** für allgemeine personenbezogene Daten beträgt bei SCHUFA **drei Jahre** nach deren Erledigung. Bei Creditreform beträgt die reguläre Speicherdauer zunächst **vier Jahre**, danach wird geprüft, ob eine weitere Speicherung erforderlich ist. Erledigte Sachverhalte werden bei beiden Auskunfteien **drei Jahre nach Erledigung** gelöscht. Schuldnerregistereinträge werden bei beiden nach **drei Jahren** gemäß **§ 882e ZPO** gelöscht. Störungsfreie Vertragsdaten werden bei SCHUFA bei Beendigungsmeldung **sofort** gelöscht.","Gemäß §22.7 AGB Strom werden personenbezogene Daten nur so lange gespeichert, wie es für den jeweiligen Zweck erforderlich ist. Daten für Direktmarketing werden spätestens 12 Monate nach Vertragsende gelöscht. SCHUFA speichert Daten standardmäßig 3 Jahre nach Erledigung. Creditreform speichert Daten zunächst 4 Jahre und löscht sie nach Erledigung eines Vorgangs genau 3 Jahre danach.",8,16.48,0.8784,0.3077,,,,,
+Welche rechtlichen Risiken bestehen bei dieser Antwort an den Kunden?,,"Diese Anfrage bezieht sich auf die Analyse von Textpassagen aus einem Allgemeinen Geschäftsbedingungen (AGB)-Dokument (vermutlich von DEW21) sowie auf ergänzende Informationen zur SCHUFA und Datenschutz.
+
+Da Sie im Prompt nach den „rechtlichen Risiken bei dieser Antwort an den Kunden"" fragen, ist zunächst zu klären, **welche Antwort** genau gemeint ist. Im vorliegenden Text gibt es keine explizite „Antwort an den Kunden"" (z. B. einen Brief oder eine E-Mail), die analysiert werden könnte. Stattdessen sind dies **Auszüge aus den Vertragsbedingungen und Datenschutzerklärungen**.
+
+Ich gehe daher davon aus, dass Ihre Frage darauf abzielt:
+1.  Welche rechtlichen Risiken bestehen für den **Vertragspartner (DEW21/SCHUFA)** bei der Formulierung dieser Klauseln?
+2.  Oder: Welche rechtlichen Risiken bestehen für den **Kunden**, wenn er diese Bedingungen akzeptiert?
+3.  Oder: Gibt es Risiken bei der **Kombination** dieser Texte (AGB + Datenschutzhinweise)?
+
+Hier ist eine detaillierte Analyse der potenziellen rechtlichen Risiken basierend auf den bereitgestellten Passagen:
+
+### 1. Risiken bei der einseitigen Leistungsbestimmung (Preisanpassung) – [Passage 1 & 4]
+
+**Kerninhalt:** DEW21 kann Preise einseitig anpassen, muss aber Kostensenkungen genauso berücksichtigen wie Kostenerhöhungen. Der Kunde kann bei Nichtzustimmung fristlos kündigen.
+
+*   **Risiko der Unwirksamkeit der Klausel (§ 315 Abs. 3 BGB):**
+    *   Die Klausel stützt sich auf das Recht zur einseitigen Leistungsbestimmung nach billigem Ermessen. Das Risiko besteht darin, dass ein Gericht feststellt, dass DEW21 dieses Ermessen **nicht billig** ausgeübt hat.
+    *   **Konkretes Risiko:** Wenn DEW21 Kostensenkungen nur verzögert umsetzt oder sie geringer gewichtet als Kostenerhöhungen, kann der Kunde vor Gericht klagen. Das Gericht wird dann den Preis auf den „billigen"" Wert festsetzen. Da die Klausel bereits vorsieht, dass Kostensenkungen gleich behandelt werden, ist das Risiko geringer, aber die *Beweislast* liegt bei DEW21, um zu zeigen, dass die Kostenentwicklung tatsächlich so war.
+    *   **Transparenzrisiko:** Die Verpflichtung, Änderungen erst nach Mitteilung wirksam zu machen und diese auf der Website zu veröffentlichen, birgt das Risiko, dass technische Fehler oder Verzögerungen bei der Website-Veröffentlichung dazu führen, dass die Frist von sechs Wochen nicht eingehalten wird. In diesem Fall könnte die Preiserhöhung unwirksam sein.
+
+*   **Kündigungsrecht:**
+    *   Das Recht des Kunden, fristlos zu kündigen, ist gesetzlich gedeckt (§ 315 Abs. 3 BGB). Ein Risiko für DEW21 besteht hier kaum, es sei denn, die Mitteilung erfolgt nicht ordnungsgemäß (z. B. falsche Adresse, unleserliche Schrift), was die Fristwahrung gefährden könnte.
+
+### 2. Risiken bei der Datenverarbeitung und Score-Berechnung – [Passage 7]
+
+**Kerninhalt:** Nutzung von SCHUFA-Daten, logistischer Regression, Ausschluss bestimmter Daten (Ethnizität etc.), Hinweis auf Widerspruchsrecht.
+
+*   **Risiko der Diskriminierung (Art. 21 DSGVO / AGG):**
+    *   Auch wenn explizit ausgeschlossen wird, dass ethnische Herkunft oder politische Einstellungen verwendet werden, besteht das Risiko, dass die „logistische Regression"" durch Korrelationen indirekt diskriminierende Ergebnisse liefert (z. B. wenn bestimmte Postleitzahlen oder Wohnverhältnisse mit bestimmten Gruppen korrelieren).
+    *   **Rechtliches Risiko:** Wenn ein Kunde nachweist, dass der Scorewert ihn aufgrund seiner Herkunft oder Religion benachteiligt, kann dies gegen das Allgemeine Gleichbehandlungsgesetz (AGG) und die DSGVO verstoßen. Die bloße Aussage „wir machen das nicht"" reicht vor Gericht nicht aus; der Algorithmus muss auf Diskriminierungsfreiheit geprüft werden.
+
+*   **Transparenz- und Informationspflichten (Art. 13, 14 DSGVO):**
+    *   Die Erklärung muss dem Kunden *vor* der Verarbeitung verständlich sein. Wenn die Erklärung zu komplex ist oder wichtige Details (z. B. welche spezifischen Variablen in der Regression fließen) nicht genannt werden, kann die Einwilligung unwirksam sein oder die Informationspflicht verletzt sein.
+    *   **Risiko:** Der Kunde könnte erfolgreich geltend machen, dass er nicht ausreichend informiert wurde, welche Daten genau für die Score-Berechnung genutzt werden.
+
+*   **Widerspruchsrecht (Art. 21 DSGVO):**
+    *   Die Klausel besagt, dass der Widerspruch nur bei „besonderen Gründen"" möglich ist, die nachgewiesen werden müssen.
+    *   **Risiko:** Dies ist eine **kritische Formulierung**. Nach Art. 21 DSGVO hat der Kunde ein Recht auf Widerspruch, wenn die Verarbeitung auf berechtigten Interessen (Art. 6 Abs. 1 lit. f) beruht. Das Gericht prüft dann, ob die Interessen des Kunden die des Unternehmens überwiegen.
+    *   Wenn DEW21 dem Kunden den Widerspruch verweigert, ohne dass ein „besonderer Grund"" vorliegt, kann dies als Verstoß gegen das Widerspruchsrecht gewertet werden. Die Formulierung „nachgewiesen werden müssen"" könnte als unangemessene Hürde für den Kunden interpretiert werden, was die Wirksamkeit der Verarbeitung gefährden kann.
+
+### 3. Risiken bei der Datenlöschung und Speicherung – [Passage 8]
+
+**Kerninhalt:** Löschung nach 3 Jahren, Berichtigung, Sperrung.
+
+*   **Risiko der falschen Fristsetzung:**
+    *   Die Angabe „nach Ablauf von drei Jahren"" muss exakt mit den gesetzlichen Vorgaben der Wirtschaftsauskünfteien übereinstimmen. Wenn die gesetzliche Mindestspeicherfrist länger ist (z. B. wegen laufender Rechtsstreitigkeiten oder nicht abgelaufener Verjährungsfristen), führt eine vorzeitige Löschung zu einem Verlust von Beweismitteln und kann Schadensersatzansprüche auslösen.
+    *   Umgekehrt: Wenn die Frist zu kurz ist, verstößt man gegen die Aufbewahrungsfristen des Handelsrechts oder des Steuerrechts.
+
+*   **Risiko bei der Einwilligung:**
+    *   Die Erklärung, dass die Datenübermittlung nicht zwingend ist, aber die Kreditvergabe erschwert werden kann, ist korrekt. Das Risiko besteht jedoch darin, dass der Kunde die Einwilligung widerruft und DEW21 trotzdem Daten nutzt. Wenn DEW21 dies tut, ist die Verarbeitung ab dem Widerruf rechtswidrig.
+
+### 4. Zusammenfassung der Haupt-Risiken für den Anbieter (DEW21/SCHUFA)
+
+1.  **Anfechtbarkeit der Preisklausel:** Wenn die Kostenkalkulation nicht transparent genug ist oder Kostensenkungen systematisch verzögert werden, kann die Preiserhöhung gerichtlich angefochten werden.
+2.  **Diskriminierungsvorwürfe:** Auch bei sorgfältiger Ausgestaltung des Algorithmus besteht das Risiko, dass statistische Korrelationen zu diskriminierenden Ergebnissen führen, was zu Klagen nach AGG/DSGVO führt.
+3.  **Verstoß gegen das Widerspruchsrecht:** Die Einschränkung des Widerspruchsrechts auf Fälle mit „besonderen Gründen"" ist rechtlich angreifbar, da das allgemeine Widerspruchsrecht nach Art. 21 DSGVO breiter ausgestaltet ist.
+4.  **Formfehler bei der Mitteilung:** Wenn die 6-Wochen-Frist oder die Veröffentlichung auf der Website nicht exakt eingehalten wird, werden alle Preisänderungen unwirksam.
+
+### Fazit für den Kunden
+
+Für den **Kunden** bestehen folgende Risiken bei der Akzeptanz dieser Bedingungen:
+*   **Preiserhöhungen ohne vorherige Kostensenkungen:** Der Kunde muss befürchten, dass Preise steigen, während Senkungen verzögert werden (obwohl vertraglich ausgeschlossen, ist die Praxis manchmal anders).
+*   **Kündigungspflicht:** Bei jeder Preiserhöhung muss der Kunde den Vertrag kündigen, wenn er den neuen Preis nicht akzeptiert. Das bedeutet, er ist an den Preis gebunden, solange er den Vertrag nicht kündigt.
+*   **Datenmissbrauch:** Auch wenn SCHUFA verspricht, keine sensiblen Daten zu nutzen, bleibt das Risiko bestehen, dass der Scorewert zu einer Verweigerung von Krediten führt, die der Kunde eigentlich hätte bekommen können, wenn andere Faktoren (z. B. hohe Bonität bei einem anderen Institut) berücksichtigt worden wären.
+
+**Empfehlung:**
+Sollte dies eine Antwort auf eine Kundenanfrage sein, sollte sie präzisiert werden, um Missverständnisse zu vermeiden. Insbesondere der Hinweis auf das Widerspruchsrecht sollte klarstellen, dass der Kunde sein Recht auf Widerspruch jederzeit ausüben kann, ohne dass er beweisen muss, dass sein Fall „besonders"" ist (es sei denn, die Verarbeitung beruht auf berechtigtem Interesse, was dann geprüft wird). Die Formulierung „nachgewiesen werden müssen"" sollte entfernt oder präzisiert werden, um keine unnötigen Hürden zu schaffen.
+
+---","Die verfügbaren DEW21-Dokumente enthalten keine allgemeine Risikoabschätzung für individuelle Kundenantworten. Eine rechtliche Risikobewertung erfordert fallspezifische juristische Beratung, die über den Inhalt dieser Allgemeinen Geschäftsbedingungen hinausgeht.",8,123.09,0.6994,0.0315,,,,,
+Welche möglichen Szenarien gibt es in diesem Fall?,strom,"Die Frage ist unvollständig; es fehlt der konkrete Kontext (z. B. Bezug auf Vorauszahlung, Preisanpassung oder Vertragskündigung), um Szenarien zu benennen.
+
+**Verfügbare Informationen aus den Dokumenten:**
+*   **Bei Vorauszahlung:** Die Höhe ergibt sich aus dem durchschnittlichen monatlichen Verbrauch des vorhergehenden Abrechnungszeitraums und dem aktuellen Vertragspreis. Sollte kein vorhergehender Zeitraum bestehen, wird der Durchschnitt vergleichbarer Kunden herangezogen. Der Kunde kann glaubhaft machen, dass sein Verbrauch erheblich geringer ist.
+*   **Bei Preisanpassung:** Änderungen werden zum Monatsersten wirksam, wenn DEW21 mindestens sechs Wochen vorher in Textform informiert hat. Der Kunde kann den Vertrag zum Zeitpunkt des Wirksamwerdens der Änderung ohne Kündigungsfrist kündigen, wenn er nicht einverstanden ist.
+*   **Bei Zahlungsausfall:** Ein wichtiger Grund für eine Kündigung liegt vor, wenn ein Zwangsvollstreckungsverfahren eingeleitet wurde, Insolvenzgründe bestehen oder die Zahlungseinstellung zu erwarten ist.
+
+**Fehlende Informationen:**
+Ohne die spezifische Ausgangssituation (z. B. „Was passiert, wenn ich die Vorauszahlung nicht leisten kann?"" oder „Welche Szenarien gibt es bei einer Preissenkung?"") können keine weiteren Szenarien aus den vorliegenden Dokumenten abgeleitet werden.","Die verfügbaren Dokumente unterstützen keine offene Szenarienanalyse. Die AGB Strom regelt konkrete Szenarien wie Zahlungsverzug (§7.5), Lieferunterbrechung (§7.5), Preisstreitigkeiten (§10) und außerordentliche Kündigung (§18.2), jedoch ist eine allgemeine Szenarienübersicht vom jeweiligen Fallkontext abhängig.",8,30.3,0.6796,0.1026,,,,,
+Wie hoch ist das Risiko bei diesen Optionen?,,Das Risiko für SEPA-Lastschrift oder Banküberweisung ist in den vorliegenden Dokumenten nicht enthalten.,"Eine Risikobewertung ist in den verfügbaren DEW21-Dokumenten nicht enthalten. Die Dokumente regeln vertragliche Pflichten und Rechtsgrundlagen, nehmen jedoch keine Einschätzung oder Gewichtung von Risiken einzelner Entscheidungsoptionen vor.",8,14.59,0.7069,0.3,,,,,
+Was wäre der formal richtige nächste Schritt?,strom,"Der formell richtige nächste Schritt ist die **Kündigung des Vertrags ohne Einhaltung einer Kündigungsfrist zum Zeitpunkt des Wirksamwerdens der Preisanpassung**, sofern der Kunde mit der mitgeteilten Preisanpassung nicht einverstanden ist.
+
+**Hinweis:** Diese Maßnahme ist nur zulässig, wenn DEW21 den Kunden in der Mitteilung gesondert darauf hingewiesen hat.","Der formal richtige nächste Schritt hängt vom Sachverhalt ab. Bei Zahlungsverzug: Mahnung versenden, anschließend Sperrankündigung mit 4 Wochen Vorlauf (§7.5). Bei Preisänderungen: schriftliche Ankündigung mindestens 6 Wochen vorher mit Hinweis auf Sonderkündigungsrecht (§9.13). Bei Vertragsstreitigkeiten: Verweis auf die Schlichtungsstelle Energie (§23.1 AGB Strom).",8,17.1,0.8218,0.1519,,,,,
+"Wieso werde ich in der Grundversorgung angemeldet, obwohl ich keinen Vertrag abgeschlossen habe?",strom,Diese Information ist in den vorliegenden Dokumenten nicht enthalten.,"Nach deutschem Energierecht (§36 EnWG) werden Kunden, die in eine an das Netz angeschlossene Wohnung einziehen, automatisch in die Grundversorgung des zuständigen Versorgers aufgenommen, wenn kein anderer Liefervertrag besteht. Dies ist eine gesetzliche Pflicht und erfordert keinen aktiven Vertragsabschluss. Die Grundversorgung ist durch die StromGVV geregelt.",8,16.21,0.1139,0.0833,,,,,
+"Wieso zahle ich für meinen Strom, obwohl die Wohnung leer steht?",strom,"Sie zahlen, weil der **Basispreis (§9.1)** einen **verbrauchsunabhängigen Basisgrundpreis** enthält, der auch bei Nullverbrauch anfällt. Dieser deckt Fixkosten wie **Messstellenbetrieb** und **Netzanschluss** ab. Diese Kosten entfallen erst mit **Kündigung des Vertrags**.","Wenn ein Kunde auszieht, ohne DEW21 gemäß §19.1 AGB Strom rechtzeitig zu informieren, haftet er für weitere Entnahmen an der bisherigen Lieferstelle. Außerdem werden monatliche Abschlagszahlungen auf Basis des geschätzten Jahresverbrauchs erhoben (§6.1) und laufen weiter, bis DEW21 über den Auszug informiert wird oder der Vertrag formal beendet ist.",8,16.14,0.628,0.0779,,,,,

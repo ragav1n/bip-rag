@@ -1,0 +1,125 @@
+%Praeambel, welche den Dokumentenklasse bestimmt, zu ladende Latex-Pakete angibt etc.
+%erstmal wählt man den Stil des Dokuments (Schriftgröße, Papierformat etc.)
+\documentclass[a4paper,12pt,numbers=noenddot]{scrartcl}
+\setlength{\parindent}{1em}
+\linespread{1.5} % 1.5-facher Zeilenabstand
+% dann lädt man die Pakete, die man benötigt
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem} % Paket, um einfacher Aufzählungen etc. zu anzupassen
+%\usepackage{chapterbib} % added
+\usepackage{geometry} % added
+\usepackage{lipsum}
+
+
+\usepackage{textpos,xcolor,rawfonts,latexsym,graphicx,epsf,verbatim} 
+\geometry{a4paper, left=35mm, right=25mm, top=20mm, bottom=20mm} % Seiteneinrichtung
+\definecolor{fh_orange}{rgb}{0.953,0.201,0}
+\definecolor{fh_grau}{rgb}{0.76,0.75,0.76}
+
+
+% hier beginnt das eigentliche Dokument
+\begin{document}
+% Globales Setzen der Optionen:
+
+\begin{titlepage}
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -*- Mode: Latex -*- %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%% 
+	%% pa_ba_titelblatt.tex 
+	%% 
+	%% Copyright (C) 2008 Alexander Sprack / Claudia Holz
+	%% 
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\begin{textblock}{6.5}(-1.5,-3)
+		\begin{color}{fh_grau}
+			\rule{6.8cm}{33cm}    
+		\end{color}
+	\end{textblock}
+	\begin{textblock}{6.5}(-1.2,-0.7)
+		% \includegraphics[width=3.8cm]{my-fh-logo}% selbst basteln, falls gewünscht! 
+		% Das offizielle Logo ist nicht
+		% gestattet!! Bitte BEACHTEN!!!
+	\end{textblock}
+	\begin{textblock}{6.5}(-1.3,1)
+		{\large \textsf{Seminararbeit}}            
+	\end{textblock}
+	
+	\begin{textblock}{7}(4.1,2)
+		{\noindent \huge 
+			\textsf{\textbf{hier der Titel der Arbeit\\[0.3cm] 
+					\Large  Zweizeiliger Untertitel\\[0.05cm]
+					sofern vorhanden}} }
+	\end{textblock}
+	
+	
+	\begin{textblock}{6}(4.1,6.5)\noindent
+		\textsf{An der Fachhochschule Dortmund\\
+			im Fachbereich Informatik\\
+			Studiengang Informatik \\
+			erstellte Seminararbeit \\
+			für das BIP:\\
+			GenAI meets Reality}
+	\end{textblock}
+	
+	\begin{textblock}{6.5}(-0.9,10.8)
+		\noindent
+		\textsf{von \\
+			Vorname Name \\
+			Matr.-Nr. xxxx xxx\\[0.7cm]
+			Betreuerin: Prof. Dr. Klaus Kaiser \\[0.5cm]
+			Dortmund, \today}    
+	\end{textblock}
+	
+\end{titlepage}
+
+
+
+
+
+\begin{abstract}
+    \lipsum[1-2]
+\end{abstract}
+
+\newpage
+\tableofcontents
+
+\part{Projektbericht}
+
+\section{Einleitung}
+    Eine Einleitung in die Problemstellung und Lösungskonzepten. Verwenden Sie bitte Zitate und Referenzieren Sie alle eingefügten Grafiken im Text.
+
+    RAG zum Beispiel wurde eingefügt in der Arbeit von Lewis et al. \cite{rag} und eine Darstellung des Antwortprozesses ist gegeben in Abbildung \ref{fig:rag}.
+
+    \begin{figure}
+        \begin{center}
+            \includegraphics[scale=0.6]{images/rag.png}
+        \end{center}
+        \caption{Darstellung des Antwortprozesses in einem RAG System.}\label{fig:rag}
+    \end{figure}
+
+\section{Daten}
+    \lipsum[1-2]
+
+\section{Umsetzung}
+    \lipsum[1-2]
+
+\section{Ergebnis}
+    \lipsum[1-2]
+
+\section{Fazit und Ausblick}
+    \lipsum[1-2]
+
+\begin{thebibliography}{9}
+\bibitem{rag}
+Lewis, Patrick, et al. ``Retrieval-augmented generation for knowledge-intensive nlp tasks.'' \textit{Advances in neural information processing systems 33} (2020): 9459-9474.
+\end{thebibliography}
+
+
+\part{Selbstreflektion}
+    \lipsum[1-2]
+
+\end{document}          
+

@@ -1,0 +1,64 @@
+question,document,answer,ground_truth,num_contexts,latency_s,semantic_similarity,keyword_f1,faithfulness,answer_relevancy,context_precision,context_recall,answer_correctness
+What is the notice period for cancelling an electricity contract?,strom,"The standard notice period for cancelling an electricity contract is **one month** in writing (§18.1).
+
+*   DEW21 confirms the termination in writing within **one week** of receipt (§18.1).
+*   Termination without notice is possible for **important reasons** (e.g., electricity theft, repeated offenses, or contract transfer objections) (§18.2, §17.2, §19.5).
+*   If prices are adjusted, you may terminate immediately at the moment the adjustment takes effect (§9.13).
+*   For moves, a **six-week** notice is required if the contract is terminated due to relocation (§19.2).
+
+*Note: All fee and cost amounts are as of April 1, 2025.*",The customer can cancel the electricity contract with four weeks' notice to the end of a calendar month. DEW21 can cancel with six weeks' notice to the end of a calendar month.,8,24.97,0.8521,0.1818,1.0,0.9141,0.0,0.0,0.214
+What happens if a customer does not pay their electricity bill?,strom,"If a customer fails to pay, DEW21 is entitled to **suspend delivery** and have the connection usage **interrupted** by the network operator if the amount due equals **twice the applicable installment or advance payment** or is at least **€100.00** (including collection and recovery costs). However, the right to interrupt shall not be exercised if:
+*   The consequences of the interruption are **disproportionate** to the severity of the payment default.
+*   The customer demonstrates a **reasonable prospect** of fully complying with obligations.
+*   Special circumstances exist that would **absolutely preclude** an interruption.
+
+Additionally, DEW21 may request an **advance payment** if the customer is in default with a payment due, repeatedly defaults within twelve months, or has outstanding claims from a previous contract.","In the event of payment default, DEW21 may interrupt the electricity supply after a prior reminder. Additionally, default interest and reminder fees may be charged. DEW21 is entitled to request a security deposit.",8,21.96,0.7631,0.2759,1.0,0.5697,0.2,0.3333,0.3797
+Can DEW21 adjust electricity prices and how is the customer informed?,strom,"DEW21 can adjust electricity prices only at the **beginning of a month** if notified in writing at least **six weeks** before the intended effective date. The customer is informed via a written notification, and DEW21 also publishes intended changes on its website. If the customer disagrees with the adjustment, they have the right to terminate the contract without observing a notice period at the time the adjustment becomes effective.
+
+**Key details:**
+*   **Timing:** Adjustments take effect only at the start of a month.
+*   **Notification:** Written notice must be given at least six weeks in advance.
+*   **Customer Right:** Customers can terminate the contract immediately without notice if they do not agree to the price increase.
+*   **Publication:** DEW21 publishes intended price changes on its website simultaneously with the written notification.",DEW21 can adjust prices and must inform the customer in text form at least six weeks before the planned effective date of the change. The customer then has a special right of termination.,8,18.97,0.8833,0.3273,1.0,0.8341,1.0,1.0,0.5645
+Who is liable for damages caused by electricity outages?,strom,"**DEW21** is generally not liable for damages caused by electricity outages resulting from disruptions in grid operation, as claims for such damages shall be asserted against the **local grid operator** (**§ 13.1**). However, **DEW21** remains liable if it is at fault for the interruption (**§ 5.2**). Liability for damages caused by fault is excluded unless the damage was caused by **intent or gross negligence** (**§ 13.3**), except for damages resulting from injury to life, limb, or health. In cases of breach of essential contractual obligations not based on intent or gross negligence, liability is limited to foreseeable damages (**§ 13.4**).","DEW21 is only liable for interruptions to the electricity supply in cases of intent and gross negligence. In cases of simple negligence, liability is limited to foreseeable damages. Force majeure excludes liability.",8,14.27,0.8486,0.3226,1.0,0.0,0.0,1.0,0.5506
+What is an advance payment instalment and when is it due?,strom,"An **advance payment** is a monthly payment required by DEW21 to cover electricity consumption, calculated based on the consumption of the most recently invoiced period or the average consumption of comparable customers if recent data is unavailable. It is due at the beginning of the delivery period and must be paid promptly if an offset occurs while conditions for advance payment continue to apply.
+
+*   The amount is determined by DEW21 at its reasonable discretion if the customer is in default, repeatedly defaults within twelve months, or has outstanding claims from a previous contract.
+*   If requested, the customer must be informed of the **start date**, **amount**, and **reasons** for the advance payment.
+*   The due date for installment payments is communicated in the delivery contract, contract confirmation, or annual invoice.
+*   Any excess advance payment revealed by final billing must be reimbursed immediately or offset against the next request.",An advance payment instalment is a monthly prepayment towards the estimated annual consumption. The amount is based on the previous year's consumption or an estimate. The exact due date is stated on the invoice.,8,13.67,0.805,0.2787,0.8,0.6976,0.0,0.0,0.577
+How can I cancel my natural gas contract?,erdgas,"You can cancel your natural gas contract in the following ways:
+
+*   **General Termination**: Terminate with **one month's notice** in writing, as the contract is for an indefinite period (**§ 18.1**).
+*   **Moving**: Terminate with **six weeks' notice** in writing if you are moving, providing your future address or market location ID (**§ 19.2**).
+*   **Price Adjustment**: Terminate without observing a notice period if you disagree with a notified price adjustment, provided the notice was given at least six weeks in advance (**§ 9.11**).
+*   **Contract Transfer**: Terminate without observing a notice period if you do not agree to the transfer of the contract to a third party (**§ 19.5**).
+*   **Gas Theft**: DEW21 may terminate immediately without notice if you commit gas theft or repeat offenses (**§ 17.2**).",The gas contract can be cancelled in writing or text form with four weeks' notice to the end of a calendar month. Extraordinary termination is possible in the event of a price adjustment.,8,15.95,0.8071,0.2703,1.0,0.9549,0.0,0.0,0.5065
+How is gas consumption measured and billed?,erdgas,"Gas consumption is measured by measuring devices or systems operated by the responsible metering service provider or DEW21, and billed every 12 months unless an interim or final bill is issued earlier. If DEW21 requests a self-reading, the customer must provide it upon notification; otherwise, DEW21 may estimate consumption based on the last reading or comparable customers if actual data is unavailable. Consumption in cubic meters (m³) is converted to kilowatt hours (kWh) using a conversion factor provided by the network operator in accordance with DVGW working document G685.
+
+**Key facts:**
+*   **Billing frequency:** Generally every 12 months (**§ 7.1**, **§ 7.2**).
+*   **Measurement:** Performed by the metering service provider or DEW21; self-readings are free of charge if requested (**§ 15**).
+*   **Conversion:** m³ is multiplied by a conversion factor (kWh/m³) determined by the network operator (**§ 2.4**).
+*   **Estimation:** DEW21 can estimate consumption if readings are missing or substitute values are unavailable (**§ 15**).",Gas consumption is measured via a meter. Billing is usually done once a year based on actual consumption. Monthly advance payments are collected in the interim.,8,19.96,0.7896,0.1705,1.0,0.877,0.0,0.3333,0.4231
+What are the customer's obligations regarding the gas meter?,erdgas,"The customer must ensure that **metering devices are accessible** for reading or inspection by authorized representatives (network operator, meter operator, or DEW21) who can identify themselves with an ID. Access must be granted at least one week before the scheduled date, and the customer must allow this access to determine the basis for price calculation or in case of a justified interruption. Additionally, the customer is obligated to notify DEW21 in writing of any move, providing the new address and the new **gas meter number** or market location identification number no later than **10 business days** before the move date.
+
+*   **Accessibility**: Ensure metering devices are accessible for reading or inspection.
+*   **Notification**: Notify DEW21 of any move in writing with the new gas meter number at least 10 business days in advance.
+*   **Identification**: Authorized representatives must be able to identify themselves with an ID to gain access.
+*   **Measurement Unit**: Gas meters indicate consumption in **cubic meters (m³)**, which is converted to **kWh** for billing using a network operator-provided factor.",The customer is obliged to keep the meter accessible and grant DEW21 access for reading. Any damage to the meter must be reported immediately. The customer must not interfere with the meter.,8,18.6,0.807,0.2154,1.0,0.6373,0.3333,0.6667,0.3872
+Why does DEW21 use SCHUFA credit checks?,schufa,DEW21 uses SCHUFA credit information to assess whether a customer is likely to meet their payment obligations before entering into a contract. The legal basis for this processing is legitimate interest (Art. 6(1)(f) GDPR). SCHUFA score values support DEW21's risk management but are not the sole basis for decisions.,DEW21 uses SCHUFA credit information to assess the customer's creditworthiness before entering into a contract. The information is used to evaluate whether the customer is likely to meet their payment obligations.,8,14.22,0.887,0.597,1.0,0.6679,0.95,1.0,0.5964
+What personal data is transmitted to SCHUFA?,schufa,"The following personal data is transmitted to SCHUFA:
+*   **General data**: date of birth, gender, and number of addresses used in business transactions.
+*   **Financial data**: previous payment defaults, credit activity in the last year, credit utilization, and length of credit history.
+*   **Address data**: included only if few personal, credit-relevant pieces of information are available.
+*   **Publicly accessible information**: data from public directories and official announcements (e.g., debtor directories, insolvency announcements).
+
+Information on nationality, ethnic origin, political or religious beliefs, and health data is **not** stored or taken into account.","Personal data such as name, address and date of birth, as well as information about the establishment, execution and termination of the contractual relationship, is transmitted to SCHUFA. Negative payment experiences may also be reported.",8,16.48,0.8051,0.2376,0.8333,0.971,1.0,1.0,0.3696
+Can I object to my data being shared with SCHUFA?,schufa,"Yes, you may object under **Art. 21(1) GDPR** if you can demonstrate specific reasons arising from your particular situation. The objection must be addressed to **SCHUFA Holding AG** in writing at:
+
+- **Private Customer Service Center**, P.O. Box 10 34 41, 50474 Cologne
+- By telephone: **+49 (0) 6 11-92 78 0**
+- Via online form: **www.schufa.de**
+
+Note: There is no general right of objection; objections are only possible with valid, situation-specific reasons.","The transmission of data to SCHUFA is based on a legitimate interest. There is no general right of objection, however data subjects may object in specific cases where special circumstances exist.",8,17.37,0.7712,0.2449,,0.6485,0.9151,1.0,0.3777

@@ -1,0 +1,58 @@
+question,document,answer,ground_truth,num_contexts,latency_s,semantic_similarity,keyword_f1,faithfulness,answer_relevancy,context_precision,context_recall,answer_correctness
+Wie lange ist die Kündigungsfrist für den Stromvertrag?,strom,Die ordentliche Kündigungsfrist beträgt für beide Seiten **einen Monat** in Textform (§18.1). DEW21 bestätigt die Kündigung innerhalb einer Woche schriftlich.,Der Kunde kann den Stromvertrag mit einer Frist von vier Wochen zum Ende eines Kalendermonats kündigen. DEW21 kann den Vertrag mit einer Frist von sechs Wochen zum Ende eines Kalendermonats kündigen.,8,21.54,0.7306,0.1053,1.0,0.5919,0.2,0.5,0.6827
+"Was passiert, wenn ein Kunde die Stromrechnung nicht bezahlt?",strom,"Erreicht der Rückstand das **Doppelte der monatlichen Abschlagszahlung** oder mindestens **100 € inkl. Mahn- und Inkassokosten** (§7.5), darf DEW21 die Lieferung einstellen und den Netzbetreiber beauftragen, die Verbindung zu unterbrechen. Der Netzbetreiber benötigt dafür weitere **sechs Werktage**. Eine Unterbrechung unterbleibt, wenn die Folgen außer Verhältnis zur Schuld stehen oder eine Zahlung in Aussicht steht.","Bei Zahlungsverzug kann DEW21 nach vorheriger Mahnung die Stromlieferung unterbrechen. Zusätzlich können Verzugszinsen und Mahnkosten erhoben werden. DEW21 ist berechtigt, eine Sicherheitsleistung zu verlangen.",8,15.56,0.8042,0.1739,0.75,0.4311,0.9267,0.3333,0.3677
+"Kann DEW21 die Strompreise anpassen, und wie wird der Kunde informiert?",strom,"Ja, DEW21 kann die Strompreise anpassen. Der Kunde wird **spätestens sechs Wochen** vor dem geplanten Wirksamwerden der Änderung in **Textform** informiert.
+
+**Wichtige Details zur Anpassung:**
+*   **Zeitpunkt:** Anpassungen sind nur zum **Monatsbeginn** möglich.
+*   **Wirksamkeit:** Die Änderung wird erst nach der Mitteilung wirksam.
+*   **Kündigungsrecht:** Bei Nichtzustimmung hat der Kunde das Recht, den Vertrag **fristlos** zu kündigen.
+*   **Kostensenkungen:** DEW21 ist verpflichtet, auch Kostensenkungen preismäßig abzubilden.
+*   **Ausnahmen:** Während einer vereinbarten **Preisgarantie** findet die reguläre Anpassung nach Ziff. 9.13 keine Anwendung (außer bei Steuer- und Abgabenänderungen).
+
+*Hinweis: Alle genannten Preise und Gebühren gelten Stand: 1. April 2025.*",DEW21 kann die Preise anpassen und muss den Kunden mindestens sechs Wochen vor dem geplanten Inkrafttreten der Änderung in Textform informieren. Der Kunde hat dann ein Sonderkündigungsrecht.,8,23.48,0.8596,0.2804,0.75,0.8994,0.95,0.6667,0.4649
+Wer haftet bei Schäden durch Stromunterbrechungen?,strom,"Schäden durch Unterbrechungen der Stromversorgung sind, soweit es sich um Folgen einer Störung des **Netzbetriebs** (einschließlich des Netzanschlusses) handelt, gegen den **örtlichen Netzbetreiber** geltend zu machen.
+
+DEW21 ist von ihrer Leistungspflicht befreit, wenn der Netzbetreiber oder der Messstellenbetreiber die Unterbrechung auf eigene Initiative vornimmt oder DEW21 an der Lieferung aufgrund höherer Gewalt gehindert ist.
+
+Schadensersatzansprüche des Kunden gegen DEW21 bleiben unberührt, falls DEW21 an der Unterbrechung ein **Verschulden** trifft.
+
+*Hinweis: Stand der Gebühren und Entgelte: 1. April 2025*",DEW21 haftet bei Unterbrechungen der Stromversorgung nur für Vorsatz und grobe Fahrlässigkeit. Bei einfacher Fahrlässigkeit ist die Haftung auf vorhersehbare Schäden begrenzt. Höhere Gewalt schließt die Haftung aus.,8,17.46,0.822,0.2247,1.0,0.6271,0.0,0.3333,0.5805
+Was ist ein Abschlag und wann wird er fällig?,strom,"Ein **Abschlag** ist eine monatliche Vorauszahlung auf die Stromrechnung, die anteilig für den Zeitraum der Zahlung entsprechend dem Verbrauch im zuletzt abgerechneten Zeitraum berechnet wird. Er ist **monatlich fällig**.
+
+*   **Berechnung:** Der Betrag orientiert sich am Verbrauch des letzten Abrechnungszeitraums; bei unklarer Berechnung erfolgt die Bemessung nach dem durchschnittlichen Verbrauch vergleichbarer Kunden.
+*   **Ausgleich:** Ergibt sich bei der Abrechnung eine Abweichung, wird der zu viel oder zu wenig gezahlte Betrag unverzüglich erstattet bzw. nachentrichtet.
+*   **Stand:** Die genannten Regelungen gelten unter Berücksichtigung der Kostenübersicht **Stand: 1. April 2025**.",Ein Abschlag ist eine monatliche Vorauszahlung auf den geschätzten Jahresverbrauch. Die Höhe richtet sich nach dem Vorjahresverbrauch oder einer Schätzung. Der genaue Fälligkeitstermin ist in der Rechnung angegeben.,8,21.43,0.8102,0.2737,0.8,0.4447,0.75,0.6667,0.5026
+Wie kann ich meinen Erdgasvertrag kündigen?,erdgas,"Sie können Ihren Erdgasvertrag auf folgende Weise kündigen:
+
+*   **Bei Umzug:** Teilen Sie DEW21 den Umzug mindestens **10 Werktage** vor dem Umzugsdatum schriftlich mit, inklusive Umzugsdatum, neuer Adresse und Gaszählernummer (§19.1). Alternativ können Sie den Vertrag mit einer Frist von **sechs Wochen** in Textform kündigen, wenn Sie Ihre zukünftige Anschrift oder die Marktloktions-Identifikationsnummer angeben (§19.2).
+*   **Bei wichtigerem Grund:** Eine Kündigung ohne Einhaltung einer Frist ist möglich, wenn ein Fall der Ziff. 17.2 (z. B. wiederholter Gasdiebstahl) oder Zahlungsverzug vorliegt (§18.2).
+*   **Bei Preiserhöhungen:** Sie können den Vertrag zum Zeitpunkt der Wirksamkeit einer Preisanpassung kündigen, wenn Sie mit der Änderung nicht einverstanden sind (§315 Abs. 3 BGB).
+
+**Hinweis:** Alle genannten Fristen und Regelungen gelten für den Stand der Dokumente.",Der Erdgasvertrag kann schriftlich oder in Textform mit einer Kündigungsfrist von vier Wochen zum Ende eines Kalendermonats gekündigt werden. Eine außerordentliche Kündigung ist bei einer Preisanpassung möglich.,8,32.23,0.8706,0.2373,0.8333,0.963,0.0,0.5,0.5926
+Wie wird der Gasverbrauch gemessen und abgerechnet?,erdgas,"Der Gasverbrauch wird in **Kubikmetern (m³)** gemessen und zur Abrechnung in **Kilowattstunden (kWh)** umgerechnet.
+
+*   **Messung:** Die Menge wird durch Messeinrichtungen des zuständigen Messstellenbetreibers ermittelt.
+*   **Umrechnung:** Der Verbrauch wird mit dem vom Netzbetreiber angegebenen Umrechnungsfaktor (basierend auf Zustandszahl und mittlerem Brennwert) in kWh multipliziert.
+*   **Abrechnungszyklus:** Der Verbrauch wird in der Regel **alle 12 Monate** erfasst und abgerechnet, sofern keine vorzeitige Zwischen- oder Endabrechnung erfolgt.
+*   **Zahlungsmöglichkeiten:** Zahlungen können entweder durch **SEPA-Lastschrift** oder durch **Banküberweisung** geleistet werden.
+*   **Selbstablesung:** DEW21 kann die Ablesung auf Verlangen kostenlos vom Kunden durchführen lassen; eine Selbstablesung ist demutbar, kann aber widersprochen werden, wenn sie nicht zumutbar ist.",Der Gasverbrauch wird über einen Zähler gemessen. Die Abrechnung erfolgt in der Regel einmal jährlich auf Basis des tatsächlichen Verbrauchs. Zwischenzeitlich werden monatliche Abschläge erhoben.,8,22.98,0.7548,0.1714,1.0,0.8487,0.0,0.6667,0.3251
+Was passiert bei einem Gasausfall oder einer Versorgungsunterbrechung?,erdgas,"Bei einem Gasausfall oder einer Versorgungsunterbrechung, die auf eine Störung des Netzbetriebs einschließlich des Netzanschlusses zurückzuführen ist, sind Ansprüche gegen den **örtlichen Netzbetreiber** geltend zu machen (**Passage 1**).
+
+DEW21 kann die Lieferung sofort einstellen und die Anschlussnutzung unterbrechen lassen, wenn:
+*   der Kunde Erdgas unter Umgehung oder Manipulation verwendet (**Gasdiebstahl**), und die Unterbrechung zur Verhinderung weiterer unberechtigter Entnahme erforderlich ist (**Passage 3**).
+*   ein Zahlungsrückstand vorliegt, sofern die Folgen der Unterbrechung nicht außer Verhältnis zur Schwere des Verzugs stehen und keine hinreichende Aussicht auf Nachzahlung besteht (**Passage 2**).
+
+Die Unterbrechung erfolgt durch DEW21, der den Netzbetreiber beauftragt, wobei dieser sechs weitere Werktage Zeit hat (**Passage 2**). Die Unterbrechung unterbleibt, wenn der Kunde Besonderheiten, die einer Unterbrechung entgegenstehen, unverzüglich anzeigt (**Passage 2**).",Bei Versorgungsunterbrechungen informiert DEW21 die Kunden so früh wie möglich. Geplante Unterbrechungen werden rechtzeitig angekündigt. Bei ungeplanten Ausfällen bemüht sich DEW21 um schnelle Behebung. Eine Haftung bei höherer Gewalt ist ausgeschlossen.,8,23.08,0.6341,0.0847,0.8,0.4911,0.0,0.75,0.4919
+Welche Pflichten hat der Kunde bezüglich des Gaszählers?,erdgas,Diese Information ist in den vorliegenden Dokumenten nicht enthalten.,"Der Kunde ist verpflichtet, den Zähler zugänglich zu halten und DEW21 Zutritt zur Ablesung zu gewähren. Beschädigungen am Zähler sind unverzüglich zu melden. Der Kunde darf keine Eingriffe am Zähler vornehmen.",8,20.47,0.2384,0.1212,0.0,0.0,0.5417,0.0,0.0596
+Wozu nutzt DEW21 die SCHUFA-Auskunft?,schufa,"DEW21 nutzt die SCHUFA-Auskunft, um vor Vertragsabschluss zu prüfen, ob ein Kunde seinen Zahlungsverpflichtungen voraussichtlich nachkommen kann. Die **SCHUFA-Scorewerte** fließen dabei in das **Risikomanagement** ein, sind aber nicht alleinige Entscheidungsgrundlage. Rechtsgrundlage ist das **berechtigte Interesse** gemäß **Art. 6 Abs. 1 lit. f DSGVO**.","DEW21 nutzt die SCHUFA-Auskunft zur Prüfung der Bonität des Kunden vor Vertragsabschluss. Anhand der Informationen wird bewertet, ob der Kunde voraussichtlich seinen Zahlungsverpflichtungen nachkommen kann.",8,34.41,0.8797,0.3438,1.0,0.5383,0.625,1.0,0.6485
+Welche Daten werden an die SCHUFA weitergegeben?,schufa,"Welche Daten werden an die SCHUFA weitergegeben?
+
+Laut den vorliegenden Dokumenten werden folgende Datenarten verwendet, wobei nicht jede Datenart in jede einzelne Scoreberechnung einfließt:
+*   **Allgemeine Daten**: z.B. Geburtsdatum, Geschlecht oder Anzahl im Geschäftsverkehr verwendeter Anschriften.
+*   **Finanzdaten**: bisherige Zahlungsstörungen, Kreditaktivität letztes Jahr, Kreditnutzung, Länge Kredithistorie sowie Anschriftendaten (nur wenn wenige personenbezogene kreditrelevante Informationen vorliegen).
+
+**Hinweis**: Bestimmte Informationen werden weder gespeichert noch bei der Berechnung berücksichtigt, z.B. Angaben zur Staatsangehörigkeit oder besondere Kategorien personenbezogener Daten wie ethnische Herkunft oder Angaben zu politischen oder religiösen Einstellungen.
+
+Diese Information ist in den vorliegenden Dokumenten nicht enthalten.","An die SCHUFA werden personenbezogene Daten wie Name, Anschrift, Geburtsdatum sowie Informationen über die Begründung, Durchführung und Beendigung des Vertragsverhältnisses übermittelt. Negative Zahlungserfahrungen können ebenfalls gemeldet werden.",8,20.92,0.7254,0.1731,0.75,0.0,0.3667,1.0,0.3956
+Kann ich der Weitergabe meiner Daten an die SCHUFA widersprechen?,schufa,"Ein allgemeines Widerspruchsrecht besteht **nicht**, da die Übermittlung auf **berechtigtem Interesse** basiert. Nach **Art. 21 Abs. 1 DSGVO** können Sie jedoch Widerspruch einlegen, wenn Sie **besondere Gründe** aus Ihrer persönlichen Situation nachweisen können. Der Widerspruch ist schriftlich an die **SCHUFA Holding AG** zu richten.","Die Datenübermittlung an die SCHUFA erfolgt auf Basis eines berechtigten Interesses. Ein allgemeines Widerspruchsrecht besteht nicht, jedoch können Betroffene in bestimmten Fällen Widerspruch einlegen, wenn besondere Umstände vorliegen.",8,17.41,0.8475,0.3529,1.0,0.6974,0.9167,1.0,0.5869
